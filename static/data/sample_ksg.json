@@ -1,0 +1,647 @@
+{
+    "name": "Java Programming Knowledge Structure Graph",
+    "version": "1.0",
+    "description": "Complete Knowledge Structure Graph for Introduction to Java Programming course",
+    "nodes": [
+      {
+        "id": 1,
+        "name": "Setting Up Java Environment",
+        "description": "Installing and configuring Java development environment"
+      },
+      {
+        "id": 2,
+        "name": "Installing JDK",
+        "description": "Process of downloading and installing Java Development Kit"
+      },
+      {
+        "id": 3,
+        "name": "Setting up Environment Variables",
+        "description": "Configuring JAVA_HOME and PATH variables for Java development"
+      },
+      {
+        "id": 4,
+        "name": "Using IDEs",
+        "description": "Installation and configuration of Eclipse, IntelliJ, and NetBeans"
+      },
+      {
+        "id": 5,
+        "name": "Writing & Running First Java Program",
+        "description": "Creating, compiling, and executing a basic Java application"
+      },
+      {
+        "id": 6,
+        "name": "Java Basic Syntax",
+        "description": "Fundamental syntax rules and structure of Java programs"
+      },
+      {
+        "id": 7,
+        "name": "Structure of a Java Program",
+        "description": "Understanding the overall organization of Java code"
+      },
+      {
+        "id": 8,
+        "name": "main() Method",
+        "description": "The entry point of Java applications"
+      },
+      {
+        "id": 9,
+        "name": "Statements and Blocks",
+        "description": "Java statements, expressions, and code blocks"
+      },
+      {
+        "id": 10,
+        "name": "Comments",
+        "description": "Single-line and multi-line comments in Java"
+      },
+      {
+        "id": 11,
+        "name": "Java Naming Conventions",
+        "description": "Standard naming practices for classes, methods, variables, etc."
+      },
+      {
+        "id": 12,
+        "name": "Data Types and Variables",
+        "description": "Various data types and variable usage in Java"
+      },
+      {
+        "id": 13,
+        "name": "Primitive Data Types",
+        "description": "int, float, double, char, boolean, etc."
+      },
+      {
+        "id": 14,
+        "name": "Non-Primitive Data Types",
+        "description": "String, Arrays, Objects, and reference types"
+      },
+      {
+        "id": 15,
+        "name": "Variable Declaration and Initialization",
+        "description": "How to declare and initialize variables in Java"
+      },
+      {
+        "id": 16,
+        "name": "Type Casting",
+        "description": "Widening and narrowing type conversions"
+      },
+      {
+        "id": 17,
+        "name": "Constants",
+        "description": "Using the final keyword for constants"
+      },
+      {
+        "id": 18,
+        "name": "Taking User Input",
+        "description": "Reading user input in Java applications"
+      },
+      {
+        "id": 19,
+        "name": "Using Scanner Class",
+        "description": "Working with java.util.Scanner for input"
+      },
+      {
+        "id": 20,
+        "name": "Input Methods",
+        "description": "nextInt(), nextLine(), nextDouble(), and other input methods"
+      },
+      {
+        "id": 21,
+        "name": "Input Edge Cases",
+        "description": "Handling buffer issues and edge cases with user input"
+      },
+      {
+        "id": 22,
+        "name": "Operators",
+        "description": "Various operators in Java for different operations"
+      },
+      {
+        "id": 23,
+        "name": "Arithmetic Operators",
+        "description": "Addition, subtraction, multiplication, division, modulus"
+      },
+      {
+        "id": 24,
+        "name": "Relational Operators",
+        "description": "Equal to, not equal to, greater than, less than operators"
+      },
+      {
+        "id": 25,
+        "name": "Logical Operators",
+        "description": "AND, OR, NOT operators for boolean logic"
+      },
+      {
+        "id": 26,
+        "name": "Assignment and Unary Operators",
+        "description": "Assignment, increment, decrement operators"
+      },
+      {
+        "id": 27,
+        "name": "Bitwise Operators",
+        "description": "Operators for bit-level operations"
+      },
+      {
+        "id": 28,
+        "name": "Control Flow Statements",
+        "description": "Statements that control the flow of execution in Java"
+      },
+      {
+        "id": 29,
+        "name": "Conditional Statements",
+        "description": "if, else if, else, switch statements"
+      },
+      {
+        "id": 30,
+        "name": "Looping Statements",
+        "description": "for, while, do-while loops"
+      },
+      {
+        "id": 31,
+        "name": "Jump Statements",
+        "description": "break, continue, return statements"
+      },
+      {
+        "id": 32,
+        "name": "Arrays",
+        "description": "Working with arrays in Java"
+      },
+      {
+        "id": 33,
+        "name": "One-dimensional Arrays",
+        "description": "Creating and using simple arrays"
+      },
+      {
+        "id": 34,
+        "name": "Multidimensional Arrays",
+        "description": "Working with 2D and multi-dimensional arrays"
+      },
+      {
+        "id": 35,
+        "name": "Initializing Arrays",
+        "description": "Different ways to initialize arrays"
+      },
+      {
+        "id": 36,
+        "name": "Looping through Arrays",
+        "description": "Using loops and enhanced for loop with arrays"
+      },
+      {
+        "id": 37,
+        "name": "Array Operations",
+        "description": "Common operations and algorithms with arrays"
+      },
+      {
+        "id": 38,
+        "name": "Strings",
+        "description": "Working with text and string manipulation in Java"
+      },
+      {
+        "id": 39,
+        "name": "Creating Strings",
+        "description": "Different ways to create String objects"
+      },
+      {
+        "id": 40,
+        "name": "String Methods",
+        "description": "Common methods like length(), charAt(), substring(), indexOf(), equals()"
+      },
+      {
+        "id": 41,
+        "name": "String Concatenation",
+        "description": "Combining strings using + operator and concat() method"
+      },
+      {
+        "id": 42,
+        "name": "String Comparison",
+        "description": "Comparing strings using equals(), equalsIgnoreCase(), compareTo()"
+      },
+      {
+        "id": 43,
+        "name": "Mutable Strings",
+        "description": "Using StringBuffer and StringBuilder for mutable strings"
+      },
+      {
+        "id": 44,
+        "name": "Methods",
+        "description": "Creating and using methods in Java"
+      },
+      {
+        "id": 45,
+        "name": "Defining and Calling Methods",
+        "description": "Creating methods and invoking them"
+      },
+      {
+        "id": 46,
+        "name": "Method Parameters and Return Values",
+        "description": "Passing data to methods and returning results"
+      },
+      {
+        "id": 47,
+        "name": "Method Overloading",
+        "description": "Creating multiple methods with the same name"
+      },
+      {
+        "id": 48,
+        "name": "Static vs Non-static Methods",
+        "description": "Understanding the difference between static and instance methods"
+      },
+      {
+        "id": 49,
+        "name": "Pass by Value in Java",
+        "description": "How Java passes arguments to methods"
+      },
+      {
+        "id": 50,
+        "name": "Object-Oriented Programming Concepts",
+        "description": "Fundamental OOP principles in Java"
+      },
+      {
+        "id": 51,
+        "name": "What is OOP?",
+        "description": "Introduction to Object-Oriented Programming paradigm"
+      },
+      {
+        "id": 52,
+        "name": "Classes and Objects",
+        "description": "Building blocks of OOP - blueprint and instances"
+      },
+      {
+        "id": 53,
+        "name": "this Keyword",
+        "description": "Using 'this' to refer to the current object"
+      },
+      {
+        "id": 54,
+        "name": "Encapsulation",
+        "description": "Bundling data and methods that operate on the data"
+      },
+      {
+        "id": 55,
+        "name": "Abstraction",
+        "description": "Hiding implementation details and showing functionality"
+      },
+      {
+        "id": 56,
+        "name": "Inheritance",
+        "description": "Creating new classes based on existing ones"
+      },
+      {
+        "id": 57,
+        "name": "Polymorphism",
+        "description": "One interface, multiple implementations"
+      },
+      {
+        "id": 58,
+        "name": "Classes and Objects",
+        "description": "Detailed look at working with classes and objects in Java"
+      },
+      {
+        "id": 59,
+        "name": "Creating Classes",
+        "description": "Defining class structure and components"
+      },
+      {
+        "id": 60,
+        "name": "Instantiating Objects",
+        "description": "Creating objects from classes"
+      },
+      {
+        "id": 61,
+        "name": "Fields and Methods",
+        "description": "Instance variables and methods in a class"
+      },
+      {
+        "id": 62,
+        "name": "Access Modifiers",
+        "description": "Public, private, protected, and default access"
+      },
+      {
+        "id": 63,
+        "name": "Class vs Object Memory",
+        "description": "How classes and objects are stored in memory"
+      },
+      {
+        "id": 64,
+        "name": "Constructors",
+        "description": "Special methods for initializing objects"
+      },
+      {
+        "id": 65,
+        "name": "What is a Constructor?",
+        "description": "Purpose and characteristics of constructors"
+      },
+      {
+        "id": 66,
+        "name": "Default Constructor",
+        "description": "Compiler-provided constructor when none is defined"
+      },
+      {
+        "id": 67,
+        "name": "Parameterized Constructor",
+        "description": "Constructors that accept parameters"
+      },
+      {
+        "id": 68,
+        "name": "Constructor Overloading",
+        "description": "Creating multiple constructors with different parameters"
+      },
+      {
+        "id": 69,
+        "name": "Constructor Chaining",
+        "description": "Using this() and super() to call other constructors"
+      },
+      {
+        "id": 70,
+        "name": "Inheritance",
+        "description": "Creating hierarchical relationships between classes"
+      },
+      {
+        "id": 71,
+        "name": "extends Keyword",
+        "description": "Syntax for creating subclasses in Java"
+      },
+      {
+        "id": 72,
+        "name": "Single Inheritance",
+        "description": "Java's approach to inheritance hierarchies"
+      },
+      {
+        "id": 73,
+        "name": "super Keyword",
+        "description": "Referencing the superclass from a subclass"
+      },
+      {
+        "id": 74,
+        "name": "Inheriting Constructors",
+        "description": "How constructors work in inheritance"
+      },
+      {
+        "id": 75,
+        "name": "Method Overriding Basics",
+        "description": "Introduction to overriding methods"
+      },
+      {
+        "id": 76,
+        "name": "Method Overriding",
+        "description": "Replacing methods in subclasses with new implementations"
+      },
+      {
+        "id": 77,
+        "name": "Overriding Methods in Subclasses",
+        "description": "How to properly override superclass methods"
+      },
+      {
+        "id": 78,
+        "name": "Using @Override Annotation",
+        "description": "Best practices for method overriding"
+      },
+      {
+        "id": 79,
+        "name": "Runtime Polymorphism",
+        "description": "Polymorphic behavior through method overriding"
+      },
+      {
+        "id": 80,
+        "name": "Overriding Object Class Methods",
+        "description": "Overriding toString(), equals(), etc. from Object class"
+      },
+      {
+        "id": 81,
+        "name": "Overloading vs Overriding",
+        "description": "Differences between method overloading and overriding"
+      },
+      {
+        "id": 82,
+        "name": "Basic UI Programming in Java",
+        "description": "Creating graphical user interfaces in Java"
+      },
+      {
+        "id": 83,
+        "name": "AWT Components",
+        "description": "Frame, Button, Label, TextField components in AWT"
+      },
+      {
+        "id": 84,
+        "name": "Event Handling in AWT",
+        "description": "Processing user interactions in AWT applications"
+      },
+      {
+        "id": 85,
+        "name": "Layout Managers in AWT",
+        "description": "FlowLayout, BorderLayout for organizing components"
+      },
+      {
+        "id": 86,
+        "name": "Creating Windows with Swing",
+        "description": "Using JFrame for Swing applications"
+      },
+      {
+        "id": 87,
+        "name": "Swing Components",
+        "description": "JButton, JLabel, JTextField, JTextArea and other Swing components"
+      },
+      {
+        "id": 88,
+        "name": "Event Handling in Swing",
+        "description": "Adding Action Listeners in Swing applications"
+      },
+      {
+        "id": 89,
+        "name": "Combining Layouts and Panels",
+        "description": "Creating complex interfaces with multiple layout managers"
+      },
+      {
+        "id": 90,
+        "name": "Look and Feel Customization",
+        "description": "Basic customization of Swing application appearance"
+      }
+    ],
+    "edges": [
+      
+      {"source":1,"target":2,"relationship":"contains","weight":1.0},
+      {"source":1,"target":3,"relationship":"contains","weight":1.0},
+      {"source":1,"target":4,"relationship":"contains","weight":1.0},
+      {"source":1,"target":5,"relationship":"contains","weight":1.0},
+      {"source":2,"target":3,"relationship":"prerequisite","weight":0.9},
+      {"source":3,"target":4,"relationship":"prerequisite","weight":0.7},
+      {"source":2,"target":5,"relationship":"prerequisite","weight":1.0},
+      {"source":4,"target":5,"relationship":"related","weight":0.8},
+      
+      
+      {"source":1,"target":6,"relationship":"prerequisite","weight":1.0},
+      {"source":6,"target":7,"relationship":"contains","weight":1.0},
+      {"source":6,"target":8,"relationship":"contains","weight":1.0},
+      {"source":6,"target":9,"relationship":"contains","weight":1.0},
+      {"source":6,"target":10,"relationship":"contains","weight":1.0},
+      {"source":6,"target":11,"relationship":"contains","weight":1.0},
+      {"source":7,"target":8,"relationship":"prerequisite","weight":1.0},
+      {"source":8,"target":9,"relationship":"prerequisite","weight":0.9},
+      {"source":9,"target":10,"relationship":"related","weight":0.7},
+      {"source":10,"target":11,"relationship":"related","weight":0.6},
+      
+      
+      {"source":6,"target":12,"relationship":"prerequisite","weight":1.0},
+      {"source":12,"target":13,"relationship":"contains","weight":1.0},
+      {"source":12,"target":14,"relationship":"contains","weight":1.0},
+      {"source":12,"target":15,"relationship":"contains","weight":1.0},
+      {"source":12,"target":16,"relationship":"contains","weight":1.0},
+      {"source":12,"target":17,"relationship":"contains","weight":1.0},
+      {"source":13,"target":15,"relationship":"prerequisite","weight":1.0},
+      {"source":14,"target":15,"relationship":"prerequisite","weight":0.9},
+      {"source":15,"target":16,"relationship":"prerequisite","weight":0.8},
+      {"source":15,"target":17,"relationship":"prerequisite","weight":0.7},
+      
+      
+      {"source":12,"target":18,"relationship":"prerequisite","weight":0.9},
+      {"source":18,"target":19,"relationship":"contains","weight":1.0},
+      {"source":18,"target":20,"relationship":"contains","weight":1.0},
+      {"source":18,"target":21,"relationship":"contains","weight":1.0},
+      {"source":19,"target":20,"relationship":"prerequisite","weight":1.0},
+      {"source":20,"target":21,"relationship":"prerequisite","weight":0.9},
+      
+    
+      {"source":12,"target":22,"relationship":"prerequisite","weight":0.9},
+      {"source":22,"target":23,"relationship":"contains","weight":1.0},
+      {"source":22,"target":24,"relationship":"contains","weight":1.0},
+      {"source":22,"target":25,"relationship":"contains","weight":1.0},
+      {"source":22,"target":26,"relationship":"contains","weight":1.0},
+      {"source":22,"target":27,"relationship":"contains","weight":1.0},
+      {"source":13,"target":23,"relationship":"prerequisite","weight":1.0},
+      {"source":23,"target":24,"relationship":"prerequisite","weight":0.9},
+      {"source":24,"target":25,"relationship":"prerequisite","weight":0.9},
+      {"source":25,"target":26,"relationship":"related","weight":0.7},
+      {"source":26,"target":27,"relationship":"related","weight":0.5},
+      
+      
+      {"source":22,"target":28,"relationship":"prerequisite","weight":0.9},
+      {"source":12,"target":28,"relationship":"prerequisite","weight":0.9},
+      {"source":28,"target":29,"relationship":"contains","weight":1.0},
+      {"source":28,"target":30,"relationship":"contains","weight":1.0},
+      {"source":28,"target":31,"relationship":"contains","weight":1.0},
+      {"source":24,"target":29,"relationship":"prerequisite","weight":1.0},
+      {"source":25,"target":29,"relationship":"prerequisite","weight":0.9},
+      {"source":29,"target":30,"relationship":"prerequisite","weight":0.8},
+      {"source":30,"target":31,"relationship":"prerequisite","weight":0.9},
+      
+ 
+      {"source":12,"target":32,"relationship":"prerequisite","weight":0.8},
+      {"source":28,"target":32,"relationship":"prerequisite","weight":0.9},
+      {"source":32,"target":33,"relationship":"contains","weight":1.0},
+      {"source":32,"target":34,"relationship":"contains","weight":1.0},
+      {"source":32,"target":35,"relationship":"contains","weight":1.0},
+      {"source":32,"target":36,"relationship":"contains","weight":1.0},
+      {"source":32,"target":37,"relationship":"contains","weight":1.0},
+      {"source":33,"target":34,"relationship":"prerequisite","weight":0.9},
+      {"source":33,"target":35,"relationship":"prerequisite","weight":0.9},
+      {"source":30,"target":36,"relationship":"prerequisite","weight":1.0},
+      {"source":36,"target":37,"relationship":"prerequisite","weight":0.9},
+      
+     
+      {"source":12,"target":38,"relationship":"prerequisite","weight":0.8},
+      {"source":38,"target":39,"relationship":"contains","weight":1.0},
+      {"source":38,"target":40,"relationship":"contains","weight":1.0},
+      {"source":38,"target":41,"relationship":"contains","weight":1.0},
+      {"source":38,"target":42,"relationship":"contains","weight":1.0},
+      {"source":38,"target":43,"relationship":"contains","weight":1.0},
+      {"source":39,"target":40,"relationship":"prerequisite","weight":1.0},
+      {"source":39,"target":41,"relationship":"prerequisite","weight":0.9},
+      {"source":39,"target":42,"relationship":"prerequisite","weight":0.9},
+      {"source":42,"target":43,"relationship":"related","weight":0.7},
+      
+   
+      {"source":6,"target":44,"relationship":"prerequisite","weight":0.9},
+      {"source":12,"target":44,"relationship":"prerequisite","weight":0.9},
+      {"source":44,"target":45,"relationship":"contains","weight":1.0},
+      {"source":44,"target":46,"relationship":"contains","weight":1.0},
+      {"source":44,"target":47,"relationship":"contains","weight":1.0},
+      {"source":44,"target":48,"relationship":"contains","weight":1.0},
+      {"source":44,"target":49,"relationship":"contains","weight":1.0},
+      {"source":45,"target":46,"relationship":"prerequisite","weight":1.0},
+      {"source":46,"target":47,"relationship":"prerequisite","weight":0.9},
+      {"source":45,"target":48,"relationship":"prerequisite","weight":0.8},
+      {"source":46,"target":49,"relationship":"prerequisite","weight":0.9},
+      
+      
+      {"source":44,"target":50,"relationship":"prerequisite","weight":0.9},
+      {"source":50,"target":51,"relationship":"contains","weight":1.0},
+      {"source":50,"target":52,"relationship":"contains","weight":1.0},
+      {"source":50,"target":53,"relationship":"contains","weight":1.0},
+      {"source":50,"target":54,"relationship":"contains","weight":1.0},
+      {"source":50,"target":55,"relationship":"contains","weight":1.0},
+      {"source":50,"target":56,"relationship":"contains","weight":1.0},
+      {"source":50,"target":57,"relationship":"contains","weight":1.0},
+      {"source":51,"target":52,"relationship":"prerequisite","weight":1.0},
+      {"source":52,"target":53,"relationship":"prerequisite","weight":0.9},
+      {"source":52,"target":54,"relationship":"prerequisite","weight":0.9},
+      {"source":54,"target":55,"relationship":"prerequisite","weight":0.8},
+      {"source":52,"target":56,"relationship":"prerequisite","weight":0.9},
+      {"source":56,"target":57,"relationship":"prerequisite","weight":0.9},
+      
+     
+      {"source":50,"target":58,"relationship":"prerequisite","weight":0.9},
+      {"source":52,"target":58,"relationship":"prerequisite","weight":1.0},
+      {"source":58,"target":59,"relationship":"contains","weight":1.0},
+      {"source":58,"target":60,"relationship":"contains","weight":1.0},
+      {"source":58,"target":61,"relationship":"contains","weight":1.0},
+      {"source":58,"target":62,"relationship":"contains","weight":1.0},
+      {"source":58,"target":63,"relationship":"contains","weight":1.0},
+      {"source":59,"target":60,"relationship":"prerequisite","weight":1.0},
+      {"source":59,"target":61,"relationship":"prerequisite","weight":0.9},
+      {"source":59,"target":62,"relationship":"prerequisite","weight":0.9},
+      {"source":60,"target":63,"relationship":"related","weight":0.7},
+      
+      
+      {"source":58,"target":64,"relationship":"prerequisite","weight":0.9},
+      {"source":64,"target":65,"relationship":"contains","weight":1.0},
+      {"source":64,"target":66,"relationship":"contains","weight":1.0},
+      {"source":64,"target":67,"relationship":"contains","weight":1.0},
+      {"source":64,"target":68,"relationship":"contains","weight":1.0},
+      {"source":64,"target":69,"relationship":"contains","weight":1.0},
+      {"source":65,"target":66,"relationship":"prerequisite","weight":1.0},
+      {"source":65,"target":67,"relationship":"prerequisite","weight":1.0},
+      {"source":67,"target":68,"relationship":"prerequisite","weight":0.9},
+      {"source":68,"target":69,"relationship":"prerequisite","weight":0.9},
+      
+      
+      {"source":50,"target":70,"relationship":"prerequisite","weight":0.9},
+      {"source":58,"target":70,"relationship":"prerequisite","weight":0.9},
+      {"source":70,"target":71,"relationship":"contains","weight":1.0},
+      {"source":70,"target":72,"relationship":"contains","weight":1.0},
+      {"source":70,"target":73,"relationship":"contains","weight":1.0},
+      {"source":70,"target":74,"relationship":"contains","weight":1.0},
+      {"source":70,"target":75,"relationship":"contains","weight":1.0},
+      {"source":71,"target":72,"relationship":"prerequisite","weight":1.0},
+      {"source":71,"target":73,"relationship":"prerequisite","weight":1.0},
+      {"source":73,"target":74,"relationship":"prerequisite","weight":0.9},
+      {"source":71,"target":75,"relationship":"prerequisite","weight":0.9},
+      
+      
+      {"source":70,"target":76,"relationship":"prerequisite","weight":1.0},
+      {"source":76,"target":77,"relationship":"contains","weight":1.0},
+      {"source":76,"target":78,"relationship":"contains","weight":1.0},
+      {"source":76,"target":79,"relationship":"contains","weight":1.0},
+      {"source":76,"target":80,"relationship":"contains","weight":1.0},
+      {"source":76,"target":81,"relationship":"contains","weight":1.0},
+      {"source":77,"target":78,"relationship":"prerequisite","weight":1.0},
+      {"source":77,"target":79,"relationship":"prerequisite","weight":1.0},
+      {"source":79,"target":80,"relationship":"prerequisite","weight":0.9},
+      {"source":47,"target":81,"relationship":"prerequisite","weight":0.9},
+      {"source":77,"target":81,"relationship":"prerequisite","weight":0.9},
+      
+      
+      {"source":44,"target":82,"relationship":"prerequisite","weight":0.7},
+      {"source":58,"target":82,"relationship":"prerequisite","weight":0.8},
+      {"source":82,"target":83,"relationship":"contains","weight":1.0},
+      {"source":82,"target":84,"relationship":"contains","weight":1.0},
+      {"source":82,"target":85,"relationship":"contains","weight":1.0},
+      {"source":82,"target":86,"relationship":"contains","weight":1.0},
+      {"source":82,"target":87,"relationship":"contains","weight":1.0},
+      {"source":82,"target":88,"relationship":"contains","weight":1.0},
+      {"source":82,"target":89,"relationship":"contains","weight":1.0},
+      {"source":82,"target":90,"relationship":"contains","weight":1.0},
+      {"source":83,"target":84,"relationship":"prerequisite","weight":0.9},
+      {"source":83,"target":85,"relationship":"prerequisite","weight":0.8},
+      {"source":86,"target":87,"relationship":"prerequisite","weight":1.0},
+      {"source":87,"target":88,"relationship":"prerequisite","weight":0.9},
+      {"source":85,"target":89,"relationship":"prerequisite","weight":0.9},
+      {"source":89,"target":90,"relationship":"related","weight":0.7}
+    ]
+  }

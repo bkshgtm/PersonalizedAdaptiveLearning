@@ -1,0 +1,94 @@
+# Git
+.git
+.gitignore
+.github/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+*.log
+*.pot
+.coverage
+coverage.xml
+.pytest_cache/
+htmlcov/
+.tox/
+.nox/
+nosetests.xml
+
+# Virtual environments
+venv/
+env/
+ENV/
+virtualenv/
+.env
+.venv/
+*venv/
+
+# IDE and editor directories
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Development and local files
+*.sqlite3
+db.sqlite3
+db.sqlite3-journal
+*.db
+local_settings.py
+media/
+static/
+staticfiles/
+
+# Large data files and models
+models/
+*.pt
+*.pth
+*.pkl
+*.h5
+*.hdf5
+*.npz
+*.npy
+*.joblib
+*.model
+large_data/
+datasets/
+csv_data/
+test_data/
+
+# Documentation
+docs/
+README.md
+*.rst
+*.md
+LICENSE
+
+# Docker
+Dockerfile.dev
+docker-compose.override.yml
+.docker/
+
+# CI/CD
+.travis.yml
+.gitlab-ci.yml
+.jenkins
+*.jenkins
+
+# Miscellaneous
+*.bak
+*.tmp
+*.temp
+.ipynb_checkpoints/
+celerybeat-schedule
+celerybeat.pid
+*.log
+logs/
+tmp/
