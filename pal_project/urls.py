@@ -16,8 +16,8 @@ urlpatterns = [
     
     # App-specific URLs
     path('data-ingestion/', include(('data_ingestion.urls', 'data_ingestion'), namespace='data_ingestion')),
-    path('topic-classification/', include('topic_classification.urls')),
-    path('knowledge-graph/', include('knowledge_graph.urls')),
+    path('topic-classification/', include(('topic_classification.urls', 'topic_classification'), namespace='topic_classification')),
+    path('knowledge-graph/', include(('knowledge_graph.urls', 'knowledge_graph'), namespace='knowledge_graph')),
     path('ml-models/', include('ml_models.urls')),
     path('learning-paths/', include('learning_paths.urls')),
 ]
