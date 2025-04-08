@@ -107,16 +107,46 @@ Respond with a JSON object with the following structure:
         
         try:
             response_content = response['choices'][0]['message']['content']
-            logger.debug(f"Raw Dissect API response content for check_answer_correctness:\n---\n{response_content}\n---") # Added logging
-            # Extract JSON from the response
-            import re
-            json_match = re.search(r'\{.*\}', response_content, re.DOTALL)
-            if json_match:
-                result = json.loads(json_match.group(0))
-                return result
-            else:
-                # If no JSON found, try to parse the whole content
-                return json.loads(response_content)
+            logger.debug(f"Raw Dissect API response content for check_answer_correctness:\n---\n{response_content}\n---")
+            
+            try:
+                # First try to parse as direct JSON
+                result = json.loads(response_content)
+            except json.JSONDecodeError:
+                # If that fails, try extracting JSON from markdown
+                import re
+                json_match = re.search(r'```json\n({.*?})\n```', response_content, re.DOTALL)
+                if json_match:
+                    result = json.loads(json_match.group(1))
+                else:
+                    # Fallback to simple text parsing
+                    result = {
+                        'is_correct': False,
+                        'score': 0.0,
+                        'feedback': response_content,
+                        'validation_details': {
+                            'concepts': {'covered': [], 'missing': []},
+                            'scores': {
+                                'accuracy': 0.0,
+                                'completeness': 0.0,
+                                'clarity': 0.0,
+                                'overall': 0.0
+                            }
+                        }
+                    }
+            
+            # Ensure required fields exist
+            if 'validation_details' not in result:
+                result['validation_details'] = {
+                    'concepts': result.get('concepts', {'covered': [], 'missing': []}),
+                    'scores': result.get('scores', {
+                        'accuracy': result.get('score', 0.0),
+                        'completeness': 1.0 if result.get('is_correct', False) else 0.0,
+                        'clarity': 1.0,
+                        'overall': result.get('score', 0.0)
+                    })
+                }
+            return result
         except (KeyError, json.JSONDecodeError) as e:
             logger.error(f"Error parsing Dissect response: {str(e)}")
             logger.error(f"Response content: {response}")

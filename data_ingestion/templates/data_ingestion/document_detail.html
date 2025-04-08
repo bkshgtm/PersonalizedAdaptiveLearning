@@ -110,7 +110,28 @@
                                 {% if question.validation_metadata %}
                                 <h6>📄 Validation Metadata:</h6>
                                 <div class="p-3 rounded" style="background-color: #23283b; color: var(--text-color); border: 1px solid #2e3247;">
-                                    <pre style="white-space: pre-wrap; margin: 0;">{{ question.validation_metadata|pprint }}</pre>
+                                    <div class="mb-2">
+                                        <strong>Scores:</strong>
+                                        <ul class="mb-0">
+                                            <li>Accuracy: {{ question.validation_metadata.scores.accuracy|floatformat:2 }}</li>
+                                            <li>Completeness: {{ question.validation_metadata.scores.completeness|floatformat:2 }}</li>
+                                            <li>Clarity: {{ question.validation_metadata.scores.clarity|floatformat:2 }}</li>
+                                            <li>Overall: {{ question.validation_metadata.scores.overall|floatformat:2 }}</li>
+                                        </ul>
+                                    </div>
+                                    {% if question.validation_metadata.concepts %}
+                                    <div class="mb-2">
+                                        <strong>Concepts:</strong>
+                                        <ul class="mb-0">
+                                            <li>Covered: {{ question.validation_metadata.concepts.covered|join:", " }}</li>
+                                            <li>Missing: {{ question.validation_metadata.concepts.missing|join:", " }}</li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <strong>Feedback:</strong>
+                                        <p class="mb-0">{{ question.validation_metadata.feedback }}</p>
+                                    </div>
                                 </div>
                                 {% endif %}
                                 {% else %}

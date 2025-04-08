@@ -446,11 +446,14 @@ Now process this document, extracting ALL possible question-answer pairs:
                 # Store detailed validation if available
                 if '_detailed' in validation_result:
                     detailed = validation_result['_detailed']
-                    extracted_q.validation_metadata = {
-                        'scores': detailed['score'],
-                        'feedback': detailed['feedback'],
-                        'concepts': detailed['concepts']
+                    validation_metadata = {
+                        'scores': detailed.get('score', {}),
+                        'feedback': detailed.get('feedback', ''),
                     }
+                    # Only include concepts if they exist in the response
+                    if 'concepts' in detailed:
+                        validation_metadata['concepts'] = detailed['concepts']
+                    extracted_q.validation_metadata = validation_metadata
                     self.log_message(f"QID {extracted_q.id}: Detailed validation - Accuracy={detailed['score']['accuracy']:.2f}, Completeness={detailed['score']['completeness']:.2f}", 'debug')
 
                 self.log_message(f"QID {extracted_q.id}: Validation - Correct={validation_result['is_correct']}, Score={validation_result['score']:.2f}", 'debug')

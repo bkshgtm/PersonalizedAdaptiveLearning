@@ -51,6 +51,20 @@ class AnswerValidator:
             
             feedback_summary = detailed.get('feedback', "\n".join(default_suggestions)) 
 
+            # Ensure consistent response structure
+            if 'validation_details' not in detailed:
+                detailed['validation_details'] = {
+                    'concepts': detailed.get('concepts', {'covered': [], 'missing': []}),
+                    'scores': detailed.get('scores', {
+                        'accuracy': detailed.get('score', 0.0),
+                        'completeness': 1.0 if detailed.get('is_correct', False) else 0.0,
+                        'clarity': 1.0,
+                        'overall': detailed.get('score', 0.0)
+                    })
+                }
+            elif 'concepts' not in detailed['validation_details']:
+                detailed['validation_details']['concepts'] = {'covered': [], 'missing': []}
+            
             return {
                 'is_correct': detailed.get('is_correct', detailed['score']['overall'] > 0.7),
                 'score': detailed['score']['overall'],
