@@ -43,20 +43,24 @@ class Command(BaseCommand):
                 # Create an admin user if it doesn't exist
                 self.create_admin_user()
                 
-                # Create courses
-                courses = self.create_courses()
-                self.stdout.write(self.style.SUCCESS(f'Created {len(courses)} courses'))
+                # Create single Java course
+                java_course = Course.objects.create(
+                    course_id='CS206',
+                    title='Introduction to Java Programming',
+                    description='A comprehensive introduction to Java programming language and object-oriented concepts.'
+                )
+                self.stdout.write(self.style.SUCCESS('Created Introduction to Java Programming course'))
                 
                 # Create topics and resources
-                topics, resources = self.create_topics_and_resources(courses)
+                topics, resources = self.create_topics_and_resources([java_course])
                 self.stdout.write(self.style.SUCCESS(f'Created {len(topics)} topics and {len(resources)} resources'))
                 
                 # Create assessments and questions
-                assessments, questions = self.create_assessments_and_questions(courses, topics)
+                assessments, questions = self.create_assessments_and_questions([java_course], topics)
                 self.stdout.write(self.style.SUCCESS(f'Created {len(assessments)} assessments and {len(questions)} questions'))
                 
                 # Create students
-                students = self.create_students(num_students, courses)
+                students = self.create_students(num_students, [java_course])
                 self.stdout.write(self.style.SUCCESS(f'Created {len(students)} students'))
                 
                 # Create student interactions
@@ -89,28 +93,6 @@ class Command(BaseCommand):
                 password='adminpassword'
             )
             self.stdout.write(self.style.SUCCESS('Created admin user'))
-
-    def create_courses(self):
-        """Create Java programming courses"""
-        courses = []
-        
-        # Main Java course
-        java_course = Course.objects.create(
-            course_id='JAVA101',
-            title='Introduction to Java Programming',
-            description='A comprehensive introduction to Java programming language and object-oriented concepts.'
-        )
-        courses.append(java_course)
-        
-        # Advanced Java course
-        adv_java = Course.objects.create(
-            course_id='JAVA201',
-            title='Advanced Java Programming',
-            description='Advanced topics in Java including multithreading, networking, and design patterns.'
-        )
-        courses.append(adv_java)
-        
-        return courses
 
     def create_topics_and_resources(self, courses):
         """Create topics and resources for the courses"""
@@ -355,11 +337,8 @@ class Command(BaseCommand):
                 average_time_per_session=datetime.timedelta(minutes=random.randint(30, 120))
             )
             
-            # Enroll in courses
-            for course in courses:
-                # 80% chance of enrolling in each course
-                if random.random() < 0.8:
-                    student.courses.add(course)
+            # Enroll in course
+            student.courses.add(courses[0])
             
             students.append(student)
         
@@ -371,15 +350,10 @@ class Command(BaseCommand):
         
         # For each student, create interactions with some questions
         for student in students:
-            # Get courses the student is enrolled in
-            student_courses = student.courses.all()
-            if not student_courses:
-                continue
-                
-            # Get questions from student's courses
+            # Get questions from student's course
             course_questions = [
                 q for q in questions
-                if q.assessment.course in student_courses
+                if q.assessment.course in student.courses.all()
             ]
             if not course_questions:
                 continue

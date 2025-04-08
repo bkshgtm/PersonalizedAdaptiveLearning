@@ -9,3 +9,6 @@ docker-compose up -d
 
 # RUN MANAGE.PY INSIDE DOCKER
 docker-compose exec web python manage.py runserver
+
+# REBUILD FROM SCRATCH
+docker-compose down && docker-compose build --no-cache && docker-compose up -d

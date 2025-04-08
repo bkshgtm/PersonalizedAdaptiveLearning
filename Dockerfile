@@ -25,9 +25,14 @@ COPY . .
 RUN mkdir -p /app/models /app/logs /app/media
 
 # Run as non-root user for security
-RUN useradd -m appuser
+RUN useradd -m -u 1000 appuser
 RUN chown -R appuser:appuser /app
 USER appuser
+
+# Set directory permissions
+RUN mkdir -p /app && \
+    chown -R appuser:appuser /app && \
+    chmod -R 755 /app
 
 # Command to run
 CMD ["gunicorn", "pal_project.wsgi:application", "--bind", "0.0.0.0:8000"]
