@@ -1,0 +1,11 @@
+# SHUTDOWN DOCKER CONTAINERS
+docker-compose down
+
+# REBUILD DOCKER
+docker-compose build 
+
+# START DOCKER
+docker-compose up -d 
+
+# RUN MANAGE.PY INSIDE DOCKER
+docker-compose exec web python manage.py runserver
