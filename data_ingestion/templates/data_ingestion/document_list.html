@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Document Uploads{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-12">
+        <div class="card p-4" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 18px;">
+            
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="text-info fw-bold mb-0">📂 Uploaded Documents</h3>
+                <a href="{% url 'data_ingestion:upload_document' %}" class="btn btn-outline-info fw-semibold">
+                    ➕ Upload New Document
+                </a>
+            </div>
+
+            <!-- Flash Messages -->
+            {% if messages %}
+            <div class="mb-3">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Table -->
+            {% if documents %}
+            <div class="table-responsive rounded">
+                <table class="table mb-0" style="color: var(--text-color); border-collapse: separate; border-spacing: 0 8px;">
+                    <thead style="background-color: #2a2d3d;">
+                        <tr class="text-light">
+                            <th class="px-3 py-3 rounded-start">ID</th>
+                            <th class="px-3 py-3">📄 File</th>
+                            <th class="px-3 py-3">📁 Type</th>
+                            <th class="px-3 py-3">⏱ Uploaded</th>
+                            <th class="px-3 py-3">⚙️ Status</th>
+                            <th class="px-3 py-3">✅ Processed</th>
+                            <th class="px-3 py-3 rounded-end">🔍 Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for document in documents %}
+                        <tr style="background-color: #1b1d2b; transition: 0.3s;" onmouseover="this.style.backgroundColor='#23263a'" onmouseout="this.style.backgroundColor='#1b1d2b'">
+                            <td class="px-3 py-3 rounded-start">{{ document.id }}</td>
+                            <td class="px-3 py-3">{{ document.file.name }}</td>
+                            <td class="px-3 py-3">{{ document.get_document_type_display }}</td>
+                            <td class="px-3 py-3">{{ document.uploaded_at|date:"M d, Y H:i" }}</td>
+                            <td class="px-3 py-3">
+                                {% if document.status == 'pending' %}
+                                <span class="badge bg-warning text-dark px-3 py-2">⏳ Pending</span>
+                                {% elif document.status == 'processing' %}
+                                <span class="badge bg-info px-3 py-2">🔄 Processing</span>
+                                {% elif document.status == 'completed' %}
+                                <span class="badge bg-success px-3 py-2">✅ Completed</span>
+                                {% elif document.status == 'failed' %}
+                                <span class="badge bg-danger px-3 py-2">❌ Failed</span>
+                                {% else %}
+                                <span class="badge bg-secondary px-3 py-2">{{ document.status }}</span>
+                                {% endif %}
+                            </td>
+                            <td class="px-3 py-3">{{ document.questions_processed }} ✅ / {{ document.questions_failed }} ❌</td>
+                            <td class="px-3 py-3 rounded-end">
+                                <a href="{% url 'data_ingestion:document_detail' document.id %}" class="btn btn-sm btn-primary">
+                                    🔍 View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="alert alert-info text-center my-4">
+                No documents have been uploaded yet.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

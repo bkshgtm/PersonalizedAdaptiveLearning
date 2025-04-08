@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>{% block title %}PAL 2.0 - Personalized Adaptive Learning{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg-color: #0f1115;
+            --text-color: #e4e4e4;
+            --primary-color: #4ea8de; /* Sky blue */
+            --secondary-color: #1f1f2e; /* Deep slate */
+            --accent-color: #9b5de5; /* Purple accent */
+            --card-bg: #1e2235;
+            --header-footer-bg: #12141c;
+            --link-color: #78c0e0;
+            --link-hover-color: #d1d1ff;
+            --highlight: #3d5afe;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1150px;
+            padding: 25px;
+        }
+
+        header, footer {
+            background-color: var(--header-footer-bg);
+            padding: 20px 0;
+            border-bottom: 1px solid #2c2f3a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid #2c2f3a;
+            color: #aaa;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.05rem;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--link-hover-color);
+            text-decoration: underline;
+        }
+
+        .nav-link {
+            color: var(--link-color);
+            font-weight: 500;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--bg-color);
+            background-color: var(--link-hover-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #1a1d2b, #11121b);
+            color: var(--text-color);
+            border: 1px solid #2f3444;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 14px;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background-color: #7c3aed;
+            border-color: #7c3aed;
+        }
+
+        .form-control {
+            background-color: #1e1f2b;
+            color: var(--text-color);
+            border: 1px solid #333745;
+        }
+
+        .form-control:focus {
+            background-color: #262a3a;
+            border-color: var(--highlight);
+            box-shadow: 0 0 0 0.2rem rgba(61, 90, 254, 0.25);
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .alert-success { background-color: #276749; color: #fff; }
+        .alert-info { background-color: #3182ce; color: #fff; }
+        .alert-warning { background-color: #dd6b20; color: #fff; }
+        .alert-danger { background-color: #c53030; color: #fff; }
+
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="mb-0">PAL 2.0</h1>
+                <p class="mt-1">Personalized Adaptive Learning System</p>
+            </div>
+            <nav>
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'data_ingestion:upload_data' %}">CSV Upload</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'data_ingestion:upload_document' %}">Document Upload</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'graph_detail' graph_id=1 %}">KSG</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PAL Research Team</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

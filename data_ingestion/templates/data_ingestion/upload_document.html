@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Document{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card p-4" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 18px;">
+            <div class="card-header border-0 mb-3" style="background-color: transparent;">
+                <h4 class="text-info fw-bold mb-0">
+                    📄 Upload Document with Questions and Answers
+                </h4>
+            </div>
+
+            <div class="card-body">
+                {% if messages %}
+                <div class="mb-3">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label for="file" class="form-label fw-semibold">📁 Document File</label>
+                        <input type="file" class="form-control" id="file" name="file" required>
+                        <div class="form-text text-muted">
+                            Accepted formats: PDF, DOCX, or TXT
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="student_id" class="form-label fw-semibold">👤 Student (Optional)</label>
+                        <select class="form-control" id="student_id" name="student_id">
+                            <option value="">-- Select Student --</option>
+                            {% for student in students %}
+                            <option value="{{ student.student_id }}">{{ student.student_id }} - {{ student.user.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text text-muted">
+                            Updates learning path if a student is selected.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="course_id" class="form-label fw-semibold">📘 Course (Optional)</label>
+                        <select class="form-control" id="course_id" name="course_id">
+                            <option value="">-- Select Course --</option>
+                            {% for course in courses %}
+                            <option value="{{ course.course_id }}">{{ course.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="assessment_id" class="form-label fw-semibold">📝 Assessment (Optional)</label>
+                        <select class="form-control" id="assessment_id" name="assessment_id">
+                            <option value="">-- Select Assessment --</option>
+                            {% for assessment in assessments %}
+                            <option value="{{ assessment.assessment_id }}">{{ assessment.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold">🚀 Upload Document</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card-footer bg-transparent border-top-0 text-center">
+                <a href="{% url 'data_ingestion:document_list' %}" class="btn btn-outline-info">📚 View All Documents</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+Sample Questions and Answers for Java Programming
+
+Question 1: What is the difference between JDK, JRE, and JVM?
+Answer: JDK (Java Development Kit) is a software development kit that includes the JRE, an interpreter/loader (Java), a compiler (javac), an archiver (jar), a documentation generator (Javadoc), and other tools needed for Java development. JRE (Java Runtime Environment) provides the libraries, Java Virtual Machine, and other components to run applications written in Java. JVM (Java Virtual Machine) is an abstract machine that provides a runtime environment in which Java bytecode can be executed.
+
+Question 2: Explain the concept of inheritance in Java.
+Answer: Inheritance is a mechanism in which one class acquires the properties (methods and fields) of another class. The class which inherits the properties is called the subclass or derived class, and the class whose properties are inherited is called the superclass or base class. Inheritance is achieved using the 'extends' keyword. It promotes code reusability and establishes a relationship between different classes.
+
+Question 3: What are the differences between an interface and an abstract class in Java?
+Answer: An abstract class can have both abstract and non-abstract methods, while an interface can only have abstract methods (prior to Java 8). A class can implement multiple interfaces but can extend only one abstract class. Abstract classes can have constructors, but interfaces cannot. Abstract classes can have instance variables with any access modifier, while interface variables are implicitly public, static, and final.
+
+Question 4: How does exception handling work in Java?
+Answer: Exception handling in Java is managed through five keywords: try, catch, finally, throw, and throws. Code that might throw an exception is placed in a try block. The catch block catches and handles exceptions. The finally block contains code that is always executed, regardless of whether an exception is thrown or caught. The throw keyword is used to explicitly throw an exception, and the throws keyword is used in method declaration to indicate that the method might throw certain exceptions.
+
+Question 5: What is the difference between method overloading and method overriding?
+Answer: Method overloading occurs when a class has multiple methods with the same name but different parameters (different number or type of parameters). It is resolved at compile time. Method overriding occurs when a subclass provides a specific implementation of a method that is already defined in its superclass. It is resolved at runtime and is based on the concept of polymorphism.

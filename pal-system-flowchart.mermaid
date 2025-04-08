@@ -1,0 +1,101 @@
+flowchart TD
+    %% Main user entry points
+    User([Administrator/Teacher]) -->|Upload Student Data| DataUpload[Data Upload]
+    Student([Student]) -->|Interact with System| WebFrontend[Web Frontend/Client]
+    WebFrontend -->|API Requests| RestAPI[REST API Layer]
+    
+    %% Data Ingestion Flow
+    subgraph DataIngestion[Data Ingestion Module]
+        DataUpload -->|Process CSV| CSVValidator[CSV Validator]
+        CSVValidator -->|Validate Structure| DataProcessor[Data Processor]
+        DataProcessor -->|Extract Student Data| StudentDataExtractor[Student Data Extractor]
+        DataProcessor -->|Extract Assessment Data| AssessmentDataExtractor[Assessment Data Extractor]
+        DataProcessor -->|Extract Question Data| QuestionDataExtractor[Question Data Extractor]
+        DataProcessor -->|Create/Update Records| CoreDB[(Core Database)]
+    end
+    
+    %% Topic Classification Flow
+    subgraph TopicClassification[Topic Classification Module]
+        QuestionExtractor[Questions without Topics] -->|Extract Text| ClassifierModels{Classifier Type}
+        ClassifierModels -->|TF-IDF| TfidfClassifier[TF-IDF Classifier]
+        ClassifierModels -->|Transformer| TransformerClassifier[Transformer Classifier]
+        ClassifierModels -->|API-based| ApiClassifier[API Classifier]
+        TfidfClassifier & TransformerClassifier & ApiClassifier -->|Assign Topics| TopicAssignment[Topic Assignment]
+        TopicAssignment -->|Update Questions| CoreDB
+    end
+    
+    %% Knowledge Graph Flow
+    subgraph KnowledgeGraph[Knowledge Graph Module]
+        GraphManager[Knowledge Graph Manager] -->|Create/Edit Graph| GraphEditor[Graph Editor]
+        GraphEditor -->|Store Graph Structure| GraphDB[(Graph Database)]
+        GraphDB <-->|Graph Operations| GraphOps[Graph Operations]
+        GraphOps -->|Get Prerequisites| PrereqList[Prerequisite List]
+        GraphOps -->|Get Next Topics| NextTopicList[Next Topic List]
+        GraphOps -->|Find Learning Paths| PathFinder[Path Finder]
+        GraphOps -->|Get Blocked Topics| BlockedTopicList[Blocked Topic List]
+    end
+    
+    %% ML Models Flow
+    subgraph MLModels[ML Models Module]
+        InteractionData[Student Interaction Data] -->|Prepare Data| DataPreparation[Data Preparation]
+        DataPreparation -->|Transform to Sequences| SequenceData[Sequence Data]
+        SequenceData -->|Train Model| ModelType{Model Type}
+        ModelType -->|Deep Knowledge Tracing| DKT[DKT Model]
+        ModelType -->|Self-Attentive KT| SAKT[SAKT Model]
+        DKT & SAKT -->|Generate Predictions| KnowledgeStates[Knowledge States]
+        KnowledgeStates -->|Store Masteries| MasteryDB[(Topic Mastery)]
+    end
+    
+    %% Learning Paths Flow
+    subgraph LearningPaths[Learning Paths Module]
+        PathGenerator[Path Generator] -->|Get Student Data| StudentInfo[Student Information]
+        PathGenerator -->|Get Mastery Data| MasteryDB
+        PathGenerator -->|Get Knowledge Graph| GraphDB
+        PathGenerator -->|Generate Path Items| PathItems[Path Items]
+        PathItems -->|Order by Priority| PrioritizedItems[Prioritized Items]
+        PrioritizedItems -->|Select Resources| ResourceSelector[Resource Selector]
+        ResourceSelector -->|Match Resources| ResourceMatcher[Resource Matcher]
+        ResourceMatcher -->|Create Learning Path| LearningPath[Learning Path]
+        LearningPath -->|Create Checkpoints| Checkpoints[Checkpoints]
+        LearningPath -->|Store Path| PathsDB[(Learning Paths DB)]
+    end
+    
+    %% API Integration Layer
+    subgraph APILayer[API Integration Layer]
+        RestAPI -->|Student Profile| StudentProfileAPI[Student Profile API]
+        RestAPI -->|Generate Recommendations| RecommendationAPI[Recommendation API]
+        RestAPI -->|Access Learning Path| LearningPathAPI[Learning Path API]
+        RestAPI -->|Update Progress| ProgressAPI[Progress API]
+        RestAPI -->|System Monitoring| MonitoringAPI[Monitoring API]
+        
+        StudentProfileAPI & RecommendationAPI & LearningPathAPI & ProgressAPI & MonitoringAPI <--> IntegrationLayer[Integration Layer]
+        IntegrationLayer <--> CoreDB
+        IntegrationLayer <--> MasteryDB
+        IntegrationLayer <--> GraphDB
+        IntegrationLayer <--> PathsDB
+    end
+    
+    %% Connections between modules
+    CoreDB -->|Questions| QuestionExtractor
+    CoreDB -->|Student Interactions| InteractionData
+    CoreDB -->|Student Data| StudentInfo
+    
+    %% System Monitoring
+    MonitoringDashboard[System Monitoring Dashboard] -->|Access Metrics| MonitoringAPI
+    
+    %% Background Tasks
+    Celery[Celery Task Queue] -->|Process Data| DataProcessor
+    Celery -->|Run Classification| ClassifierModels
+    Celery -->|Train Models| ModelType
+    Celery -->|Generate Paths| PathGenerator
+    
+    %% Architecture Notes
+    classDef module fill:#f9f,stroke:#333,stroke-width:2px
+    classDef database fill:#bbf,stroke:#333,stroke-width:2px
+    classDef api fill:#bfb,stroke:#333,stroke-width:2px
+    classDef user fill:#fbb,stroke:#333,stroke-width:2px
+    
+    class DataIngestion,TopicClassification,KnowledgeGraph,MLModels,LearningPaths,APILayer module
+    class CoreDB,GraphDB,MasteryDB,PathsDB database
+    class RestAPI,StudentProfileAPI,RecommendationAPI,LearningPathAPI,ProgressAPI,MonitoringAPI api
+    class User,Student user

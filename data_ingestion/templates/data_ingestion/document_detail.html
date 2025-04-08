@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block title %}Document Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <!-- 🗂 Document Overview -->
+    <div class="card p-4 mb-5" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 16px;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-info fw-bold mb-0">📄 Document Details</h3>
+            <div>
+                <a href="{% url 'data_ingestion:document_list' %}" class="btn btn-outline-light me-2">← Back</a>
+                <a href="{% url 'data_ingestion:upload_document' %}" class="btn btn-outline-success">➕ Upload New</a>
+            </div>
+        </div>
+
+        <div class="row gy-4">
+            <!-- Document Info -->
+            <div class="col-md-6">
+                <h5 class="text-light mb-3">📌 Info</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent text-light border-0">🆔 <strong>ID:</strong> {{ document.id }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">📎 <strong>File:</strong> {{ document.file.name }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">📁 <strong>Type:</strong> {{ document.get_document_type_display }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">👤 <strong>Uploader:</strong> {{ document.uploaded_by.username }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">🕒 <strong>Uploaded:</strong> {{ document.uploaded_at }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">
+                        ⚙️ <strong>Status:</strong>
+                        {% if document.status == 'pending' %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                        {% elif document.status == 'processing' %}
+                        <span class="badge bg-info">Processing</span>
+                        {% elif document.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                        {% elif document.status == 'failed' %}
+                        <span class="badge bg-danger">Failed</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ document.status }}</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Processing Info -->
+            <div class="col-md-6">
+                <h5 class="text-light mb-3">📊 Processing</h5>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-transparent text-light border-0">✅ <strong>Processed:</strong> {{ document.questions_processed }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">❌ <strong>Failed:</strong> {{ document.questions_failed }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">🎓 <strong>Student:</strong> {{ document.student.student_id|default:"Not specified" }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">📘 <strong>Course:</strong> {{ document.course.title|default:"Not specified" }}</li>
+                    <li class="list-group-item bg-transparent text-light border-0">📝 <strong>Assessment:</strong> {{ document.assessment.title|default:"Not specified" }}</li>
+                    {% if document.error_message %}
+                    <li class="list-group-item bg-transparent text-danger border-0">🚨 <strong>Error:</strong> {{ document.error_message }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🧠 Extracted Questions -->
+    <div class="card p-4 mb-5" style="background-color: #1b1f2d; border-radius: 16px;">
+        <h4 class="text-success mb-3">🧠 Extracted Questions</h4>
+        {% if questions %}
+        <div class="accordion" id="questionsAccordion">
+            {% for question in questions %}
+            <div class="accordion-item border-0 bg-transparent mb-2">
+                <h2 class="accordion-header" id="heading{{ question.id }}">
+                    <button class="accordion-button bg-dark text-light {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ question.id }}">
+                        <div class="d-flex justify-content-between w-100">
+                            <span>Q{{ question.question_number }} (Page {{ question.page_number }})</span>
+                            {% if question.is_processed %}
+                                <span class="badge {% if question.is_correct %}bg-success{% else %}bg-danger{% endif %}">
+                                    {% if question.is_correct %}Correct{% else %}Incorrect{% endif %}
+                                </span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Not Processed</span>
+                            {% endif %}
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapse{{ question.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}">
+                    <div class="accordion-body text-light">
+                        <div class="row gy-4">
+                            <div class="col-md-6">
+                                <h6>❓ Question:</h6>
+                                <div class="p-3 bg-dark rounded border border-secondary mb-3">
+                                    <pre class="text-light" style="white-space: pre-wrap;">{{ question.question_text }}</pre>
+                                </div>
+
+                                <h6>🧑‍🎓 Student's Answer:</h6>
+                                <div class="p-3 bg-dark rounded border border-secondary">
+                                    <pre class="text-light" style="white-space: pre-wrap;">{{ question.student_answer }}</pre>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {% if question.is_processed %}
+                                <h6>🔍 Classification:</h6>
+                                <p>
+                                    <strong>Topic:</strong> {{ question.topic.name|default:"Not classified" }}<br>
+                                    <strong>Correctness:</strong> {{ question.is_correct|yesno:"Correct,Incorrect" }}<br>
+                                    <strong>Confidence Score:</strong> {{ question.confidence_score|floatformat:2 }}
+                                </p>
+
+                                <h6>🗣 Feedback:</h6>
+                                <div class="p-3 rounded mb-3" style="background-color: #23283b; color: var(--text-color); border: 1px solid #2e3247;">
+                                    {{ question.feedback|default:"No feedback available" }}
+                                </div>
+
+                                {% if question.validation_metadata %}
+                                <h6>📄 Validation Metadata:</h6>
+                                <div class="p-3 rounded" style="background-color: #23283b; color: var(--text-color); border: 1px solid #2e3247;">
+                                    <pre style="white-space: pre-wrap; margin: 0;">{{ question.validation_metadata|pprint }}</pre>
+                                </div>
+                                {% endif %}
+                                {% else %}
+                                <div class="alert alert-warning mt-2">This question has not been processed yet.</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-info mt-3">No questions have been extracted from this document yet.</div>
+        {% endif %}
+    </div>
+
+    <!-- 📜 Processing Logs -->
+    <div class="card p-4 mb-4" style="background-color: #1a1c29; border-radius: 16px;">
+        <h4 class="text-info mb-3">📜 Processing Logs</h4>
+        {% if logs %}
+        <div class="table-responsive">
+            <table class="table table-borderless align-middle text-light">
+                <thead style="background-color: #2a2d3d;">
+                    <tr>
+                        <th>🕒 Timestamp</th>
+                        <th>🔧 Level</th>
+                        <th>💬 Message</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr style="border-bottom: 1px solid #333;">
+                        <td>{{ log.timestamp|date:"M d, Y H:i:s" }}</td>
+                        <td>
+                            {% if log.level == 'info' %}
+                            <span class="badge bg-info">Info</span>
+                            {% elif log.level == 'warning' %}
+                            <span class="badge bg-warning text-dark">Warning</span>
+                            {% elif log.level == 'error' %}
+                            <span class="badge bg-danger">Error</span>
+                            {% else %}
+                            <span class="badge bg-secondary">{{ log.level }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ log.message }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alert alert-info">No processing logs available.</div>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- 🔁 Auto-refresh if needed -->
+{% if document.status == 'pending' or document.status == 'processing' %}
+<script>
+    setTimeout(() => location.reload(), 10000); // Refresh every 10s
+</script>
+{% endif %}
+{% endblock %}
