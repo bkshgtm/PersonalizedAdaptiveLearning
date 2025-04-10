@@ -1,0 +1,724 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "title": "Installing JDK and Setting Up Java Environment",
+      "description": "Step-by-step guide for installing JDK and configuring environment variables",
+      "url": "https://www.oracle.com/java/technologies/javase-jdk11-downloads.html",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [1, 2, 3]
+    },
+    {
+      "id": 2,
+      "title": "Setting Up Eclipse IDE for Java Development",
+      "description": "Complete walkthrough of Eclipse installation and configuration",
+      "url": "https://www.eclipse.org/downloads/packages/",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 3,
+      "title": "IntelliJ IDEA Setup for Java",
+      "description": "Guide to installing and configuring IntelliJ IDEA for Java development",
+      "url": "https://www.jetbrains.com/idea/download/",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 4,
+      "title": "Your First Java Program - Hello World",
+      "description": "Creating, compiling, and running your first Java application",
+      "url": "https://www.youtube.com/watch?v=eIrMbAQSU34",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [5, 6, 7, 8, 9]
+    },
+    {
+      "id": 5,
+      "title": "Java Program Structure and Syntax",
+      "description": "Understanding the fundamental structure of Java programs",
+      "url": "https://www.w3schools.com/java/java_syntax.asp",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [6, 7, 8, 9, 10, 11]
+    },
+    {
+      "id": 6,
+      "title": "Java Comments and Documentation",
+      "description": "Best practices for commenting Java code",
+      "url": "https://www.baeldung.com/java-comments",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 7,
+      "title": "Java Naming Conventions - Clean Code Practices",
+      "description": "Best practices for naming classes, methods, variables, and constants",
+      "url": "https://www.oracle.com/java/technologies/javase/codeconventions-namingconventions.html",
+      "resource_type": "reference",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 8,
+      "title": "Java Data Types Explained",
+      "description": "Comprehensive guide to Java's primitive and reference data types",
+      "url": "https://www.javatpoint.com/java-data-types",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [12, 13, 14]
+    },
+    {
+      "id": 9,
+      "title": "Working with Variables in Java",
+      "description": "How to declare, initialize, and use variables in Java",
+      "url": "https://www.geeksforgeeks.org/variables-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [15, 17]
+    },
+    {
+      "id": 10,
+      "title": "Type Casting in Java",
+      "description": "Understanding widening and narrowing conversions",
+      "url": "https://www.w3schools.com/java/java_type_casting.asp",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 11,
+      "title": "User Input with Scanner Class",
+      "description": "Tutorial on reading different types of input in Java",
+      "url": "https://www.programiz.com/java-programming/scanner",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [18, 19, 20]
+    },
+    {
+      "id": 12,
+      "title": "Handling Scanner Input Issues",
+      "description": "Solving common problems with nextLine() after nextInt()",
+      "url": "https://www.youtube.com/watch?v=DdGJpwCtNBs",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "15 minutes",
+      "topics": [21]
+    },
+    {
+      "id": 13,
+      "title": "Java Operators - Complete Guide",
+      "description": "Comprehensive tutorial on all Java operators",
+      "url": "https://www.tutorialspoint.com/java/java_operators.htm",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [22, 23, 24, 25, 26, 27]
+    },
+    {
+      "id": 14,
+      "title": "Arithmetic Operators Practice Problems",
+      "description": "Exercise set for practicing arithmetic operations in Java",
+      "url": "https://codingbat.com/java/Logic-1",
+      "resource_type": "exercise",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [23]
+    },
+    {
+      "id": 15,
+      "title": "Logical Operators and Boolean Logic",
+      "description": "Understanding AND, OR, NOT operators in Java",
+      "url": "https://www.geeksforgeeks.org/java-logical-operators-with-examples/",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [25]
+    },
+    {
+      "id": 16,
+      "title": "Bitwise Operations in Java",
+      "description": "Tutorial on using bitwise operators for low-level operations",
+      "url": "https://www.baeldung.com/java-bitwise-operators",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "40 minutes",
+      "topics": [27]
+    },
+    {
+      "id": 17,
+      "title": "Control Flow in Java",
+      "description": "Video course on conditional statements and loops",
+      "url": "https://www.youtube.com/watch?v=ldYLYRNaucM",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [28, 29, 30, 31]
+    },
+    {
+      "id": 18,
+      "title": "Conditional Statements - if, else if, else",
+      "description": "Tutorial focusing on conditional logic in Java",
+      "url": "https://www.w3schools.com/java/java_conditions.asp",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [29]
+    },
+    {
+      "id": 19,
+      "title": "Switch Statement in Java",
+      "description": "Complete guide to using switch statements",
+      "url": "https://www.programiz.com/java-programming/switch-statement",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [29]
+    },
+    {
+      "id": 20,
+      "title": "Java Loops - for, while, do-while",
+      "description": "Comprehensive guide to all loop types in Java",
+      "url": "https://www.javatpoint.com/java-for-loop",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [30]
+    },
+    {
+      "id": 21,
+      "title": "Loop Practice Problems",
+      "description": "Collection of exercises for practicing loops in Java",
+      "url": "https://codingbat.com/java/Warmup-2",
+      "resource_type": "exercise",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [30]
+    },
+    {
+      "id": 22,
+      "title": "Break, Continue, and Return Statements",
+      "description": "Using jump statements to control flow in Java",
+      "url": "https://www.geeksforgeeks.org/break-and-continue-statement-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [31]
+    },
+    {
+      "id": 23,
+      "title": "Java Arrays Fundamentals",
+      "description": "Comprehensive tutorial on creating and using arrays",
+      "url": "https://www.w3schools.com/java/java_arrays.asp",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [32, 33, 35]
+    },
+    {
+      "id": 24,
+      "title": "Multidimensional Arrays in Java",
+      "description": "Working with 2D and multidimensional arrays",
+      "url": "https://www.programiz.com/java-programming/multidimensional-array",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [34]
+    },
+    {
+      "id": 25,
+      "title": "Enhanced For Loop and Array Iteration",
+      "description": "Different ways to iterate through arrays in Java",
+      "url": "https://www.baeldung.com/java-for-each-loop",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [36]
+    },
+    {
+      "id": 26,
+      "title": "Array Operations and Algorithms",
+      "description": "Common operations like searching, sorting, and manipulating arrays",
+      "url": "https://www.geeksforgeeks.org/array-data-structure/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [37]
+    },
+    {
+      "id": 27,
+      "title": "Array Practice Problems",
+      "description": "Interactive exercises for array manipulation",
+      "url": "https://leetcode.com/tag/array/",
+      "resource_type": "exercise",
+      "difficulty": "intermediate",
+      "estimated_time": "60 minutes",
+      "topics": [33, 35, 36, 37]
+    },
+    {
+      "id": 28,
+      "title": "Java Strings Tutorial",
+      "description": "Comprehensive guide to creating and manipulating strings",
+      "url": "https://www.javatpoint.com/java-string",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [38, 39, 40]
+    },
+    {
+      "id": 29,
+      "title": "String Methods in Java",
+      "description": "Detailed explanations of common string manipulation methods",
+      "url": "https://www.w3schools.com/java/java_ref_string.asp",
+      "resource_type": "reference",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [40]
+    },
+    {
+      "id": 30,
+      "title": "String Concatenation and Comparison",
+      "description": "Best practices for joining and comparing strings",
+      "url": "https://www.baeldung.com/java-string-operations",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [41, 42]
+    },
+    {
+      "id": 31,
+      "title": "StringBuffer and StringBuilder",
+      "description": "Using mutable string classes for efficient string manipulation",
+      "url": "https://www.geeksforgeeks.org/stringbuffer-vs-stringbuilder-vs-string-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [43]
+    },
+    {
+      "id": 32,
+      "title": "String Practice Problems",
+      "description": "Collection of exercises for string manipulation",
+      "url": "https://codingbat.com/java/String-1",
+      "resource_type": "exercise",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [38, 40, 41, 42]
+    },
+    {
+      "id": 33,
+      "title": "Methods in Java",
+      "description": "Comprehensive guide to creating and using methods",
+      "url": "https://www.w3schools.com/java/java_methods.asp",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [44, 45, 46]
+    },
+    {
+      "id": 34,
+      "title": "Method Overloading in Java",
+      "description": "Tutorial on creating multiple methods with the same name",
+      "url": "https://www.javatpoint.com/method-overloading-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [47]
+    },
+    {
+      "id": 35,
+      "title": "Static Methods vs. Instance Methods",
+      "description": "Understanding the differences between static and non-static methods",
+      "url": "https://www.geeksforgeeks.org/static-methods-vs-instance-methods-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [48]
+    },
+    {
+      "id": 36,
+      "title": "Pass by Value in Java",
+      "description": "Understanding how Java passes arguments to methods",
+      "url": "https://www.baeldung.com/java-pass-by-value-or-pass-by-reference",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [49]
+    },
+    {
+      "id": 37,
+      "title": "Method Practice Exercises",
+      "description": "Problems to practice method creation and usage",
+      "url": "https://codingbat.com/java/Logic-2",
+      "resource_type": "exercise",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [44, 45, 46, 47]
+    },
+    {
+      "id": 38,
+      "title": "Introduction to Object-Oriented Programming",
+      "description": "Understanding the core concepts of OOP paradigm",
+      "url": "https://www.tutorialspoint.com/java/java_object_oriented.htm",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "50 minutes",
+      "topics": [50, 51, 52]
+    },
+    {
+      "id": 39,
+      "title": "The 'this' Keyword in Java",
+      "description": "Understanding and using the 'this' reference",
+      "url": "https://www.w3schools.com/java/java_this.asp",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [53]
+    },
+    {
+      "id": 40,
+      "title": "Encapsulation in Java",
+      "description": "Implementing data hiding and encapsulation",
+      "url": "https://www.geeksforgeeks.org/encapsulation-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [54]
+    },
+    {
+      "id": 41,
+      "title": "Abstraction in Java",
+      "description": "Basic introduction to abstraction concept",
+      "url": "https://www.javatpoint.com/abstraction-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [55]
+    },
+    {
+      "id": 42,
+      "title": "Inheritance in Java",
+      "description": "Understanding inheritance and its implementation",
+      "url": "https://www.programiz.com/java-programming/inheritance",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [56]
+    },
+    {
+      "id": 43,
+      "title": "Polymorphism in Java",
+      "description": "Introduction to polymorphic behavior in Java",
+      "url": "https://www.w3schools.com/java/java_polymorphism.asp",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [57]
+    },
+    {
+      "id": 44,
+      "title": "Creating Classes in Java",
+      "description": "Comprehensive guide to defining class structure",
+      "url": "https://www.youtube.com/watch?v=Ft88V_rYO_c",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [58, 59]
+    },
+    {
+      "id": 45,
+      "title": "Objects and Object Instantiation",
+      "description": "Creating and using objects from classes",
+      "url": "https://www.javatpoint.com/object-and-class-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [60]
+    },
+    {
+      "id": 46,
+      "title": "Fields and Methods in Classes",
+      "description": "Understanding instance variables and methods",
+      "url": "https://www.baeldung.com/java-classes-objects",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [61]
+    },
+    {
+      "id": 47,
+      "title": "Access Modifiers in Java",
+      "description": "Understanding public, private, protected, and default access",
+      "url": "https://www.geeksforgeeks.org/access-modifiers-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [62]
+    },
+    {
+      "id": 48,
+      "title": "Memory Management for Classes and Objects",
+      "description": "How classes and objects are stored in memory",
+      "url": "https://www.baeldung.com/java-stack-heap",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "45 minutes",
+      "topics": [63]
+    },
+    {
+      "id": 49,
+      "title": "Constructors in Java",
+      "description": "Introduction to constructors and their purpose",
+      "url": "https://www.w3schools.com/java/java_constructors.asp",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [64, 65]
+    },
+    {
+      "id": 50,
+      "title": "Default Constructors",
+      "description": "Understanding compiler-provided constructors",
+      "url": "https://www.javatpoint.com/java-default-constructor",
+      "resource_type": "tutorial",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [66]
+    },
+    {
+      "id": 51,
+      "title": "Parameterized Constructors",
+      "description": "Creating constructors that accept arguments",
+      "url": "https://www.geeksforgeeks.org/parameterized-constructor-in-java-with-example/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [67]
+    },
+    {
+      "id": 52,
+      "title": "Constructor Overloading",
+      "description": "Creating multiple constructors with different parameters",
+      "url": "https://www.programiz.com/java-programming/constructors",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [68]
+    },
+    {
+      "id": 53,
+      "title": "Constructor Chaining with this() and super()",
+      "description": "Calling other constructors from constructors",
+      "url": "https://www.geeksforgeeks.org/constructor-chaining-java-examples/",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "35 minutes",
+      "topics": [69]
+    },
+    {
+      "id": 54,
+      "title": "Inheritance Basics in Java",
+      "description": "Creating class hierarchies with the extends keyword",
+      "url": "https://www.w3schools.com/java/java_inheritance.asp",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [70, 71, 72]
+    },
+    {
+      "id": 55,
+      "title": "The super Keyword in Java",
+      "description": "Accessing superclass members from subclasses",
+      "url": "https://www.javatpoint.com/super-keyword",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [73]
+    },
+    {
+      "id": 56,
+      "title": "Constructor Inheritance",
+      "description": "How constructors work in inheritance hierarchies",
+      "url": "https://www.geeksforgeeks.org/constructors-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [74]
+    },
+    {
+      "id": 57,
+      "title": "Introduction to Method Overriding",
+      "description": "Basic concept of overriding methods in subclasses",
+      "url": "https://www.baeldung.com/java-method-overload-override",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [75]
+    },
+    {
+      "id": 58,
+      "title": "Advanced Method Overriding",
+      "description": "In-depth guide to overriding methods in Java",
+      "url": "https://www.javatpoint.com/method-overriding-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [76, 77]
+    },
+    {
+      "id": 59,
+      "title": "Using the @Override Annotation",
+      "description": "Best practices for method overriding in Java",
+      "url": "https://www.geeksforgeeks.org/override-annotation-in-java/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [78]
+    },
+    {
+      "id": 60,
+      "title": "Runtime Polymorphism in Java",
+      "description": "Understanding dynamic method dispatch",
+      "url": "https://www.programiz.com/java-programming/polymorphism",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "45 minutes",
+      "topics": [79]
+    },
+    {
+      "id": 61,
+      "title": "Overriding Object Class Methods",
+      "description": "Customizing toString(), equals(), and hashCode() methods",
+      "url": "https://www.baeldung.com/java-tostring",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [80]
+    },
+    {
+      "id": 62,
+      "title": "Method Overloading vs. Overriding",
+      "description": "Understanding the differences between these concepts",
+      "url": "https://www.javatpoint.com/method-overloading-vs-method-overriding-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [81]
+    },
+    {
+      "id": 63,
+      "title": "Introduction to Java GUI Programming",
+      "description": "Overview of Java's graphical user interface capabilities",
+      "url": "https://www.youtube.com/watch?v=5o3fMLPY7qY",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [82]
+    },
+    {
+      "id": 64,
+      "title": "Java AWT Components",
+      "description": "Working with AWT for building user interfaces",
+      "url": "https://www.tutorialspoint.com/awt/awt_components.htm",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [83]
+    },
+    {
+      "id": 65,
+      "title": "Event Handling in AWT",
+      "description": "Managing user interactions in AWT applications",
+      "url": "https://www.javatpoint.com/event-handling-in-java",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [84]
+    },
+    {
+      "id": 66,
+      "title": "Layout Managers in AWT",
+      "description": "Organizing components with FlowLayout and BorderLayout",
+      "url": "https://www.geeksforgeeks.org/layouts-in-awt/",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [85]
+    },
+    {
+      "id": 67,
+      "title": "Introduction to Swing",
+      "description": "Getting started with Swing for Java GUI development",
+      "url": "https://www.w3schools.com/java/java_swing.asp",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [86]
+    },
+    {
+      "id": 68,
+      "title": "Swing Components",
+      "description": "Working with buttons, labels, text fields, and other Swing components",
+      "url": "https://www.tutorialspoint.com/swing/swing_controls.htm",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [87]
+    },
+    {
+      "id": 69,
+      "title": "Event Handling in Swing",
+      "description": "Implementing action listeners and event handling",
+      "url": "https://www.baeldung.com/java-swing-listener",
+      "resource_type": "tutorial",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [88]
+    },
+    {
+      "id": 70,
+      "title": "Complex Layouts in Swing",
+      "description": "Combining layouts and panels for advanced UIs",
+      "url": "https://www.geeksforgeeks.org/java-swing-jpanel-with-examples/",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "55 minutes",
+      "topics": [89]
+    },
+    {
+      "id": 71,
+      "title": "Customizing Swing Look and Feel",
+      "description": "Changing the appearance of Swing applications",
+      "url": "https://www.javatpoint.com/java-swing-look-and-feel",
+      "resource_type": "tutorial",
+      "difficulty": "advanced",
+      "estimated_time": "40 minutes",
+      "topics": [90]
+    },
+    {
+      "id": 72,
+      "title": "Building a Complete Swing Application",
+      "description": "Step-by-step guide to creating a functional Swing app",
+      "url": "https://www.youtube.com/watch?v=iE8tZ0hn2Ws",
+      "resource_type": "video",
+      "difficulty": "advanced",
+      "estimated_time": "90 minutes",
+      "topics": [82, 86, 87, 88, 89, 90]
+    }
+  ]
+}

@@ -94,31 +94,7 @@ class DocumentProcessor:
             self.update_status('failed', error_message)
             return False
     
-    def _process_pdf(self) -> List[Dict[str, Any]]:
-        """Extract questions and answers from a PDF file using optimized text extraction."""
-        import pdfplumber
-        from concurrent.futures import ThreadPoolExecutor
-        
-        questions = []
-        with self.document.file.open('rb') as file:
-            with pdfplumber.open(file) as pdf:
-                self.log_message(f"Processing PDF with {len(pdf.pages)} pages")
-                
-                # Process pages in parallel
-                def process_page(page):
-                    try:
-                        text = page.extract_text()
-                        if text:
-                            return self._extract_qa_from_text(text, page_num=page.page_number)
-                        return []
-                    except Exception as e:
-                        self.log_message(f"Error processing page {page.page_number}: {str(e)}", 'error')
-                        return []
-                
-                with ThreadPoolExecutor(max_workers=4) as executor:
-                    results = executor.map(process_page, pdf.pages)
-                    for page_questions in results:
-                        questions.extend(page_questions)
+    
         
         return questions
     
@@ -173,52 +149,78 @@ class DocumentProcessor:
         This is a more advanced approach using AI to identify Q&A pairs.
         """
         # Use DeepSeek to extract questions and answers
-        prompt = f"""Analyze this student submission document to extract ALL question-answer pairs, regardless of formatting. The document may contain:
-- Any combination of questions and answers
-- Questions may be numbered, bulleted, or plain text
-- Answers may appear immediately after questions, on separate lines, or with various prefixes
-- Mixed formatting (bold, italics, code blocks, etc.)
+        prompt = f"""Analyze this student submission document to extract ALL question-answer pairs with EXTREME precision. The document may contain:
+- Any combination of questions and answers in any format
+- Questions may be numbered (1., Q1, Question 1), bulleted, or plain text
+- Answers may appear immediately after questions, on separate lines, or with various prefixes (A:, Answer:, etc.)
+- Mixed formatting (bold, italics, code blocks, tables, etc.)
+- Partial answers or multi-line answers
 
 CRITICAL REQUIREMENTS:
-1. Extract EVERY identifiable question-answer pair, even if formatting is inconsistent
+1. Extract EVERY question-answer pair with 100% accuracy
 2. For each pair:
-   QUESTION: [Full question text exactly as it appears]
-   ANSWER: [Full student answer exactly as it appears]
-3. Preserve ALL original formatting including:
+   QUESTION: [Full question text EXACTLY as it appears, preserving ALL formatting]
+   ANSWER: [Full student answer EXACTLY as it appears, preserving ALL formatting]
+3. Preserve ALL original content including:
    - Line breaks, indentation, spacing
    - Code blocks (with ``` markers)
    - Special characters, bullet points, numbering
+   - Tables, diagrams, mathematical notation
 4. Be extremely flexible with document structure but strict with output format
 5. If ANY text resembles a question with an answer, extract it
+6. For multi-part questions, extract each part separately
+7. For answers spanning multiple lines/pages, combine them into one ANSWER
 
-EXAMPLES OF VALID OUTPUT FOR VARIOUS FORMATS:
-1. Numbered question:
-QUESTION: 1. Explain polymorphism in Java
-ANSWER: Polymorphism allows objects to take many forms through method overriding.
+ADVANCED EXTRACTION RULES:
+1. If question numbering is inconsistent, maintain original numbering
+2. If answer appears before question, still extract as normal
+3. For code answers, preserve ALL formatting including indentation
+4. For mathematical answers, preserve all symbols and notation
+5. For diagrams/tables, describe them textually if needed
 
-2. Unformatted question:
-QUESTION: What is encapsulation?
-ANSWER: Hiding internal state and requiring interaction through methods.
+EXAMPLES OF COMPLEX CASES:
+1. True/False question:
+QUESTION: Java is a purely object-oriented programming language.
+ANSWER: T
 
-3. Code answer:
-QUESTION: Show a Java class example:
-ANSWER: ```java
-public class Example {{
-    private String name;
-}}
+2. Multiple choice question:
+QUESTION: Which is NOT an OOP principle?
+ANSWER: C
+
+3. Single-letter answer:
+QUESTION: Python uses dynamic typing (T/F)
+ANSWER: T
+
+4. Multi-line code answer:
+QUESTION: Write a Python function to calculate factorial
+ANSWER: ```python
+def factorial(n):
+    if n == 0:
+        return 1
+    return n * factorial(n-1)
 ```
 
-4. Bullet point answer:
-QUESTION: List collection types:
-ANSWER: - ArrayList
-- HashMap
-- HashSet
+5. Mathematical answer:
+QUESTION: Solve the quadratic equation x² + 5x + 6 = 0
+ANSWER: x = [-5 ± √(25-24)]/2 = [-5 ± 1]/2
+Solutions: x = -2, x = -3
 
-5. No clear prefix:
-QUESTION: Difference between interface and abstract class?
-ANSWER: Interfaces have no implementation while abstract classes can have both.
+6. Table answer:
+QUESTION: Compare OOP concepts
+ANSWER: | Concept | Definition          | Example          |
+        |---------|---------------------|------------------|
+        | Class   | Blueprint for objects | class Car {{...}} |
+        | Object  | Instance of class   | my_car = Car()   |
 
-Now process this document, extracting ALL possible question-answer pairs:
+7. Diagram description:
+QUESTION: Draw the OSI model layers
+ANSWER: [Diagram description] 
+1. Physical Layer - Raw bit transmission
+2. Data Link Layer - Error detection
+...
+7. Application Layer - HTTP, FTP
+
+Now process this document with EXTREME precision:
 
 --- START TEXT ---
 {text}

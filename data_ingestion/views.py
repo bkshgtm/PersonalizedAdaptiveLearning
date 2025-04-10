@@ -67,7 +67,7 @@ def upload_data(request):
         
         return redirect('upload_detail', upload_id=data_upload.id)
     
-    return render(request, 'data_ingestion/upload_form.html')
+    return render(request, 'data_ingestion/upload_csv.html')
 
 
 @login_required
