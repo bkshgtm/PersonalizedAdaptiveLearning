@@ -56,20 +56,22 @@ def process_document_upload(document_id):
         document_id: ID of the DocumentUpload instance to process
     """
     try:
-        logger.info(f"Starting document processing task for document {document_id}")
+        document = DocumentUpload.objects.get(pk=document_id)
+        logger.info(f"Processing document {document.file.name} (ID: {document_id})")
         
         processor = DocumentProcessor(document_id)
         success = processor.process()
         
         if success:
-            logger.info(f"Document processing completed for document {document_id}")
+            logger.info(f"Successfully processed document {document.file.name} - extracted {document.questions_processed} questions")
         else:
-            logger.error(f"Document processing failed for document {document_id}")
+            logger.error(f"Document processing failed for {document.file.name} - {document.error_message}")
         
         return success
     
     except Exception as e:
-        logger.exception(f"Error in document processing task for document {document_id}: {str(e)}")
+        document = DocumentUpload.objects.get(pk=document_id)
+        logger.exception(f"Error processing document {document.file.name}: {str(e)}")
         
         # Update the document upload status to failed
         try:

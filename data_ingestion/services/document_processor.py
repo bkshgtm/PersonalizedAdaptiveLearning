@@ -232,21 +232,21 @@ Now process this document with EXTREME precision:
         ]
         
         try:
-            # Log the exact prompt being sent
-            self.log_message(f"Sending prompt to Dissect:\n---\n{prompt}\n---", 'debug')
+            
+            self.log_message(f"Calling the Classfication Model:\n---\n{prompt}\n---", 'debug')
 
-            # Call Dissect API
+            
             response = self.dissect_client._call_api(messages)
-            self.log_message(f"Full Dissect API response:\n---\n{response}\n---", 'debug')
+            self.log_message(f"Classification Model Response:\n---\n{response}\n---", 'debug')
 
             if not response or 'choices' not in response or len(response['choices']) == 0:
                 raise ValueError("Empty or invalid response from Dissect API")
 
             content = response['choices'][0]['message']['content']
-            self.log_message(f"Raw AI response content:\n---\n{content}\n---", 'info')
+            self.log_message(f"Raw Model response content:\n---\n{content}\n---", 'info')
 
             if not content.strip():
-                self.log_message("Empty content received from Dissect", 'warning')
+                self.log_message("Empty content received from CM", 'warning')
                 return []
 
             # Parse the response to extract Q&A pairs
