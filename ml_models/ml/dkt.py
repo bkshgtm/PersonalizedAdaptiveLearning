@@ -94,10 +94,10 @@ class DKTModel(nn.Module):
             # For each topic ID, we create two new IDs:
             # - topic_id * 2: incorrect answer
             # - topic_id * 2 + 1: correct answer
-            input_combined = input_ids * 2 + labels
+            input_combined = (input_ids * 2 + labels).long()
             
         # Embed the input
-        embedded = self.embedding(input_combined)
+        embedded = self.embedding(input_combined.long())
         embedded = self.dropout(embedded)
         
         # Pass through LSTM
@@ -154,7 +154,11 @@ class DKTModel(nn.Module):
         input_labels = input_labels.unsqueeze(0)
         
         # Combine topic IDs with correctness
-        input_combined = input_ids * 2 + input_labels
+        if input_labels is not None:
+            input_combined = (input_ids * 2 + input_labels).long()
+        else:
+            # If no labels provided, assume all incorrect (even indices)
+            input_combined = (input_ids * 2).long()
         
         # Embed the input
         embedded = self.embedding(input_combined)
@@ -174,10 +178,21 @@ class DKTModel(nn.Module):
         
         # Create a dictionary mapping topic IDs to probabilities
         result = {}
-        for i, topic_id in enumerate(topic_ids):
+        for topic_id in topic_ids:
+            # Map the topic_id to its index in the embedding
             # Add 1 because 0 is reserved for padding
-            idx = i + 1
-            result[topic_id] = float(all_probs[idx])
+            topic_idx = 0
+            for i, tid in enumerate(topic_ids):
+                if tid == topic_id:
+                    topic_idx = i + 1
+                    break
+            
+            if topic_idx == 0 or topic_idx >= len(all_probs):
+                # Topic not found in the list or index out of bounds, use default
+                result[topic_id] = 0.5
+                continue
+            
+            result[topic_id] = float(all_probs[topic_idx])
         
         return result
     

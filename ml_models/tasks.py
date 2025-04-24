@@ -48,6 +48,9 @@ def train_knowledge_tracing_model(training_job_id: int):
         # Get all interactions
         interactions = data_prep.get_interactions()
         
+        # Log the number of interactions
+        logger.info(f"Total interactions: {len(interactions)}")
+        
         # Update job with data stats
         job.total_interactions = len(interactions)
         
@@ -56,11 +59,19 @@ def train_knowledge_tracing_model(training_job_id: int):
         job.total_students = len(student_ids)
         job.save(update_fields=['total_interactions', 'total_students'])
         
+        # Check if we have enough data
+        if len(interactions) < 10:
+            raise ValueError(f"Not enough interactions to train model: {len(interactions)}")
+        
         # Split data into training and testing
         train_interactions, test_interactions = data_prep.split_data(
             interactions, 
             test_ratio=1.0 - job.split_ratio
         )
+        
+        # Log the split
+        logger.info(f"Training interactions: {len(train_interactions)}")
+        logger.info(f"Testing interactions: {len(test_interactions)}")
         
         # Create data loaders
         batch_size = hyperparams.get('batch_size', 32)

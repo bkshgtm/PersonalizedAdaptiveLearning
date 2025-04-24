@@ -142,10 +142,21 @@ class SAKTModel(nn.Module):
         """
         batch_size, seq_len = input_ids.shape
         
+        # Validate input_ids are within bounds (0 to num_topics-1)
+        input_ids = input_ids.clamp(0, self.num_topics - 1)
+        
         # Combine input_ids with correctness
         # (topic_id * 2) for incorrect, (topic_id * 2 + 1) for correct
-        # Ensure we use long() to convert to integer type for embedding
-        input_combined = (input_ids * 2 + input_labels.long()).long()
+        if input_labels is not None:
+            # Ensure labels are binary (0 or 1)
+            input_labels = input_labels.clamp(0, 1).long()
+            input_combined = (input_ids * 2 + input_labels).long()
+            # Ensure combined values are within bounds
+            input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
+        else:
+            # If no labels provided, assume all incorrect (even indices)
+            input_combined = (input_ids * 2).long()
+            input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
         
         # Embed the inputs
         input_embedded = self.interaction_embedding(input_combined)
@@ -204,7 +215,7 @@ class SAKTModel(nn.Module):
     def predict(
         self, 
         input_ids: torch.Tensor,
-        input_labels: torch.Tensor,
+        input_labels: Optional[torch.Tensor],
         topic_ids: List[int]
     ) -> Dict[int, float]:
         """
@@ -212,7 +223,7 @@ class SAKTModel(nn.Module):
         
         Args:
             input_ids: Tensor of topic IDs, shape [seq_len]
-            input_labels: Tensor of correctness labels, shape [seq_len]
+            input_labels: Tensor of correctness labels, shape [seq_len], or None
             topic_ids: List of topic IDs to predict for
             
         Returns:
@@ -223,23 +234,57 @@ class SAKTModel(nn.Module):
         
         # Add batch dimension
         input_ids = input_ids.unsqueeze(0)
-        input_labels = input_labels.unsqueeze(0)
         
         # Create predictions for all topics
         result = {}
         
         with torch.no_grad():
+            # Validate input_ids are within bounds (0 to num_topics-1)
+            valid_mask = (input_ids >= 0) & (input_ids < self.num_topics)
+            if not valid_mask.all():
+                # Clip out-of-bounds values to valid range
+                input_ids = input_ids.clamp(0, self.num_topics - 1)
+            
+            # Combine input_ids with correctness
+            # (topic_id * 2) for incorrect, (topic_id * 2 + 1) for correct
+            if input_labels is not None:
+                input_labels = input_labels.unsqueeze(0)
+                input_combined = (input_ids * 2 + input_labels.long()).long()
+                # Ensure combined values are within bounds
+                input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
+            else:
+                # If no labels provided, assume all incorrect (even indices)
+                input_combined = (input_ids * 2).long()
+                # Ensure combined values are within bounds
+                input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
+            
+            # For each topic, create a target tensor and get prediction
             for topic_id in topic_ids:
-                # Convert topic_id to tensor index (add 1 because 0 is padding)
-                topic_idx = topic_ids.index(topic_id) + 1
+                # Map the topic_id to its index in the embedding
+                # Add 1 because 0 is reserved for padding
+                topic_idx = 0
+                for i, tid in enumerate(topic_ids):
+                    if tid == topic_id:
+                        topic_idx = i + 1
+                        break
+                
+                if topic_idx == 0:
+                    # Topic not found in the list, skip
+                    continue
                 
                 # Create target tensor with this topic
+                # Make sure topic_idx is within the valid range
+                if topic_idx >= self.num_topics:
+                    # Skip this topic if it's out of range
+                    result[topic_id] = 0.5
+                    continue
+                    
                 target_tensor = torch.tensor([[topic_idx]], dtype=torch.long)
                 
                 # Forward pass
                 outputs = self.forward(
-                    input_ids=input_ids,
-                    input_labels=input_labels,
+                    input_ids=input_combined,
+                    input_labels=None,  # Not needed for prediction
                     target_ids=target_tensor
                 )
                 

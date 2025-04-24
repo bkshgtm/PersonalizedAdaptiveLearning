@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Details - {{ upload.file.name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card p-4" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 18px;">
+            <div class="card-header border-0 mb-3" style="background-color: transparent;">
+                <h4 class="text-info fw-bold mb-0">
+                    📋 Upload Details: {{ upload.file.name }}
+                </h4>
+            </div>
+
+            <div class="card-body">
+                <div class="mb-4">
+                    <h5 class="fw-semibold">Upload Information</h5>
+                    <div class="list-group mb-4">
+                        <div class="list-group-item">
+                            <strong>Status:</strong> 
+                            <span class="badge 
+                                {% if upload.status == 'completed' %}bg-success
+                                {% elif upload.status == 'completed with errors' %}bg-warning
+                                {% elif upload.status == 'failed' %}bg-danger
+                                {% elif upload.status == 'processing' %}bg-info
+                                {% else %}bg-secondary{% endif %}">
+                                {{ upload.status|title }}
+                            </span>
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Uploaded By:</strong> {{ upload.uploaded_by.username }}
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Uploaded At:</strong> {{ upload.uploaded_at }}
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Rows Processed:</strong> {{ upload.rows_processed }}
+                        </div>
+                        <div class="list-group-item">
+                            <strong>Rows Failed:</strong> {{ upload.rows_failed }}
+                        </div>
+                    </div>
+
+                    {% if upload.error_message %}
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> {{ upload.error_message }}
+                    </div>
+                    {% endif %}
+
+                    {% if has_error_file %}
+                    <div class="alert alert-warning">
+                        <strong>Errors Detected:</strong> Some rows failed to process.
+                        <a href="{% url 'data_ingestion:download_error_report' upload.id %}" 
+                           class="btn btn-sm btn-outline-warning ms-2">
+                            📥 Download Error Report
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <h5 class="fw-semibold">Processing Log</h5>
+                <div class="log-container" style="max-height: 300px; overflow-y: auto;">
+                    {% for log in logs %}
+                    <div class="alert 
+                        {% if log.level == 'error' %}alert-danger
+                        {% elif log.level == 'warning' %}alert-warning
+                        {% else %}alert-info{% endif %}">
+                        <small>[{{ log.timestamp }}] {{ log.message }}</small>
+                    </div>
+                    {% empty %}
+                    <div class="alert alert-secondary">
+                        No log entries available
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card-footer bg-transparent border-top-0 text-center">
+                <a href="{% url 'data_ingestion:upload_list' %}" class="btn btn-outline-info">
+                    ← Back to Uploads
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

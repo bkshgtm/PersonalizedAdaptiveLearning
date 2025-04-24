@@ -9,6 +9,7 @@ urlpatterns = [
     path('uploads/', views.upload_list, name='upload_list'),
     path('uploads/<int:upload_id>/', views.upload_detail, name='upload_detail'),
     path('uploads/<int:upload_id>/status/', views.check_upload_status, name='check_upload_status'),
+    path('uploads/<int:upload_id>/error-report/', views.download_error_report, name='download_error_report'),
     
     # Document Upload Web views
     path('upload-document/', views.upload_document, name='upload_document'),

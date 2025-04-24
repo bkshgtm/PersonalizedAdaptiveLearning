@@ -104,6 +104,52 @@ class GraphOperations:
         return recommendations
 
     @transaction.atomic
+    def get_next_topics(self, current_topic_ids):
+        """Get the next recommended topics based on current knowledge"""
+        if not isinstance(current_topic_ids, (list, tuple)):
+            current_topic_ids = [current_topic_ids]
+            
+        if not current_topic_ids:
+            # If no current topics, return root nodes
+            root_nodes = [node for node, degree in self.nx_graph.in_degree() if degree == 0]
+            return Topic.objects.filter(id__in=root_nodes)
+            
+        # Get all immediate successors of current topics that aren't already known
+        next_topics = set()
+        for topic_id in current_topic_ids:
+            try:
+                successors = list(self.nx_graph.successors(topic_id))
+                for succ_id in successors:
+                    # Only include if all prerequisites are met
+                    prereqs = list(self.nx_graph.predecessors(succ_id))
+                    if all(p in current_topic_ids for p in prereqs):
+                        next_topics.add(succ_id)
+            except nx.NetworkXError:
+                continue
+                    
+        return Topic.objects.filter(id__in=next_topics)
+
+    def get_prerequisites(self, topic_id, direct_only=True):
+        """Get prerequisite topics for a given topic.
+        
+        Args:
+            topic_id: ID of the target topic
+            direct_only: If True, only return direct prerequisites
+                        If False, return all transitive prerequisites
+                        
+        Returns:
+            List of prerequisite topic IDs
+        """
+        try:
+            if direct_only:
+                # Get only direct prerequisites
+                return list(self.nx_graph.predecessors(topic_id))
+            else:
+                # Get all ancestors (transitive prerequisites)
+                return list(nx.ancestors(self.nx_graph, topic_id))
+        except nx.NetworkXError:
+            return []
+
     def import_from_json(self, json_data):
         """Import graph structure from JSON data"""
         # Clear existing edges

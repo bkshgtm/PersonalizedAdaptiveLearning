@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Data Uploads{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card p-4" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 18px;">
+            <div class="card-header border-0 mb-3" style="background-color: transparent;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="text-info fw-bold mb-0">
+                        📋 Data Upload History
+                    </h4>
+                    <a href="{% url 'data_ingestion:upload_data' %}" class="btn btn-primary">
+                        ➕ New Upload
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if uploads %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>File</th>
+                                <th>Status</th>
+                                <th>Uploaded</th>
+                                <th>Processed</th>
+                                <th>Failed</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for upload in uploads %}
+                            <tr>
+                                <td>{{ upload.file.name }}</td>
+                                <td>
+                                    <span class="badge 
+                                        {% if upload.status == 'completed' %}bg-success
+                                        {% elif upload.status == 'completed with errors' %}bg-warning
+                                        {% elif upload.status == 'failed' %}bg-danger
+                                        {% elif upload.status == 'processing' %}bg-info
+                                        {% else %}bg-secondary{% endif %}">
+                                        {{ upload.status|title }}
+                                    </span>
+                                </td>
+                                <td>{{ upload.uploaded_at|date:"Y-m-d H:i" }}</td>
+                                <td>{{ upload.rows_processed }}</td>
+                                <td>{{ upload.rows_failed }}</td>
+                                <td>
+                                    <a href="{% url 'data_ingestion:upload_detail' upload.id %}" 
+                                       class="btn btn-sm btn-outline-info">
+                                        Details
+                                    </a>
+                                    {% if upload.error_file %}
+                                    <span class="badge bg-warning ms-1" title="Error report available">
+                                        ⚠️
+                                    </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    No uploads found. <a href="{% url 'data_ingestion:upload_data' %}">Upload a CSV file</a> to get started.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

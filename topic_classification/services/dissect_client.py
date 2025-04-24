@@ -67,7 +67,8 @@ class DissectClient:
     
     def classify_topic(self, question_text: str, available_topics: List[Dict[str, Any]]) -> Dict[str, Any]:
         """
-        Classify a question into a topic using Dissect.
+        Classify a question into a topic using Dissect, strictly using only topics
+        from the predefined java_topics.json list.
 
         Args:
             question_text: The question text to classify
@@ -75,15 +76,43 @@ class DissectClient:
             
         Returns:
             Dictionary with topic ID, confidence, and explanation
+            
+        Raises:
+            ValueError: If no valid topics are available
         """
+        # Load predefined topics
+        import os
+        from django.conf import settings
+        topics_path = os.path.join(settings.BASE_DIR, 'static', 'data', 'java_topics.json')
+        
+        try:
+            with open(topics_path, 'r') as f:
+                predefined_topics = json.load(f)
+        except Exception as e:
+            logger.error(f"Failed to load topics file: {str(e)}")
+            raise ValueError("Could not load predefined topics list")
+            
+        # Filter available_topics to only include predefined ones
+        predefined_names = {t['name'].lower() for t in predefined_topics}
+        filtered_topics = [
+            t for t in available_topics 
+            if t['name'].lower() in predefined_names
+        ]
+        
+        if not filtered_topics:
+            raise ValueError("No valid topics available from predefined list")
+            
         # Format topics for the prompt
         topic_text = "\n".join([
             f"ID: {topic['id']}, Name: {topic['name']}, Description: {topic.get('description', '')}"
-            for topic in available_topics
+            for topic in filtered_topics
         ])
         
         messages = [
-            {"role": "system", "content": "You are an expert in Java programming and educational content classification."},
+            {"role": "system", "content": """You are an expert in Java programming classification. 
+You MUST ONLY use topics from the provided list below. 
+Never suggest new topics or topics outside this list. 
+If unsure, choose the most general matching topic."""},
             {"role": "user", "content": f"""
 Classify the following Java programming question into the most appropriate topic.
 

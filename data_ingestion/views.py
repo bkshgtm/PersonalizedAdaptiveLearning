@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
@@ -89,7 +90,8 @@ def upload_detail(request, upload_id):
     
     return render(request, 'data_ingestion/upload_detail.html', {
         'upload': upload,
-        'logs': logs
+        'logs': logs,
+        'has_error_file': bool(upload.error_file)
     })
 
 
@@ -312,6 +314,22 @@ def document_detail(request, document_id):
         'questions': questions,
         'logs': logs
     })
+
+
+@login_required
+def download_error_report(request, upload_id):
+    """
+    View to download the error report for a data upload.
+    """
+    upload = get_object_or_404(DataUpload, pk=upload_id, uploaded_by=request.user)
+    
+    if not upload.error_file:
+        messages.error(request, "No error report available for this upload.")
+        return redirect('upload_detail', upload_id=upload_id)
+    
+    response = HttpResponse(upload.error_file, content_type='text/csv')
+    response['Content-Disposition'] = f'attachment; filename="{upload.error_file.name}"'
+    return response
 
 
 @require_POST

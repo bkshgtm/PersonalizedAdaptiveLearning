@@ -17,7 +17,7 @@ class InteractionSequenceDataset(Dataset):
     Dataset for student interaction sequences.
     """
     
-    def __init__(self, interactions: List[Dict], topic_dict: Dict[int, int], max_seq_len: int = 200):
+    def __init__(self, interactions: List[Dict], topic_dict: Dict[int, int], max_seq_len: int = 64):
         """
         Initialize the dataset.
         
@@ -43,7 +43,9 @@ class InteractionSequenceDataset(Dataset):
         """
         sequences = {}
         
-        for interaction in self.interactions:
+        logger.debug(f"Processing {len(self.interactions)} interactions")
+        
+        for i, interaction in enumerate(self.interactions):
             student_id = interaction['student_id']
             topic_id = interaction['topic_id']
             
@@ -53,6 +55,12 @@ class InteractionSequenceDataset(Dataset):
                     'correctness': [],
                     'timestamps': []
                 }
+                logger.debug(f"New student sequence: {student_id}")
+            
+            # Validate interaction data
+            if not all(k in interaction for k in ['student_id', 'topic_id', 'correct', 'timestamp']):
+                logger.error(f"Invalid interaction at index {i}: {interaction}")
+                continue
             
             # Map topic ID to index
             topic_idx = self.topic_dict.get(topic_id, 0)  # Default to 0 if topic not found
@@ -82,47 +90,139 @@ class InteractionSequenceDataset(Dataset):
     def __len__(self):
         return len(self.student_sequences)
     
+    def _empty_sequence(self):
+        """
+        Return an empty sequence for error cases
+        """
+        return {
+            'input_ids': torch.LongTensor([]),
+            'target_ids': torch.LongTensor([]),
+            'labels': torch.FloatTensor([]),
+            'seq_len': 0
+        }
+        
     def __getitem__(self, idx):
         """
-        Get a student sequence with padding for consistent batch sizes.
+        Get a student sequence (without padding)
         
         Args:
             idx: Index of the student sequence
         
         Returns:
-            Dictionary with padded sequences and attention mask
+            Dictionary with raw sequences
         """
         seq = self.student_sequences[idx]
         topic_ids = seq['topic_ids']
         correctness = seq['correctness']
+        
+        # Validate sequence
+        if len(topic_ids) != len(correctness):
+            logger.error(f"Sequence {idx} has mismatched lengths: {len(topic_ids)} topics vs {len(correctness)} correctness")
+            return self._empty_sequence()
         
         # Truncate if longer than max length
         if len(topic_ids) > self.max_seq_len:
             topic_ids = topic_ids[-self.max_seq_len:]
             correctness = correctness[-self.max_seq_len:]
         
-        seq_len = len(topic_ids)
-        
-        # Create input sequences
-        input_ids = topic_ids[:-1]  # All but last
-        target_ids = topic_ids[1:]   # All but first
-        labels = correctness[1:]     # All but first
-        
-        # Create padding
-        pad_len = self.max_seq_len - 1 - len(input_ids)
-        attention_mask = [1] * len(input_ids) + [0] * pad_len
-        
-        # Pad sequences
-        input_ids = input_ids + [0] * pad_len
-        target_ids = target_ids + [0] * pad_len
-        labels = labels + [0.0] * pad_len
+        # Validate sequence length
+        if len(topic_ids) < 2:
+            logger.warning(f"Sequence too short ({len(topic_ids)}), skipping")
+            return self._empty_sequence()
+        if len(topic_ids) > self.max_seq_len:
+            logger.warning(f"Sequence too long ({len(topic_ids)}), truncating to {self.max_seq_len}")
+            
+        # Input is all but last, target is all but first
+        input_ids = topic_ids[:-1]
+        target_ids = topic_ids[1:]
+        labels = correctness[1:]
         
         return {
             'input_ids': torch.LongTensor(input_ids),
             'target_ids': torch.LongTensor(target_ids),
             'labels': torch.FloatTensor(labels),
-            'attention_mask': torch.LongTensor(attention_mask),
-            'seq_len': min(seq_len - 1, self.max_seq_len - 1)
+            'seq_len': len(input_ids)
+        }
+
+    @staticmethod
+    def collate_fn(batch):
+        """
+        Custom collate function to handle variable length sequences
+        with strict size validation and error recovery
+        """
+        # Filter out empty sequences
+        batch = [b for b in batch if b['seq_len'] > 0]
+        
+        if not batch:
+            return None
+            
+        # Validate all sequences have matching lengths
+        for i, b in enumerate(batch):
+            if len(b['input_ids']) != b['seq_len'] or \
+               len(b['target_ids']) != b['seq_len'] or \
+               len(b['labels']) != b['seq_len']:
+                logger.error(f"Sequence {i} has mismatched lengths: "
+                           f"input={len(b['input_ids'])}, "
+                           f"target={len(b['target_ids'])}, "
+                           f"labels={len(b['labels'])}, "
+                           f"expected={b['seq_len']}")
+                continue
+            
+        # Get max sequence length in this batch
+        max_len = max(b['seq_len'] for b in batch)
+        
+        # Pad all sequences to max length
+        padded_batch = []
+        for b in batch:
+            try:
+                pad_len = max_len - b['seq_len']
+                
+                # Validate tensor sizes before padding
+                assert len(b['input_ids']) == b['seq_len']
+                assert len(b['target_ids']) == b['seq_len']
+                assert len(b['labels']) == b['seq_len']
+                
+                padded_input = torch.nn.functional.pad(
+                    b['input_ids'], 
+                    (0, pad_len), 
+                    value=0
+                )
+                padded_target = torch.nn.functional.pad(
+                    b['target_ids'],
+                    (0, pad_len),
+                    value=0
+                )
+                padded_labels = torch.nn.functional.pad(
+                    b['labels'],
+                    (0, pad_len),
+                    value=0.0
+                )
+                attention_mask = torch.cat([
+                    torch.ones(b['seq_len'], dtype=torch.long),
+                    torch.zeros(pad_len, dtype=torch.long)
+                ])
+                
+                padded_batch.append({
+                    'input_ids': padded_input,
+                    'target_ids': padded_target,
+                    'labels': padded_labels,
+                    'attention_mask': attention_mask,
+                    'seq_len': b['seq_len']
+                })
+                
+                logger.debug(f"Padded sequence: original_len={b['seq_len']}, padded_len={max_len}")
+                
+            except Exception as e:
+                logger.error(f"Failed to pad sequence: {str(e)}")
+                continue
+            
+        # Stack all tensors
+        return {
+            'input_ids': torch.stack([b['input_ids'] for b in padded_batch]),
+            'target_ids': torch.stack([b['target_ids'] for b in padded_batch]),
+            'labels': torch.stack([b['labels'] for b in padded_batch]),
+            'attention_mask': torch.stack([b['attention_mask'] for b in padded_batch]),
+            'seq_lens': torch.LongTensor([b['seq_len'] for b in padded_batch])
         }
 
 
@@ -259,17 +359,19 @@ class DataPreparation:
         train_dataset = InteractionSequenceDataset(train_interactions, topic_dict, max_seq_len)
         test_dataset = InteractionSequenceDataset(test_interactions, topic_dict, max_seq_len)
         
-        # Create dataloaders
+        # Create dataloaders with custom collate function
         train_loader = DataLoader(
             train_dataset,
             batch_size=batch_size,
-            shuffle=True
+            shuffle=True,
+            collate_fn=InteractionSequenceDataset.collate_fn
         )
         
         test_loader = DataLoader(
             test_dataset,
             batch_size=batch_size,
-            shuffle=False
+            shuffle=False,
+            collate_fn=InteractionSequenceDataset.collate_fn
         )
         
         return train_loader, test_loader
@@ -292,8 +394,14 @@ class DataPreparation:
         # Get all interactions for the student
         interactions = self.get_interactions(students=[student_id])
         
-        # Create dataset
-        dataset = InteractionSequenceDataset(interactions, topic_dict)
+        # Filter interactions to only include topics in the training set
+        filtered_interactions = [
+            interaction for interaction in interactions
+            if interaction['topic_id'] in topic_dict
+        ]
+        
+        # Create dataset with filtered interactions
+        dataset = InteractionSequenceDataset(filtered_interactions, topic_dict)
         
         # There should be only one student
         if len(dataset) == 0:
