@@ -12,6 +12,7 @@ class DataUpload(models.Model):
     ]
     
     file = models.FileField(upload_to='data_uploads/')
+    error_file = models.FileField(upload_to='error_reports/', null=True, blank=True)
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

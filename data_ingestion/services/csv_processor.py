@@ -6,6 +6,7 @@ from typing import Dict, List, Tuple, Any
 
 from django.db import transaction
 from django.utils import timezone
+from .error_reporter import ErrorReporter
 
 from core.models import (
     Student, Course, Assessment, Question, StudentInteraction
@@ -25,8 +26,10 @@ class CSVProcessor:
         """
         self.data_upload = DataUpload.objects.get(pk=data_upload_id)
         self.errors = []
+        self.failed_rows = []  # Track failed rows with details
         self.records_processed = 0
         self.records_failed = 0
+        self.validation_errors = []  # Track validation errors
         
     def log_message(self, message: str, level: str = 'info') -> None:
         """
@@ -106,8 +109,14 @@ class CSVProcessor:
                             self.update_status('processing')
                     
                     except Exception as e:
-                        self.log_message(f"Error processing row {row_num}: {str(e)}", 'error')
+                        error_msg = f"Row {row_num}: {str(e)}"
+                        self.log_message(error_msg, 'error')
                         self.records_failed += 1
+                        self.failed_rows.append({
+                            'row_number': row_num,
+                            'row_data': row,
+                            'error': str(e)
+                        })
             
             self.log_message(
                 f"Processing completed. {self.records_processed} records processed, "
@@ -116,6 +125,9 @@ class CSVProcessor:
             
             if self.records_failed > 0:
                 status = 'completed with errors'
+                # Generate and save error report
+                reporter = ErrorReporter(self.data_upload)
+                reporter.save_error_report(self.failed_rows)
             else:
                 status = 'completed'
                 

@@ -144,7 +144,8 @@ class SAKTModel(nn.Module):
         
         # Combine input_ids with correctness
         # (topic_id * 2) for incorrect, (topic_id * 2 + 1) for correct
-        input_combined = input_ids * 2 + input_labels
+        # Ensure we use long() to convert to integer type for embedding
+        input_combined = (input_ids * 2 + input_labels.long()).long()
         
         # Embed the inputs
         input_embedded = self.interaction_embedding(input_combined)
@@ -364,6 +365,7 @@ class SAKTTrainer:
             input_ids = batch['input_ids'].to(self.device)
             target_ids = batch['target_ids'].to(self.device)
             labels = batch['labels'].to(self.device)
+            attention_mask = batch['attention_mask'].to(self.device)
             
             # For SAKT, the target_ids are the exercise IDs we want to predict
             # The input_ids are the previous exercises
@@ -372,6 +374,9 @@ class SAKTTrainer:
             # Create input labels (shift labels to right, prepend a 0)
             input_labels = torch.zeros_like(labels)
             input_labels[:, 1:] = labels[:, :-1]
+            
+            # Apply attention mask to labels
+            labels = labels * attention_mask
             
             # Forward pass
             self.optimizer.zero_grad()
@@ -415,10 +420,14 @@ class SAKTTrainer:
                 input_ids = batch['input_ids'].to(self.device)
                 target_ids = batch['target_ids'].to(self.device)
                 labels = batch['labels'].to(self.device)
+                attention_mask = batch['attention_mask'].to(self.device)
                 
                 # Create input labels (shift labels to right, prepend a 0)
                 input_labels = torch.zeros_like(labels)
                 input_labels[:, 1:] = labels[:, :-1]
+                
+                # Apply attention mask to labels
+                labels = labels * attention_mask
                 
                 # Forward pass
                 outputs = self.model(

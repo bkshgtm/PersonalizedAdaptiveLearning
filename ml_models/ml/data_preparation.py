@@ -84,43 +84,45 @@ class InteractionSequenceDataset(Dataset):
     
     def __getitem__(self, idx):
         """
-        Get a student sequence.
+        Get a student sequence with padding for consistent batch sizes.
         
         Args:
             idx: Index of the student sequence
         
         Returns:
-            Dictionary with input_ids, target_ids, and labels
+            Dictionary with padded sequences and attention mask
         """
         seq = self.student_sequences[idx]
-        
-        # Get the data
         topic_ids = seq['topic_ids']
         correctness = seq['correctness']
         
-        # Apply sequence length limitation
+        # Truncate if longer than max length
         if len(topic_ids) > self.max_seq_len:
-            # Use the most recent interactions
             topic_ids = topic_ids[-self.max_seq_len:]
             correctness = correctness[-self.max_seq_len:]
         
         seq_len = len(topic_ids)
         
-        # Create input sequences for next-step prediction
-        input_ids = topic_ids[:-1]  # All but the last item
-        target_ids = topic_ids[1:]   # All but the first item
-        labels = correctness[1:]     # All but the first item
+        # Create input sequences
+        input_ids = topic_ids[:-1]  # All but last
+        target_ids = topic_ids[1:]   # All but first
+        labels = correctness[1:]     # All but first
         
-        # Convert to tensors
-        input_tensor = torch.LongTensor(input_ids)
-        target_tensor = torch.LongTensor(target_ids)
-        label_tensor = torch.FloatTensor(labels)
+        # Create padding
+        pad_len = self.max_seq_len - 1 - len(input_ids)
+        attention_mask = [1] * len(input_ids) + [0] * pad_len
+        
+        # Pad sequences
+        input_ids = input_ids + [0] * pad_len
+        target_ids = target_ids + [0] * pad_len
+        labels = labels + [0.0] * pad_len
         
         return {
-            'input_ids': input_tensor,
-            'target_ids': target_tensor,
-            'labels': label_tensor,
-            'seq_len': seq_len - 1  # Adjusted for the shift
+            'input_ids': torch.LongTensor(input_ids),
+            'target_ids': torch.LongTensor(target_ids),
+            'labels': torch.FloatTensor(labels),
+            'attention_mask': torch.LongTensor(attention_mask),
+            'seq_len': min(seq_len - 1, self.max_seq_len - 1)
         }
 
 
