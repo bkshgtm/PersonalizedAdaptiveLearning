@@ -60,7 +60,7 @@ def test_model_training(model_type='dkt', course_id='CS206'):
             'dropout': 0.2,
             'batch_size': 32,
             'learning_rate': 0.001,
-            'num_epochs': 5  # Reduced for testing
+            'num_epochs': 20  # Increased for better training
         }
     else:  # sakt
         hyperparameters = {
@@ -69,7 +69,7 @@ def test_model_training(model_type='dkt', course_id='CS206'):
             'dropout': 0.2,
             'batch_size': 32,
             'learning_rate': 0.001,
-            'num_epochs': 5  # Reduced for testing
+            'num_epochs': 20  # Increased for better training
         }
     
     # Create the model record
@@ -233,8 +233,8 @@ def test_model_training(model_type='dkt', course_id='CS206'):
                 # Print predictions for a few topics
                 topics = Topic.objects.filter(id__in=list(topic_predictions.keys()))
                 logger.info(f"All predicted topics: {[t.name for t in topics]}")
-                # Show first 5 alphabetically sorted topics
-                for topic in sorted(topics, key=lambda x: x.name)[:5]:
+                # Show predictions for all topics
+                for topic in sorted(topics, key=lambda x: x.name):
                     pred = topic_predictions.get(topic.id, 0.5)
                     logger.info(f"Topic: {topic.name}, Prediction: {pred:.4f}")
             else:
