@@ -99,34 +99,42 @@ class ResourceSelector:
         learning_style: Optional[str] = None
     ) -> float:
         """
-        Calculate a score for how well a resource matches a student's needs.
+        Score a resource based on how well it matches the student's needs.
         
         Args:
             resource: Resource to score
             proficiency_score: Student's proficiency score (0-1)
             learning_style: Optional learning style preference
-            
+        
         Returns:
             Score value (higher is better match)
         """
         score = 0.0
         
         # Score based on difficulty match
-        if proficiency_score < 0.4 and resource.difficulty == 'beginner':
-            score += 10.0
-        elif 0.4 <= proficiency_score < 0.7 and resource.difficulty == 'intermediate':
-            score += 10.0
-        elif proficiency_score >= 0.7 and resource.difficulty == 'advanced':
-            score += 10.0
-        elif proficiency_score < 0.5 and resource.difficulty != 'advanced':
-            score += 5.0
-        elif proficiency_score >= 0.5 and resource.difficulty != 'beginner':
-            score += 5.0
-        
-        # Score based on learning style match
-        if learning_style and hasattr(resource, 'learning_style'):
-            if resource.learning_style == learning_style:
+        if proficiency_score < 0.4:  # Beginner level
+            if resource.difficulty == 'beginner':
+                score += 10.0
+            elif resource.difficulty == 'intermediate':
+                score += 5.0
+            # Advanced resources get no bonus for beginners
+        elif proficiency_score < 0.7:  # Intermediate level
+            if resource.difficulty == 'intermediate':
+                score += 10.0
+            elif resource.difficulty == 'beginner':
+                score += 7.0
+            elif resource.difficulty == 'advanced':
                 score += 3.0
+        else:  # Advanced level
+            if resource.difficulty == 'advanced':
+                score += 10.0
+            elif resource.difficulty == 'intermediate':
+                score += 7.0
+            # Beginner resources get no bonus for advanced students
+        
+        # Always give some base score to ensure resources are selected
+        # even if they don't match the ideal difficulty
+        score += 1.0
         
         # Score based on resource type (configurable weights)
         type_weights = self.config.get('resource_type_weights', {})

@@ -1,0 +1,5401 @@
+# Comprehensive Java Programming Course Questions
+# Contains realistic questions and student responses for introductory Java course
+
+questions:
+
+# Variables and Data Types (5 questions)
+- question_id: JAVA-VAR-001
+  text: "What is the difference between primitive data types and reference types in Java? Provide examples of each."
+  question_type: short_answer
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "Primitive types (int, boolean, char, double, float, byte, short, long) store actual values directly in memory and are stored on the stack. Reference types (objects, arrays, String) store addresses/references pointing to objects located on the heap. Examples: int x = 5 (primitive), String name = \"John\" (reference)."
+  sample_student_answers:
+  - text: "Primitive types like int, boolean, char store actual values directly in memory on the stack. Reference types like String, arrays, and objects store memory addresses that point to objects on the heap. For example, int x = 5 stores the value 5 directly, while String name = \"John\" stores a reference to a String object containing \"John\"."
+    correct: true
+    score: 1.0
+  - text: "Primitive types store values directly like int, double, boolean. Reference types store addresses to objects like String and arrays. Primitive types are on stack, reference types point to heap objects."
+    correct: true
+    score: 0.8
+  - text: "Primitive types are basic data types that store actual values. Reference types are objects that store references to memory locations. Examples are int for primitive and String for reference."
+    correct: true
+    score: 0.7
+  - text: "Primitive types are simple values like numbers and booleans. Reference types are more complex like objects and arrays."
+    correct: true
+    score: 0.5
+  - text: "Primitive types are faster than reference types because they don't need to look up memory addresses."
+    correct: false
+    score: 0.3
+  - text: "Primitive types are int, float, etc. Reference types are String and other classes."
+    correct: true
+    score: 0.4
+  - text: "Primitive types are built into Java, reference types are user-defined."
+    correct: false
+    score: 0.2
+  - text: "They are different ways to store data in Java."
+    correct: false
+    score: 0.1
+  - text: "I'm not sure about the difference."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts (5 questions)
+- question_id: JAVA-OOP-001
+  text: "What are the four main principles of Object-Oriented Programming? Briefly explain each."
+  question_type: short_answer
+  topic: Object-Oriented Concepts
+  difficulty: 3
+  cognitive_level: comprehension
+  reference_answer: "The four main principles are: 1) Encapsulation - bundling data and methods together and hiding internal details, 2) Inheritance - creating new classes based on existing classes to reuse code, 3) Polymorphism - ability of objects to take multiple forms and respond differently to the same method call, 4) Abstraction - hiding complex implementation details and showing only essential features."
+  sample_student_answers:
+  - text: "1) Encapsulation - bundling data and methods together and hiding implementation details. 2) Inheritance - creating new classes from existing ones to reuse code. 3) Polymorphism - same method name can behave differently for different objects. 4) Abstraction - hiding complexity and showing only what's necessary."
+    correct: true
+    score: 1.0
+  - text: "Encapsulation, Inheritance, Polymorphism, and Abstraction. Encapsulation hides data, inheritance reuses code, polymorphism allows different behaviors, abstraction simplifies complexity."
+    correct: true
+    score: 0.8
+  - text: "The four principles are encapsulation, inheritance, polymorphism, and abstraction."
+    correct: true
+    score: 0.5
+  - text: "Encapsulation - data hiding, Inheritance - code reuse, Polymorphism - multiple forms, Abstraction - hiding details."
+    correct: true
+    score: 0.7
+  - text: "Encapsulation, Inheritance, Polymorphism, Abstraction. These help organize code better."
+    correct: true
+    score: 0.4
+  - text: "Classes, Objects, Methods, Variables"
+    correct: false
+    score: 0.0
+  - text: "Public, Private, Protected, Static"
+    correct: false
+    score: 0.0
+  - text: "I know there's encapsulation and inheritance, but can't remember the others."
+    correct: false
+    score: 0.2
+  - text: "OOP has four principles but I forgot what they are."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-OOP-002
+  text: |
+    What will be the output of this code?
+    ```java
+    public class Student {
+        private String name;
+        
+        public Student(String name) {
+            this.name = name;
+        }
+        
+        public void display() {
+            System.out.println("Student: " + name);
+        }
+    }
+
+    public class Main {
+        public static void main(String[] args) {
+            Student s1 = new Student("Alice");
+            Student s2 = new Student("Bob");
+            s1.display();
+            s2.display();
+        }
+    }
+    ```
+  question_type: code_analysis
+  topic: Object-Oriented Concepts
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    Student: Alice
+    Student: Bob
+  sample_student_answers:
+  - text: |
+      Student: Alice
+      Student: Bob
+    correct: true
+    score: 1.0
+  - text: "Student: Alice\nStudent: Bob"
+    correct: true
+    score: 1.0
+  - text: "First it prints Student: Alice, then Student: Bob"
+    correct: true
+    score: 0.9
+  - text: "Alice and Bob"
+    correct: false
+    score: 0.4
+  - text: |
+      Student: Alice
+      Student: Alice
+    correct: false
+    score: 0.3
+  - text: "It creates two students and prints their names"
+    correct: false
+    score: 0.3
+  - text: "Student: name Student: name"
+    correct: false
+    score: 0.0
+  - text: "The code won't compile"
+    correct: false
+    score: 0.0
+  - text: "I think it prints the student names"
+    correct: false
+    score: 0.2
+  - text: "Not sure about constructors"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-VAR-002
+  text: |
+    What will be the output of the following Java code?
+    ```java
+    int x = 5;
+    int y = x;
+    x = 10;
+    System.out.println("x = " + x + ", y = " + y);
+    ```
+  question_type: code_analysis
+  topic: Variables and Data Types
+  difficulty: 1
+  cognitive_level: application
+  reference_answer: "x = 10, y = 5"
+  sample_student_answers:
+  - text: "x = 10, y = 5"
+    correct: true
+    score: 1.0
+  - text: "x = 10, y = 5 because y gets the value of x when x was 5, then x changes to 10 but y stays 5"
+    correct: true
+    score: 1.0
+  - text: "x = 10, y = 5"
+    correct: true
+    score: 1.0
+  - text: "x = 10, y = 10"
+    correct: false
+    score: 0.0
+  - text: "x = 5, y = 5"
+    correct: false
+    score: 0.0
+  - text: "x = 10, y = 10 because they both reference the same value"
+    correct: false
+    score: 0.0
+  - text: "Both x and y will be 10 since y points to x"
+    correct: false
+    score: 0.0
+  - text: "The output will be x = 10, y = 10"
+    correct: false
+    score: 0.0
+  - text: "I think it's x = 5, y = 10"
+    correct: false
+    score: 0.0
+  - text: "Not sure"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-VAR-003
+  text: "Which of the following is NOT a valid variable declaration in Java?"
+  question_type: mcq
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "int 2count = 5;"
+    correct: true
+  - text: "double price = 19.99;"
+    correct: false
+  - text: "String _name = \"John\";"
+    correct: false
+  - text: "boolean isValid = true;"
+    correct: false
+  reference_answer: "int 2count = 5;"
+  sample_student_answers:
+  - text: "int 2count = 5;"
+    correct: true
+    score: 1.0
+  - text: "double price = 19.99;"
+    correct: false
+    score: 0.0
+  - text: "String _name = \"John\";"
+    correct: false
+    score: 0.0
+  - text: "boolean isValid = true;"
+    correct: false
+    score: 0.0
+  - text: "int 2count = 5;"
+    correct: true
+    score: 1.0
+  - text: "double price = 19.99;"
+    correct: false
+    score: 0.0
+  - text: "String _name = \"John\";"
+    correct: false
+    score: 0.0
+  - text: "boolean isValid = true;"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: "int 2count = 5;"
+    correct: true
+    score: 1.0
+
+- question_id: JAVA-VAR-004
+  text: "Declare and initialize variables to store a student's name, age, GPA, and whether they are enrolled. Use appropriate data types."
+  question_type: coding
+  topic: Variables and Data Types
+  difficulty: 1
+  cognitive_level: application
+  reference_answer: |
+    String name = "John Doe";
+    int age = 20;
+    double gpa = 3.75;
+    boolean isEnrolled = true;
+  sample_student_answers:
+  - text: |
+      String name = "John Doe";
+      int age = 20;
+      double gpa = 3.75;
+      boolean isEnrolled = true;
+    correct: true
+    score: 1.0
+  - text: |
+      String studentName = "Alice Smith";
+      int studentAge = 19;
+      double studentGPA = 3.8;
+      boolean enrolled = true;
+    correct: true
+    score: 1.0
+  - text: |
+      String name = "Bob";
+      int age = 21;
+      float gpa = 3.5f;
+      boolean isEnrolled = false;
+    correct: true
+    score: 0.9
+  - text: |
+      String name = "Mary Johnson";
+      int age = 18;
+      double gpa = 4.0;
+      boolean isEnrolled = true;
+    correct: true
+    score: 1.0
+  - text: |
+      String name = "Tom";
+      int age = 20;
+      int gpa = 3; // Should be double/float
+      boolean isEnrolled = true;
+    correct: false
+    score: 0.7
+  - text: |
+      String name = "Sarah";
+      double age = 19.5; // Age should be int
+      double gpa = 3.9;
+      boolean isEnrolled = true;
+    correct: false
+    score: 0.7
+  - text: |
+      name = "Alex"; // Missing data type
+      age = 22;
+      gpa = 3.2;
+      isEnrolled = true;
+    correct: false
+    score: 0.4
+  - text: |
+      String name;
+      int age;
+      double gpa;
+      boolean isEnrolled;
+    correct: false
+    score: 0.5
+  - text: |
+      String name = John; // Missing quotes
+      int age = 20;
+      double gpa = 3.7;
+      boolean isEnrolled = yes; // Should be true/false
+    correct: false
+    score: 0.3
+  - text: "I'm not sure how to declare variables"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-VAR-005
+  text: "Fill in the blank: To declare a constant value in Java that cannot be changed, you use the _______ keyword."
+  question_type: fill_blank
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: "final"
+  sample_student_answers:
+  - text: "final"
+    correct: true
+    score: 1.0
+  - text: "final"
+    correct: true
+    score: 1.0
+  - text: "FINAL"
+    correct: true
+    score: 1.0
+  - text: "const"
+    correct: false
+    score: 0.0
+  - text: "constant"
+    correct: false
+    score: 0.0
+  - text: "static"
+    correct: false
+    score: 0.0
+  - text: "immutable"
+    correct: false
+    score: 0.0
+  - text: "readonly"
+    correct: false
+    score: 0.0
+  - text: "fixed"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions (5 questions)
+- question_id: JAVA-OP-001
+  text: "What is the difference between the == operator and the .equals() method when comparing strings in Java?"
+  question_type: short_answer
+  topic: Operators and Expressions
+  difficulty: 3
+  cognitive_level: comprehension
+  reference_answer: "The == operator compares memory addresses/references of String objects, while .equals() compares the actual content/characters of the strings. For string content comparison, always use .equals(). The == operator will return false for strings with same content if they are different objects in memory."
+  sample_student_answers:
+  - text: "The == operator compares memory addresses of String objects, while .equals() compares the actual string content. You should use .equals() to compare string values because == only returns true if both variables point to the exact same String object in memory."
+    correct: true
+    score: 1.0
+  - text: "== compares references, .equals() compares content. Use .equals() for strings."
+    correct: true
+    score: 0.8
+  - text: ".equals() checks if the strings have the same characters, == checks if they're the same object in memory."
+    correct: true
+    score: 0.9
+  - text: "== is for comparing addresses, .equals() is for comparing values of strings."
+    correct: true
+    score: 0.7
+  - text: ".equals() is more reliable for string comparison than =="
+    correct: true
+    score: 0.5
+  - text: "== compares strings directly, .equals() is a method call so it's slower"
+    correct: false
+    score: 0.2
+  - text: "They both compare strings but .equals() is the newer way to do it"
+    correct: false
+    score: 0.1
+  - text: "== is for numbers, .equals() is for strings"
+    correct: false
+    score: 0.2
+  - text: "I'm not sure what the difference is"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-OP-002
+  text: |
+    What is the output of the following code?
+    ```java
+    int x = 5;
+    int y = ++x * 2;
+    System.out.println("x = " + x + ", y = " + y);
+    ```
+  question_type: code_analysis
+  topic: Operators and Expressions
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: "x = 6, y = 12"
+  sample_student_answers:
+  - text: "x = 6, y = 12"
+    correct: true
+    score: 1.0
+  - text: "x = 6, y = 12 because ++x increments x first then multiplies by 2"
+    correct: true
+    score: 1.0
+  - text: "x = 6, y = 12"
+    correct: true
+    score: 1.0
+  - text: "x = 5, y = 10"
+    correct: false
+    score: 0.0
+  - text: "x = 6, y = 10"
+    correct: false
+    score: 0.3
+  - text: "x = 5, y = 12"
+    correct: false
+    score: 0.3
+  - text: "x = 6, y = 11"
+    correct: false
+    score: 0.0
+  - text: "The output is x = 5, y = 10 because x++ happens after"
+    correct: false
+    score: 0.0
+  - text: "I think x = 6, y = 11"
+    correct: false
+    score: 0.0
+  - text: "Not sure about pre-increment"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-OP-003
+  text: "Which operator has the highest precedence in Java?"
+  question_type: mcq
+  topic: Operators and Expressions
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "Parentheses ()"
+    correct: true
+  - text: "Multiplication *"
+    correct: false
+  - text: "Assignment ="
+    correct: false
+  - text: "Logical AND &&"
+    correct: false
+  reference_answer: "Parentheses ()"
+  sample_student_answers:
+  - text: "Parentheses ()"
+    correct: true
+    score: 1.0
+  - text: "Multiplication *"
+    correct: false
+    score: 0.0
+  - text: "Assignment ="
+    correct: false
+    score: 0.0
+  - text: "Logical AND &&"
+    correct: false
+    score: 0.0
+  - text: "Parentheses ()"
+    correct: true
+    score: 1.0
+  - text: "Multiplication *"
+    correct: false
+    score: 0.0
+  - text: "Assignment ="
+    correct: false
+    score: 0.0
+  - text: "Logical AND &&"
+    correct: false
+    score: 0.0
+  - text: "Parentheses ()"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-OP-004
+  text: "Write a Java expression to check if a number 'n' is between 10 and 50 (inclusive) and is even."
+  question_type: coding
+  topic: Operators and Expressions
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    boolean result = (n >= 10 && n <= 50 && n % 2 == 0);
+  sample_student_answers:
+  - text: |
+      boolean result = (n >= 10 && n <= 50 && n % 2 == 0);
+    correct: true
+    score: 1.0
+  - text: |
+      boolean isValid = n >= 10 && n <= 50 && n % 2 == 0;
+    correct: true
+    score: 1.0
+  - text: |
+      (n >= 10 && n <= 50 && n % 2 == 0)
+    correct: true
+    score: 0.9
+  - text: |
+      boolean check = (n > 9 && n < 51 && n % 2 == 0);
+    correct: true
+    score: 1.0
+  - text: |
+      boolean result = (n >= 10 && n <= 50) && (n % 2 == 0);
+    correct: true
+    score: 1.0
+  - text: |
+      boolean result = n >= 10 && n <= 50 && n / 2 == 0; // Wrong even check
+    correct: false
+    score: 0.7
+  - text: |
+      boolean result = (n > 10 && n < 50 && n % 2 == 0); // Wrong bounds
+    correct: false
+    score: 0.7
+  - text: |
+      if (n >= 10 && n <= 50 && n % 2 == 0) {
+          return true;
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      boolean result = n >= 10 || n <= 50 || n % 2 == 0; // Wrong logic
+    correct: false
+    score: 0.2
+  - text: "Don't know how to combine conditions"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-OP-005
+  text: "Fill in the blank: The _______ operator is used for integer division that discards the remainder."
+  question_type: fill_blank
+  topic: Operators and Expressions
+  difficulty: 1
+  cognitive_level: knowledge
+  reference_answer: "/"
+  sample_student_answers:
+  - text: "/"
+    correct: true
+    score: 1.0
+  - text: "/"
+    correct: true
+    score: 1.0
+  - text: "division"
+    correct: false
+    score: 0.3
+  - text: "%"
+    correct: false
+    score: 0.0
+  - text: "div"
+    correct: false
+    score: 0.0
+  - text: "//"
+    correct: false
+    score: 0.0
+  - text: "÷"
+    correct: false
+    score: 0.0
+  - text: "slash"
+    correct: false
+    score: 0.2
+  - text: "/"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Control Flow (if/else, switch) (5 questions)
+- question_id: JAVA-CF-001
+  text: "Write a Java if-else statement that prints \"Pass\" if a grade is 60 or above, \"Fail\" if below 60, and \"Invalid\" if the grade is negative or above 100."
+  question_type: coding
+  topic: Control Flow (if/else, switch)
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    if (grade < 0 || grade > 100) {
+        System.out.println("Invalid");
+    } else if (grade >= 60) {
+        System.out.println("Pass");
+    } else {
+        System.out.println("Fail");
+    }
+  sample_student_answers:
+  - text: |
+      if (grade < 0 || grade > 100) {
+          System.out.println("Invalid");
+      } else if (grade >= 60) {
+          System.out.println("Pass");
+      } else {
+          System.out.println("Fail");
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      if (grade >= 60 && grade <= 100) {
+          System.out.println("Pass");
+      } else if (grade >= 0 && grade < 60) {
+          System.out.println("Fail");
+      } else {
+          System.out.println("Invalid");
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      if (grade >= 60) {
+          System.out.println("Pass");
+      } else if (grade < 60 && grade >= 0) {
+          System.out.println("Fail");
+      } else {
+          System.out.println("Invalid");
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      if (grade >= 60) {
+          System.out.println("Pass");
+      } else {
+          System.out.println("Fail");
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      if (grade >= 60) {
+          System.out.println("Pass");
+      } else if (grade < 60) {
+          System.out.println("Fail");
+      } else if (grade < 0 || grade > 100) {
+          System.out.println("Invalid");
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      if (grade > 60) { // Should be >=
+          System.out.println("Pass");
+      } else if (grade < 0 || grade > 100) {
+          System.out.println("Invalid");
+      } else {
+          System.out.println("Fail");
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      if grade >= 60:  // Wrong syntax - using Python
+          print("Pass")
+      else:
+          print("Fail")
+    correct: false
+    score: 0.2
+  - text: |
+      System.out.println(grade >= 60 ? "Pass" : "Fail");
+    correct: false
+    score: 0.4
+  - text: |
+      if (grade = 60) { // Assignment instead of comparison
+          System.out.println("Pass");
+      }
+    correct: false
+    score: 0.1
+  - text: "I don't remember the if-else syntax"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-CF-002
+  text: |
+    What will be the output of this code?
+    ```java
+    int x = 15;
+    if (x > 10) {
+        if (x < 20) {
+            System.out.println("Medium");
+        }
+    } else {
+        System.out.println("Small");
+    }
+    System.out.println("Done");
+    ```
+  question_type: code_analysis
+  topic: Control Flow (if/else, switch)
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    Medium
+    Done
+  sample_student_answers:
+  - text: |
+      Medium
+      Done
+    correct: true
+    score: 1.0
+  - text: "Medium\nDone"
+    correct: true
+    score: 1.0
+  - text: "Medium and Done"
+    correct: true
+    score: 0.8
+  - text: |
+      Small
+      Done
+    correct: false
+    score: 0.0
+  - text: "Medium"
+    correct: false
+    score: 0.5
+  - text: "Done"
+    correct: false
+    score: 0.2
+  - text: |
+      Small
+      Medium
+      Done
+    correct: false
+    score: 0.0
+  - text: "Nothing will be printed"
+    correct: false
+    score: 0.0
+  - text: "I think it prints Medium"
+    correct: false
+    score: 0.4
+  - text: "Not sure about nested if statements"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-CF-003
+  text: "Which of the following is the correct syntax for a switch statement in Java?"
+  question_type: mcq
+  topic: Control Flow (if/else, switch)
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: |
+      switch (variable) {
+          case value1:
+              // code
+              break;
+          default:
+              // code
+      }
+    correct: true
+  - text: |
+      switch variable {
+          case value1:
+              // code
+              break;
+      }
+    correct: false
+  - text: |
+      switch (variable) {
+          when value1:
+              // code
+              break;
+      }
+    correct: false
+  - text: |
+      switch variable:
+          case value1:
+              // code
+      }
+    correct: false
+  reference_answer: |
+    switch (variable) {
+        case value1:
+            // code
+            break;
+        default:
+            // code
+    }
+  sample_student_answers:
+  - text: |
+      switch (variable) {
+          case value1:
+              // code
+              break;
+          default:
+              // code
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      switch variable {
+          case value1:
+              // code
+              break;
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      switch (variable) {
+          when value1:
+              // code
+              break;
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      switch variable:
+          case value1:
+              // code
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      switch (variable) {
+          case value1:
+              // code
+              break;
+          default:
+              // code
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      switch variable {
+          case value1:
+              // code
+              break;
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      switch (variable) {
+          when value1:
+              // code
+              break;
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      switch variable:
+          case value1:
+              // code
+      }
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: |
+      switch (variable) {
+          case value1:
+              // code
+              break;
+          default:
+              // code
+      }
+    correct: true
+    score: 1.0
+
+- question_id: JAVA-CF-004
+  text: "Write a switch statement that prints the day of the week based on an integer (1=Monday, 2=Tuesday, etc.)."
+  question_type: coding
+  topic: Control Flow (if/else, switch)
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    switch (day) {
+        case 1:
+            System.out.println("Monday");
+            break;
+        case 2:
+            System.out.println("Tuesday");
+            break;
+        case 3:
+            System.out.println("Wednesday");
+            break;
+        case 4:
+            System.out.println("Thursday");
+            break;
+        case 5:
+            System.out.println("Friday");
+            break;
+        case 6:
+            System.out.println("Saturday");
+            break;
+        case 7:
+            System.out.println("Sunday");
+            break;
+        default:
+            System.out.println("Invalid day");
+    }
+  sample_student_answers:
+  - text: |
+      switch (day) {
+          case 1:
+              System.out.println("Monday");
+              break;
+          case 2:
+              System.out.println("Tuesday");
+              break;
+          case 3:
+              System.out.println("Wednesday");
+              break;
+          case 4:
+              System.out.println("Thursday");
+              break;
+          case 5:
+              System.out.println("Friday");
+              break;
+          case 6:
+              System.out.println("Saturday");
+              break;
+          case 7:
+              System.out.println("Sunday");
+              break;
+          default:
+              System.out.println("Invalid day");
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      switch (day) {
+          case 1: System.out.println("Monday"); break;
+          case 2: System.out.println("Tuesday"); break;
+          case 3: System.out.println("Wednesday"); break;
+          case 4: System.out.println("Thursday"); break;
+          case 5: System.out.println("Friday"); break;
+          case 6: System.out.println("Saturday"); break;
+          case 7: System.out.println("Sunday"); break;
+          default: System.out.println("Invalid day");
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      switch (day) {
+          case 1:
+              System.out.println("Monday");
+              break;
+          case 2:
+              System.out.println("Tuesday");
+              break;
+          case 3:
+              System.out.println("Wednesday");
+              break;
+          case 4:
+              System.out.println("Thursday");
+              break;
+          case 5:
+              System.out.println("Friday");
+              break;
+          case 6:
+              System.out.println("Saturday");
+              break;
+          case 7:
+              System.out.println("Sunday");
+              break;
+      }
+    correct: false
+    score: 0.9
+  - text: |
+      switch (day) {
+          case 1:
+              System.out.println("Monday");
+          case 2:
+              System.out.println("Tuesday");
+          case 3:
+              System.out.println("Wednesday");
+          case 4:
+              System.out.println("Thursday");
+          case 5:
+              System.out.println("Friday");
+          case 6:
+              System.out.println("Saturday");
+          case 7:
+              System.out.println("Sunday");
+          default:
+              System.out.println("Invalid day");
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      switch day {
+          case 1:
+              System.out.println("Monday");
+              break;
+          case 2:
+              System.out.println("Tuesday");
+              break;
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      switch (day) {
+          case "1":
+              System.out.println("Monday");
+              break;
+          case "2":
+              System.out.println("Tuesday");
+              break;
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      if (day == 1) {
+          System.out.println("Monday");
+      } else if (day == 2) {
+          System.out.println("Tuesday");
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      switch (day) {
+          case 1:
+              print("Monday");
+              break;
+      }
+    correct: false
+    score: 0.4
+  - text: "I forgot the switch syntax"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-CF-005
+  text: "Fill in the blank: In a switch statement, the _______ keyword is used to exit a case and prevent fall-through."
+  question_type: fill_blank
+  topic: Control Flow (if/else, switch)
+  difficulty: 1
+  cognitive_level: knowledge
+  reference_answer: "break"
+  sample_student_answers:
+  - text: "break"
+    correct: true
+    score: 1.0
+  - text: "break"
+    correct: true
+    score: 1.0
+  - text: "BREAK"
+    correct: true
+    score: 1.0
+  - text: "exit"
+    correct: false
+    score: 0.0
+  - text: "stop"
+    correct: false
+    score: 0.0
+  - text: "return"
+    correct: false
+    score: 0.0
+  - text: "end"
+    correct: false
+    score: 0.0
+  - text: "continue"
+    correct: false
+    score: 0.0
+  - text: "break"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Loops and Control Structures (5 questions)
+- question_id: JAVA-LOOPS-001
+  text: "Write a Java for loop that prints all even numbers from 2 to 20."
+  question_type: coding
+  topic: Loops and Control Structures
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    for (int i = 2; i <= 20; i += 2) {
+        System.out.println(i);
+    }
+  test_cases:
+  - input: "N/A"
+    expected_output: "2\n4\n6\n8\n10\n12\n14\n16\n18\n20\n"
+  sample_student_answers:
+  - text: |
+      for (int i = 2; i <= 20; i += 2) {
+          System.out.println(i);
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      for (int i = 2; i <= 20; i = i + 2) {
+          System.out.println(i);
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      for (int i = 1; i <= 20; i++) {
+          if (i % 2 == 0) {
+              System.out.println(i);
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      for (int i = 0; i <= 20; i += 2) {
+          if (i > 0) {
+              System.out.println(i);
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      for (int i = 2; i < 21; i += 2) {
+          System.out.println(i);
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      for (int i = 2; i <= 20; i++) {
+          if (i % 2 == 0) {
+              System.out.println(i);
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      for (int i = 2; i <= 20; i += 2) {
+          System.out.print(i + " ");
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      for (int i = 2; i <= 20; i + 2) { // Missing assignment
+          System.out.println(i);
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      for (int i = 2; i <= 20; i += 2) {
+          System.out.println(i);
+      // Missing closing brace
+    correct: false
+    score: 0.4
+  - text: "I don't know how to write loops"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-LOOPS-002
+  text: |
+    What will be the output of this code?
+    ```java
+    int sum = 0;
+    for (int i = 1; i <= 3; i++) {
+        sum += i;
+    }
+    System.out.println(sum);
+    ```
+  question_type: code_analysis
+  topic: Loops and Control Structures
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: "6"
+  sample_student_answers:
+  - text: "6"
+    correct: true
+    score: 1.0
+  - text: "6 (1+2+3=6)"
+    correct: true
+    score: 1.0
+  - text: "The sum is 6"
+    correct: true
+    score: 1.0
+  - text: "3"
+    correct: false
+    score: 0.0
+  - text: "0"
+    correct: false
+    score: 0.0
+  - text: "123"
+    correct: false
+    score: 0.0
+  - text: "1 2 3"
+    correct: false
+    score: 0.0
+  - text: "It will print 1, then 2, then 3"
+    correct: false
+    score: 0.0
+  - text: "I think it's 9"
+    correct: false
+    score: 0.0
+  - text: "Not sure how the loop works"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-LOOPS-003
+  text: "Which loop is guaranteed to execute at least once?"
+  question_type: mcq
+  topic: Loops and Control Structures
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "do-while loop"
+    correct: true
+  - text: "for loop"
+    correct: false
+  - text: "while loop"
+    correct: false
+  - text: "enhanced for loop"
+    correct: false
+  reference_answer: "do-while loop"
+  sample_student_answers:
+  - text: "do-while loop"
+    correct: true
+    score: 1.0
+  - text: "for loop"
+    correct: false
+    score: 0.0
+  - text: "while loop"
+    correct: false
+    score: 0.0
+  - text: "enhanced for loop"
+    correct: false
+    score: 0.0
+  - text: "do-while loop"
+    correct: true
+    score: 1.0
+  - text: "for loop"
+    correct: false
+    score: 0.0
+  - text: "while loop"
+    correct: false
+    score: 0.0
+  - text: "enhanced for loop"
+    correct: false
+    score: 0.0
+  - text: "do-while loop"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-LOOPS-004
+  text: "Write a while loop that counts down from 10 to 1 and prints each number."
+  question_type: coding
+  topic: Loops and Control Structures
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    int count = 10;
+    while (count >= 1) {
+        System.out.println(count);
+        count--;
+    }
+  sample_student_answers:
+  - text: |
+      int count = 10;
+      while (count >= 1) {
+          System.out.println(count);
+          count--;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      int i = 10;
+      while (i > 0) {
+          System.out.println(i);
+          i--;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      int num = 10;
+      while (num >= 1) {
+          System.out.println(num);
+          num = num - 1;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      int count = 10;
+      while (count > 0) {
+          System.out.println(count);
+          count--;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      int count = 10;
+      while (count <= 1) { // Wrong condition
+          System.out.println(count);
+          count--;
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      int count = 10;
+      while (count >= 1) {
+          System.out.println(count);
+          count++; // Wrong increment
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      int count = 10;
+      while (count >= 1) {
+          System.out.println(count);
+          // Missing decrement - infinite loop
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      while (10 >= 1) { // No variable
+          System.out.println(10);
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      for (int i = 10; i >= 1; i--) {
+          System.out.println(i);
+      }
+    correct: false
+    score: 0.6
+  - text: "Don't know while loop syntax"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-LOOPS-005
+  text: "Fill in the blank: The _______ statement is used to skip the current iteration of a loop and continue with the next iteration."
+  question_type: fill_blank
+  topic: Loops and Control Structures
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: "continue"
+  sample_student_answers:
+  - text: "continue"
+    correct: true
+    score: 1.0
+  - text: "continue"
+    correct: true
+    score: 1.0
+  - text: "CONTINUE"
+    correct: true
+    score: 1.0
+  - text: "break"
+    correct: false
+    score: 0.0
+  - text: "skip"
+    correct: false
+    score: 0.0
+  - text: "next"
+    correct: false
+    score: 0.0
+  - text: "pass"
+    correct: false
+    score: 0.0
+  - text: "jump"
+    correct: false
+    score: 0.0
+  - text: "continue"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Methods and Parameters (5 questions)
+- question_id: JAVA-METHODS-001
+  text: "Write a Java method named 'calculateArea' that takes two double parameters (length and width) and returns the area of a rectangle."
+  question_type: coding
+  topic: Methods and Parameters
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    public static double calculateArea(double length, double width) {
+        return length * width;
+    }
+  sample_student_answers:
+  - text: |
+      public static double calculateArea(double length, double width) {
+          return length * width;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public static double calculateArea(double length, double width) {
+          double area = length * width;
+          return area;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public double calculateArea(double length, double width) {
+          return length * width;
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      static double calculateArea(double length, double width) {
+          return length * width;
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public static double calculateArea(double l, double w) {
+          return l * w;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public static void calculateArea(double length, double width) {
+          System.out.println(length * width);
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      public static double calculateArea(int length, int width) {
+          return length * width;
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      public static calculateArea(double length, double width) {
+          return length * width;
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      public static double calculateArea(double length, double width) {
+          length * width;
+      }
+    correct: false
+    score: 0.4
+  - text: "I don't know method syntax"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-METHODS-002
+  text: "What is the difference between parameters and arguments in Java methods?"
+  question_type: short_answer
+  topic: Methods and Parameters
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "Parameters are the variables defined in the method signature/declaration that specify what data the method expects to receive. Arguments are the actual values passed to the method when it is called. Parameters act as placeholders, while arguments are the concrete values."
+  sample_student_answers:
+  - text: "Parameters are the variables defined in the method declaration that specify what the method expects. Arguments are the actual values passed to the method when calling it. Parameters are placeholders, arguments are the real values."
+    correct: true
+    score: 1.0
+  - text: "Parameters are in the method definition, arguments are what you pass when calling the method."
+    correct: true
+    score: 0.8
+  - text: "Parameters are the variables in method signature, arguments are the values you pass in."
+    correct: true
+    score: 0.7
+  - text: "Parameters define what the method needs, arguments are what you actually give it."
+    correct: true
+    score: 0.6
+  - text: "Parameters and arguments are the same thing, just different names."
+    correct: false
+    score: 0.0
+  - text: "Parameters are used inside the method, arguments are used outside."
+    correct: false
+    score: 0.2
+  - text: "Arguments are more important than parameters."
+    correct: false
+    score: 0.0
+  - text: "Parameters are formal, arguments are actual."
+    correct: true
+    score: 0.5
+  - text: "I'm not sure what the difference is."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-METHODS-003
+  text: |
+    What will be the output of this code?
+    ```java
+    public static void main(String[] args) {
+        int x = 5;
+        changeValue(x);
+        System.out.println(x);
+    }
+
+    public static void changeValue(int num) {
+        num = 10;
+    }
+    ```
+  question_type: code_analysis
+  topic: Methods and Parameters
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "5"
+  sample_student_answers:
+  - text: "5"
+    correct: true
+    score: 1.0
+  - text: "5 because Java passes by value for primitives"
+    correct: true
+    score: 1.0
+  - text: "The output is 5 because the original variable x is not changed"
+    correct: true
+    score: 1.0
+  - text: "10"
+    correct: false
+    score: 0.0
+  - text: "The value changes to 10"
+    correct: false
+    score: 0.0
+  - text: "x becomes 10 after the method call"
+    correct: false
+    score: 0.0
+  - text: "5, because the method only changes a copy"
+    correct: true
+    score: 1.0
+  - text: "It will print 10 because the method changes the value"
+    correct: false
+    score: 0.0
+  - text: "I think it's 10"
+    correct: false
+    score: 0.0
+  - text: "Not sure about pass by value"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-METHODS-004
+  text: "Which keyword is used to return a value from a method?"
+  question_type: mcq
+  topic: Methods and Parameters
+  difficulty: 1
+  cognitive_level: knowledge
+  options:
+  - text: "return"
+    correct: true
+  - text: "give"
+    correct: false
+  - text: "send"
+    correct: false
+  - text: "output"
+    correct: false
+  reference_answer: "return"
+  sample_student_answers:
+  - text: "return"
+    correct: true
+    score: 1.0
+  - text: "give"
+    correct: false
+    score: 0.0
+  - text: "send"
+    correct: false
+    score: 0.0
+  - text: "output"
+    correct: false
+    score: 0.0
+  - text: "return"
+    correct: true
+    score: 1.0
+  - text: "give"
+    correct: false
+    score: 0.0
+  - text: "send"
+    correct: false
+    score: 0.0
+  - text: "output"
+    correct: false
+    score: 0.0
+  - text: "return"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-METHODS-005
+  text: "Fill in the blank: The _______ keyword indicates that a method belongs to the class rather than to any instance of the class."
+  question_type: fill_blank
+  topic: Methods and Parameters
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: "static"
+  sample_student_answers:
+  - text: "static"
+    correct: true
+    score: 1.0
+  - text: "static"
+    correct: true
+    score: 1.0
+  - text: "STATIC"
+    correct: true
+    score: 1.0
+  - text: "class"
+    correct: false
+    score: 0.0
+  - text: "public"
+    correct: false
+    score: 0.0
+  - text: "final"
+    correct: false
+    score: 0.0
+  - text: "void"
+    correct: false
+    score: 0.0
+  - text: "global"
+    correct: false
+    score: 0.0
+  - text: "static"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Arrays and ArrayLists (5 questions)
+- question_id: JAVA-ARRAYS-001
+  text: "Write Java code to declare an integer array of size 5 and initialize it with values 10, 20, 30, 40, 50."
+  question_type: coding
+  topic: Arrays and ArrayLists
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    int[] numbers = {10, 20, 30, 40, 50};
+    // OR
+    int[] numbers = new int[]{10, 20, 30, 40, 50};
+    // OR
+    int[] numbers = new int[5];
+    numbers[0] = 10;
+    numbers[1] = 20;
+    numbers[2] = 30;
+    numbers[3] = 40;
+    numbers[4] = 50;
+  sample_student_answers:
+  - text: |
+      int[] numbers = {10, 20, 30, 40, 50};
+    correct: true
+    score: 1.0
+  - text: |
+      int[] numbers = new int[]{10, 20, 30, 40, 50};
+    correct: true
+    score: 1.0
+  - text: |
+      int[] numbers = new int[5];
+      numbers[0] = 10;
+      numbers[1] = 20;
+      numbers[2] = 30;
+      numbers[3] = 40;
+      numbers[4] = 50;
+    correct: true
+    score: 1.0
+  - text: |
+      int numbers[] = {10, 20, 30, 40, 50};
+    correct: true
+    score: 1.0
+  - text: |
+      int[] numbers = new int[5];
+      for (int i = 0; i < 5; i++) {
+          numbers[i] = (i + 1) * 10;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      int[] numbers = new int[5]{10, 20, 30, 40, 50}; // Wrong syntax
+    correct: false
+    score: 0.4
+  - text: |
+      int numbers = {10, 20, 30, 40, 50}; // Missing []
+    correct: false
+    score: 0.3
+  - text: |
+      int[] numbers = [10, 20, 30, 40, 50]; // Wrong syntax
+    correct: false
+    score: 0.3
+  - text: |
+      int[] numbers = new int[5];
+      numbers = {10, 20, 30, 40, 50}; // Wrong assignment
+    correct: false
+    score: 0.4
+  - text: "I don't know array syntax"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-ARRAYS-002
+  text: "What is the main difference between arrays and ArrayLists in Java?"
+  question_type: short_answer
+  topic: Arrays and ArrayLists
+  difficulty: 3
+  cognitive_level: comprehension
+  reference_answer: "Arrays have fixed size that must be specified at creation time and cannot be changed. ArrayLists have dynamic size that can grow and shrink during runtime. Arrays can store primitives directly, while ArrayLists can only store objects (using wrapper classes for primitives). Arrays use [] syntax for access, ArrayLists use methods like get() and set()."
+  sample_student_answers:
+  - text: "Arrays have fixed size that cannot be changed after creation, while ArrayLists can dynamically resize. Arrays can store primitives directly, ArrayLists store objects only. Arrays use bracket notation, ArrayLists use methods like get() and add()."
+    correct: true
+    score: 1.0
+  - text: "Arrays are fixed size, ArrayLists can change size. Arrays are faster, ArrayLists are more flexible."
+    correct: true
+    score: 0.8
+  - text: "Arrays cannot be resized, ArrayLists can grow and shrink as needed."
+    correct: true
+    score: 0.7
+  - text: "ArrayLists are better than arrays because they can change size."
+    correct: true
+    score: 0.5
+  - text: "Arrays use [], ArrayLists use methods."
+    correct: true
+    score: 0.4
+  - text: "Arrays are older, ArrayLists are newer."
+    correct: false
+    score: 0.1
+  - text: "ArrayLists are just better arrays."
+    correct: false
+    score: 0.2
+  - text: "Arrays are for numbers, ArrayLists are for objects."
+    correct: false
+    score: 0.2
+  - text: "I'm not sure of the difference."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-ARRAYS-003
+  text: |
+    What will be the output of this code?
+    ```java
+    int[] arr = {5, 10, 15, 20};
+    System.out.println(arr[2]);
+    System.out.println(arr.length);
+    ```
+  question_type: code_analysis
+  topic: Arrays and ArrayLists
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    15
+    4
+  sample_student_answers:
+  - text: |
+      15
+      4
+    correct: true
+    score: 1.0
+  - text: "15 and 4"
+    correct: true
+    score: 0.9
+  - text: "First 15, then 4"
+    correct: true
+    score: 0.9
+  - text: |
+      10
+      4
+    correct: false
+    score: 0.2
+  - text: |
+      20
+      4
+    correct: false
+    score: 0.2
+  - text: |
+      15
+      5
+    correct: false
+    score: 0.3
+  - text: "15 because that's the third element"
+    correct: false
+    score: 0.4
+  - text: "I think it's 15 and 3"
+    correct: false
+    score: 0.3
+  - text: "Array index starts at 0 so arr[2] is 15"
+    correct: false
+    score: 0.4
+  - text: "Not sure about array indexing"
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-ARRAYS-004
+  text: "Which method is used to add an element to an ArrayList?"
+  question_type: mcq
+  topic: Arrays and ArrayLists
+  difficulty: 1
+  cognitive_level: knowledge
+  options:
+  - text: "add()"
+    correct: true
+  - text: "insert()"
+    correct: false
+  - text: "append()"
+    correct: false
+  - text: "put()"
+    correct: false
+  reference_answer: "add()"
+  sample_student_answers:
+  - text: "add()"
+    correct: true
+    score: 1.0
+  - text: "insert()"
+    correct: false
+    score: 0.0
+  - text: "append()"
+    correct: false
+    score: 0.0
+  - text: "put()"
+    correct: false
+    score: 0.0
+  - text: "add()"
+    correct: true
+    score: 1.0
+  - text: "insert()"
+    correct: false
+    score: 0.0
+  - text: "append()"
+    correct: false
+    score: 0.0
+  - text: "put()"
+    correct: false
+    score: 0.0
+  - text: "add()"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+- question_id: JAVA-ARRAYS-005
+  text: "Fill in the blank: To access the third element of an array named 'data', you would use _______."
+  question_type: fill_blank
+  topic: Arrays and ArrayLists
+  difficulty: 1
+  cognitive_level: application
+  reference_answer: "data[2]"
+  sample_student_answers:
+  - text: "data[2]"
+    correct: true
+    score: 1.0
+  - text: "data[2]"
+    correct: true
+    score: 1.0
+  - text: "data[3]"
+    correct: false
+    score: 0.0
+  - text: "data(2)"
+    correct: false
+    score: 0.0
+  - text: "data.get(2)"
+    correct: false
+    score: 0.0
+  - text: "data[1]"
+    correct: false
+    score: 0.0
+  - text: "data{2}"
+    correct: false
+    score: 0.0
+  - text: "data[2]"
+    correct: true
+    score: 1.0
+  - text: "data[third]"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Arrays and ArrayLists - Question 5
+- question_id: JAVA-ARRAYS-006
+  text: "Write a Java method that finds and returns the largest element in an integer array."
+  question_type: coding
+  topic: Arrays and ArrayLists
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    public static int findLargest(int[] arr) {
+        if (arr.length == 0) {
+            throw new IllegalArgumentException("Array cannot be empty");
+        }
+        int largest = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > largest) {
+                largest = arr[i];
+            }
+        }
+        return largest;
+    }
+  test_cases:
+  - input: "[5, 2, 8, 1, 9]"
+    expected_output: "9"
+  - input: "[-3, -1, -5, -2]"
+    expected_output: "-1"
+  sample_student_answers:
+  - text: |
+      public static int findLargest(int[] arr) {
+          int largest = arr[0];
+          for (int i = 1; i < arr.length; i++) {
+              if (arr[i] > largest) {
+                  largest = arr[i];
+              }
+          }
+          return largest;
+      }
+    correct: true
+    score: 0.95
+  - text: |
+      public static int findLargest(int[] arr) {
+          int max = 0;  // Wrong initialization
+          for (int i = 0; i < arr.length; i++) {
+              if (arr[i] > max) {
+                  max = arr[i];
+              }
+          }
+          return max;
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      public static int findLargest(int[] arr) {
+          int biggest = arr[0];
+          for (int num : arr) {
+              if (num > biggest) {
+                  biggest = num;
+              }
+          }
+          return biggest;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public static int findLargest(int[] arr) {
+          Arrays.sort(arr);
+          return arr[arr.length - 1];
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public static int findLargest(int[] arr) {
+          int largest = arr[0];
+          for (int i = 0; i <= arr.length; i++) {  // Off-by-one error
+              if (arr[i] > largest) {
+                  largest = arr[i];
+              }
+          }
+          return largest;
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public static int findLargest(int[] arr) {
+          int large = arr[1];  // Wrong starting index
+          for (int i = 0; i < arr.length; i++) {
+              if (arr[i] > large) {
+                  large = arr[i];
+              }
+          }
+          return large;
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      public static int findLargest(int[] arr) {
+          return Math.max(arr);  // Incorrect method usage
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public static int findLargest(int[] arr) {
+          // I know I need to loop but not sure how
+          for (int i = 0; i < arr.length; i++) {
+              // Something with arr[i]
+          }
+      }
+    correct: false
+    score: 0.1
+  - text: |
+      public static int findLargest(int[] arr) {
+          return arr.max();  // Wrong syntax
+      }
+    correct: false
+    score: 0.1
+  - text: "I don't understand how to compare array elements."
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts - Question 1
+- question_id: JAVA-OOP-001
+  text: "What are the four main principles of Object-Oriented Programming?"
+  question_type: short_answer
+  topic: Object-Oriented Concepts
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: "The four main principles of Object-Oriented Programming are: 1) Encapsulation - bundling data and methods together and controlling access, 2) Inheritance - creating new classes based on existing ones, 3) Polymorphism - objects of different types responding to the same interface, 4) Abstraction - hiding complex implementation details while showing only essential features."
+  sample_student_answers:
+  - text: "Encapsulation, Inheritance, Polymorphism, and Abstraction. Encapsulation means bundling data and methods together. Inheritance allows creating new classes from existing ones. Polymorphism lets different objects respond to the same method calls. Abstraction hides implementation details."
+    correct: true
+    score: 1.0
+  - text: "Encapsulation, Inheritance, Polymorphism, Abstraction"
+    correct: true
+    score: 0.6
+  - text: "Encapsulation - data hiding, Inheritance - reusing code, Polymorphism - many forms, Abstraction - simplifying complex things"
+    correct: true
+    score: 0.85
+  - text: "Inheritance, Polymorphism, Encapsulation, and something else I forgot"
+    correct: false
+    score: 0.4
+  - text: "Classes, Objects, Methods, and Variables"
+    correct: false
+    score: 0.1
+  - text: "Encapsulation and Inheritance are two of them, but I can't remember the others"
+    correct: false
+    score: 0.3
+  - text: "OOP has principles about organizing code but I'm not sure what they're called"
+    correct: false
+    score: 0.1
+  - text: "Polymorphism means many forms, Inheritance means extending classes"
+    correct: false
+    score: 0.3
+  - text: "I know there are four but I can't remember them"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts - Question 2
+- question_id: JAVA-OOP-002
+  text: "What is the output of the following code?
+
+
+    ```java
+
+    public class Test {
+
+    \    private int value = 10;
+
+    \   \ 
+
+    \    public void setValue(int value) {
+
+    \        value = value;
+
+    \    }
+
+    \   \ 
+
+    \    public int getValue() {
+
+    \        return value;
+
+    \    }
+
+    \   \ 
+
+    \    public static void main(String[] args) {
+
+    \        Test t = new Test();
+
+    \        t.setValue(25);
+
+    \        System.out.println(t.getValue());
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: Object-Oriented Concepts
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "10 (The method parameter shadows the instance variable, so 'value = value' assigns the parameter to itself, not to the instance variable. The instance variable remains unchanged at 10.)"
+  sample_student_answers:
+  - text: "10, because the parameter name shadows the instance variable, so the assignment doesn't affect the instance variable."
+    correct: true
+    score: 1.0
+  - text: "25, because we set the value to 25 in setValue method."
+    correct: false
+    score: 0.0
+  - text: "10, the method doesn't work correctly but I'm not sure why."
+    correct: false
+    score: 0.4
+  - text: "It will print 10 because the setValue method has a bug - it should use 'this.value = value' to set the instance variable."
+    correct: true
+    score: 0.9
+  - text: "25"
+    correct: false
+    score: 0.0
+  - text: "Compilation error because of variable name conflict"
+    correct: false
+    score: 0.1
+  - text: "10, something is wrong with the setter method"
+    correct: false
+    score: 0.3
+  - text: "The code doesn't compile"
+    correct: false
+    score: 0.0
+  - text: "I don't understand what this code does"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts - Question 3
+- question_id: JAVA-OOP-003
+  text: "Which of the following best describes encapsulation in Java?"
+  question_type: mcq
+  topic: Object-Oriented Concepts
+  difficulty: 2
+  cognitive_level: comprehension
+  options:
+  - text: "Making all variables and methods public for easy access"
+    correct: false
+  - text: "Bundling data and methods together while controlling access through visibility modifiers"
+    correct: true
+  - text: "Creating multiple classes that inherit from a parent class"
+    correct: false
+  - text: "Using the same method name with different parameter lists"
+    correct: false
+  reference_answer: "Bundling data and methods together while controlling access through visibility modifiers"
+  sample_student_answers:
+  - text: "Bundling data and methods together while controlling access through visibility modifiers"
+    correct: true
+    score: 1.0
+  - text: "Making all variables and methods public for easy access"
+    correct: false
+    score: 0.0
+  - text: "Creating multiple classes that inherit from a parent class"
+    correct: false
+    score: 0.0
+  - text: "Using the same method name with different parameter lists"
+    correct: false
+    score: 0.0
+  - text: "Bundling data and methods together while controlling access through visibility modifiers"
+    correct: true
+    score: 1.0
+  - text: "Making all variables and methods public for easy access"
+    correct: false
+    score: 0.0
+  - text: "Creating multiple classes that inherit from a parent class"
+    correct: false
+    score: 0.0
+  - text: "Using the same method name with different parameter lists"
+    correct: false
+    score: 0.0
+  - text: "Bundling data and methods together while controlling access through visibility modifiers"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts - Question 4
+- question_id: JAVA-OOP-004
+  text: "Fix the following code to properly implement encapsulation:
+
+
+    ```java
+
+    public class Student {
+
+    \    String name;
+
+    \    int age;
+
+    \    double gpa;
+
+    }
+
+    ```"
+  question_type: coding
+  topic: Object-Oriented Concepts
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    public class Student {
+        private String name;
+        private int age;
+        private double gpa;
+        
+        public Student(String name, int age, double gpa) {
+            this.name = name;
+            this.age = age;
+            this.gpa = gpa;
+        }
+        
+        public String getName() {
+            return name;
+        }
+        
+        public void setName(String name) {
+            this.name = name;
+        }
+        
+        public int getAge() {
+            return age;
+        }
+        
+        public void setAge(int age) {
+            if (age > 0) {
+                this.age = age;
+            }
+        }
+        
+        public double getGpa() {
+            return gpa;
+        }
+        
+        public void setGpa(double gpa) {
+            if (gpa >= 0.0 && gpa <= 4.0) {
+                this.gpa = gpa;
+            }
+        }
+    }
+  test_cases:
+  - input: "Create student with name='John', age=20, gpa=3.5"
+    expected_output: "All fields accessible through getters/setters"
+  sample_student_answers:
+  - text: |
+      public class Student {
+          private String name;
+          private int age;
+          private double gpa;
+          
+          public String getName() { return name; }
+          public void setName(String name) { this.name = name; }
+          public int getAge() { return age; }
+          public void setAge(int age) { this.age = age; }
+          public double getGpa() { return gpa; }
+          public void setGpa(double gpa) { this.gpa = gpa; }
+      }
+    correct: true
+    score: 0.85
+  - text: |
+      public class Student {
+          private String name;
+          private int age;
+          private double gpa;
+          // I know I need getters and setters but not sure how to write them
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      public class Student {
+          public String name;
+          public int age;
+          public double gpa;
+      }
+    correct: false
+    score: 0.1
+  - text: |
+      public class Student {
+          private String name;
+          private int age;
+          private double gpa;
+          
+          public String getName() {
+              return name;
+          }
+          // Missing other getters and setters
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public class Student {
+          protected String name;
+          protected int age;
+          protected double gpa;
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public class Student {
+          private String name;
+          private int age;
+          private double gpa;
+          
+          public void getName() { return name; }  // Wrong return type
+          public String setName(String name) { this.name = name; }  // Wrong return type
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      public class Student {
+          String name;
+          int age;
+          double gpa;
+          
+          // Added private keyword
+          private String name;
+          private int age;
+          private double gpa;
+      }
+    correct: false
+    score: 0.1
+  - text: "I need to make the variables private but I don't know how to access them after that."
+    correct: false
+    score: 0.2
+  - text: |
+      public class Student {
+          private String name, age, gpa;  // Wrong data types
+      }
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Object-Oriented Concepts - Question 5
+- question_id: JAVA-OOP-005
+  text: "What is the difference between a class and an object in Java?"
+  question_type: short_answer
+  topic: Object-Oriented Concepts
+  difficulty: 1
+  cognitive_level: comprehension
+  reference_answer: "A class is a blueprint or template that defines the structure and behavior of objects. It contains field declarations and method definitions. An object is an instance of a class - it's a concrete entity created from the class blueprint that has actual values for the fields and can execute the methods defined in the class."
+  sample_student_answers:
+  - text: "A class is a blueprint or template that defines what an object will look like and how it will behave. An object is an actual instance created from that class with real values."
+    correct: true
+    score: 1.0
+  - text: "Class is like a template, object is the actual thing made from the template."
+    correct: true
+    score: 0.7
+  - text: "A class defines variables and methods. An object is when you create one using 'new'."
+    correct: true
+    score: 0.6
+  - text: "Class is the code you write, object is what gets created when the program runs."
+    correct: true
+    score: 0.5
+  - text: "Objects are instances of classes."
+    correct: true
+    score: 0.4
+  - text: "A class has methods and variables. Objects use those methods."
+    correct: false
+    score: 0.3
+  - text: "Classes are bigger than objects."
+    correct: false
+    score: 0.1
+  - text: "They're basically the same thing."
+    correct: false
+    score: 0.0
+  - text: "I think classes contain objects."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Classes and Objects - Question 1
+- question_id: JAVA-CLASS-001
+  text: "Write a Java class called 'Rectangle' with private fields for width and height, a constructor, and methods to calculate area and perimeter."
+  question_type: coding
+  topic: Classes and Objects
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    public class Rectangle {
+        private double width;
+        private double height;
+        
+        public Rectangle(double width, double height) {
+            this.width = width;
+            this.height = height;
+        }
+        
+        public double getWidth() {
+            return width;
+        }
+        
+        public void setWidth(double width) {
+            if (width > 0) {
+                this.width = width;
+            }
+        }
+        
+        public double getHeight() {
+            return height;
+        }
+        
+        public void setHeight(double height) {
+            if (height > 0) {
+                this.height = height;
+            }
+        }
+        
+        public double calculateArea() {
+            return width * height;
+        }
+        
+        public double calculatePerimeter() {
+            return 2 * (width + height);
+        }
+    }
+  test_cases:
+  - input: "Rectangle(5.0, 3.0)"
+    expected_output: "Area: 15.0, Perimeter: 16.0"
+  sample_student_answers:
+  - text: |
+      public class Rectangle {
+          private double width;
+          private double height;
+          
+          public Rectangle(double width, double height) {
+              this.width = width;
+              this.height = height;
+          }
+          
+          public double calculateArea() {
+              return width * height;
+          }
+          
+          public double calculatePerimeter() {
+              return 2 * (width + height);
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      public class Rectangle {
+          public double width;
+          public double height;
+          
+          public Rectangle(double w, double h) {
+              width = w;
+              height = h;
+          }
+          
+          public double area() {
+              return width * height;
+          }
+          
+          public double perimeter() {
+              return 2 * width + 2 * height;
+          }
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      public class Rectangle {
+          private int width;
+          private int height;
+          
+          public Rectangle(int width, int height) {
+              this.width = width;
+              this.height = height;
+          }
+          
+          public int calculateArea() {
+              return width * height;
+          }
+          
+          public int calculatePerimeter() {
+              return 2 * (width + height);
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public class Rectangle {
+          private double width, height;
+          
+          public void Rectangle(double width, double height) {  // Wrong constructor syntax
+              this.width = width;
+              this.height = height;
+          }
+          
+          public double calculateArea() {
+              return width * height;
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public class Rectangle {
+          double width;
+          double height;
+          
+          Rectangle(double width, double height) {
+              this.width = width;
+              this.height = height;
+          }
+          
+          double area() {
+              return width * height;
+          }
+          
+          double perimeter() {
+              return width + height;  // Wrong formula
+          }
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      public class Rectangle {
+          private double width;
+          private double height;
+          
+          // I need a constructor but don't remember the syntax
+          
+          public double calculateArea() {
+              return width * height;
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      class Rectangle {
+          width = 0;
+          height = 0;
+          
+          area() {
+              return width * height;
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public class Rectangle {
+          // I know I need width and height variables
+          // And methods for area and perimeter
+          // But I'm not sure how to write them
+      }
+    correct: false
+    score: 0.1
+  - text: "I don't know how to create classes yet."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Classes and Objects - Question 2
+- question_id: JAVA-CLASS-002
+  text: "What is a constructor in Java and when is it called?"
+  question_type: short_answer
+  topic: Classes and Objects
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "A constructor is a special method in Java that is automatically called when an object is created using the 'new' keyword. It has the same name as the class, has no return type (not even void), and is used to initialize the object's fields and perform any setup needed when the object is created. If no constructor is explicitly defined, Java provides a default no-argument constructor."
+  sample_student_answers:
+  - text: "A constructor is a special method that gets called automatically when you create an object with 'new'. It has the same name as the class and no return type. It's used to initialize the object's fields."
+    correct: true
+    score: 1.0
+  - text: "Constructor is called when you make a new object. It sets up the initial values."
+    correct: true
+    score: 0.7
+  - text: "A constructor initializes objects and is called with the new keyword."
+    correct: true
+    score: 0.6
+  - text: "Constructor is a method that has the same name as the class. It runs when you create an object."
+    correct: true
+    score: 0.8
+  - text: "It's a special method for creating objects."
+    correct: false
+    score: 0.3
+  - text: "Constructor is used to construct classes."
+    correct: false
+    score: 0.2
+  - text: "It's called when the program starts."
+    correct: false
+    score: 0.1
+  - text: "Constructor is like a regular method but different somehow."
+    correct: false
+    score: 0.1
+  - text: "I know it's related to making objects but I'm not sure exactly what it does."
+    correct: false
+    score: 0.2
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Classes and Objects - Question 3
+- question_id: JAVA-CLASS-003
+  text: "Which of the following is true about constructors in Java?"
+  question_type: mcq
+  topic: Classes and Objects
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "Constructors must have a return type"
+    correct: false
+  - text: "Constructors are inherited by subclasses"
+    correct: false
+  - text: "Constructors have the same name as the class"
+    correct: true
+  - text: "A class can have only one constructor"
+    correct: false
+  reference_answer: "Constructors have the same name as the class"
+  sample_student_answers:
+  - text: "Constructors have the same name as the class"
+    correct: true
+    score: 1.0
+  - text: "Constructors must have a return type"
+    correct: false
+    score: 0.0
+  - text: "Constructors are inherited by subclasses"
+    correct: false
+    score: 0.0
+  - text: "A class can have only one constructor"
+    correct: false
+    score: 0.0
+  - text: "Constructors have the same name as the class"
+    correct: true
+    score: 1.0
+  - text: "Constructors must have a return type"
+    correct: false
+    score: 0.0
+  - text: "Constructors are inherited by subclasses"
+    correct: false
+    score: 0.0
+  - text: "A class can have only one constructor"
+    correct: false
+    score: 0.0
+  - text: "Constructors have the same name as the class"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Classes and Objects - Question 4
+- question_id: JAVA-CLASS-004
+  text: "What will be the output of the following code?
+
+
+    ```java
+
+    public class Counter {
+
+    \    private static int count = 0;
+
+    \    private int instanceId;
+
+    \   \ 
+
+    \    public Counter() {
+
+    \        count++;
+
+    \        instanceId = count;
+
+    \    }
+
+    \   \ 
+
+    \    public int getInstanceId() {
+
+    \        return instanceId;
+
+    \    }
+
+    \   \ 
+
+    \    public static void main(String[] args) {
+
+    \        Counter c1 = new Counter();
+
+    \        Counter c2 = new Counter();
+
+    \        Counter c3 = new Counter();
+
+    \        System.out.println(c2.getInstanceId());
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: Classes and Objects
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "2 (The static variable count is shared among all instances. When c1 is created, count becomes 1. When c2 is created, count becomes 2 and c2's instanceId is set to 2. When c3 is created, count becomes 3. The output shows c2's instanceId, which is 2.)"
+  sample_student_answers:
+  - text: "2, because c2 is the second object created, so its instanceId is 2."
+    correct: true
+    score: 1.0
+  - text: "1, because it's the first object in the array or something."
+    correct: false
+    score: 0.0
+  - text: "3, because there are three objects created."
+    correct: false
+    score: 0.0
+  - text: "2, the static count variable keeps track of how many objects were created and c2 gets the value 2."
+    correct: true
+    score: 0.9
+  - text: "0, because count starts at 0."
+    correct: false
+    score: 0.0
+  - text: "It will print 2 because that's the second Counter object made."
+    correct: true
+    score: 0.7
+  - text: "Compilation error because of static variable."
+    correct: false
+    score: 0.0
+  - text: "The code won't run properly."
+    correct: false
+    score: 0.0
+  - text: "I don't understand what static means."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Classes and Objects - Question 5
+- question_id: JAVA-CLASS-005
+  text: "Complete the following class definition by adding appropriate getter and setter methods:
+
+
+    ```java
+
+    public class Book {
+
+    \    private String title;
+
+    \    private String author;
+
+    \    private double price;
+
+    \   \ 
+
+    \    // Add getter and setter methods here
+
+    }
+
+    ```"
+  question_type: fill_blank
+  topic: Classes and Objects
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        if (price >= 0) {
+            this.price = price;
+        }
+    }
+  sample_student_answers:
+  - text: |
+      public String getTitle() { return title; }
+      public void setTitle(String title) { this.title = title; }
+      public String getAuthor() { return author; }
+      public void setAuthor(String author) { this.author = author; }
+      public double getPrice() { return price; }
+      public void setPrice(double price) { this.price = price; }
+    correct: true
+    score: 1.0
+  - text: |
+      public String getTitle() { return title; }
+      public void setTitle(String t) { title = t; }
+      public String getAuthor() { return author; }
+      public void setAuthor(String a) { author = a; }
+      public double getPrice() { return price; }
+      public void setPrice(double p) { price = p; }
+    correct: true
+    score: 0.9
+  - text: |
+      public String getTitle() { return title; }
+      public String getAuthor() { return author; }
+      public double getPrice() { return price; }
+    correct: false
+    score: 0.5
+  - text: |
+      public void getTitle() { return title; }  // Wrong return type
+      public String setTitle(String title) { this.title = title; }  // Wrong return type
+    correct: false
+    score: 0.3
+  - text: |
+      public String title() { return title; }
+      public void title(String title) { this.title = title; }
+    correct: false
+    score: 0.4
+  - text: |
+      get title() { return title; }  // Missing access modifier and return type
+      set title(String title) { this.title = title; }
+    correct: false
+    score: 0.2
+  - text: |
+      public String getTitle();
+      public void setTitle(String title);
+    correct: false
+    score: 0.1
+  - text: "I know I need get and set methods but I forgot the syntax."
+    correct: false
+    score: 0.1
+  - text: |
+      public title() { return title; }
+      public title(String title) { this.title = title; }
+    correct: false
+    score: 0.2
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Inheritance and Polymorphism - Question 1
+- question_id: JAVA-INHERIT-001
+  text: "What is inheritance in Java and what keyword is used to implement it?"
+  question_type: short_answer
+  topic: Inheritance and Polymorphism
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "Inheritance is a mechanism in Java where a new class (subclass or child class) can inherit properties and methods from an existing class (superclass or parent class). This promotes code reuse and establishes an 'is-a' relationship between classes. The 'extends' keyword is used to implement inheritance in Java."
+  sample_student_answers:
+  - text: "Inheritance allows a class to inherit properties and methods from another class using the 'extends' keyword. It promotes code reuse and creates an is-a relationship."
+    correct: true
+    score: 1.0
+  - text: "Inheritance is when one class gets features from another class. You use 'extends' to do it."
+    correct: true
+    score: 0.8
+  - text: "Inheritance means classes can inherit from other classes using extends."
+    correct: true
+    score: 0.6
+  - text: "It's when child classes get stuff from parent classes. The keyword is 'extends'."
+    correct: true
+    score: 0.7
+  - text: "Inheritance is about reusing code from other classes."
+    correct: false
+    score: 0.4
+  - text: "You use 'implements' to inherit from another class."
+    correct: false
+    score: 0.2
+  - text: "Inheritance is when classes are related to each other."
+    correct: false
+    score: 0.3
+  - text: "I know it's about classes sharing code but I forgot the keyword."
+    correct: false
+    score: 0.2
+  - text: "Inheritance uses the 'inherit' keyword."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Inheritance and Polymorphism - Question 2
+- question_id: JAVA-INHERIT-002
+  text: "Create a class 'Dog' that extends a class 'Animal'. The Animal class has a method 'makeSound()'. Override this method in the Dog class to print 'Woof!'."
+  question_type: coding
+  topic: Inheritance and Polymorphism
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    class Animal {
+        public void makeSound() {
+            System.out.println("Some generic animal sound");
+        }
+    }
+
+    class Dog extends Animal {
+        @Override
+        public void makeSound() {
+            System.out.println("Woof!");
+        }
+    }
+  test_cases:
+  - input: "Dog d = new Dog(); d.makeSound();"
+    expected_output: "Woof!"
+  sample_student_answers:
+  - text: |
+      class Animal {
+          public void makeSound() {
+              System.out.println("Some generic animal sound");
+          }
+      }
+
+      class Dog extends Animal {
+          @Override
+          public void makeSound() {
+              System.out.println("Woof!");
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      class Dog extends Animal {
+          public void makeSound() {
+              System.out.println("Woof!");
+          }
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      class Animal {
+          public void makeSound() {
+              System.out.println("Animal sound");
+          }
+      }
+
+      class Dog extends Animal {
+          public void makeSound() {
+              System.out.println("Woof!");
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      class Dog inherits Animal {
+          public void makeSound() {
+              System.out.println("Woof!");
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      class Dog extends Animal {
+          @Override
+          public void makeSound() {
+              super.makeSound();
+              System.out.println("Woof!");
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      class Dog implements Animal {
+          public void makeSound() {
+              System.out.println("Woof!");
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      class Dog extends Animal {
+          public String makeSound() {  // Wrong return type
+              return "Woof!";
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: "I know Dog should extend Animal but I'm not sure about the override part."
+    correct: false
+    score: 0.2
+  - text: |
+      class Dog extends Animal {
+          // Need to override makeSound but don't remember how
+      }
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Inheritance and Polymorphism - Question 3
+- question_id: JAVA-INHERIT-003
+  text: "Which of the following best describes polymorphism in Java?"
+  question_type: mcq
+  topic: Inheritance and Polymorphism
+  difficulty: 3
+  cognitive_level: comprehension
+  options:
+  - text: "The ability to create multiple constructors in a class"
+    correct: false
+  - text: "The ability for objects of different types to be treated as objects of a common base type"
+    correct: true
+  - text: "The ability to hide implementation details from other classes"
+    correct: false
+  - text: "The ability to create static methods and variables"
+    correct: false
+  reference_answer: "The ability for objects of different types to be treated as objects of a common base type"
+  sample_student_answers:
+  - text: "The ability for objects of different types to be treated as objects of a common base type"
+    correct: true
+    score: 1.0
+  - text: "The ability to create multiple constructors in a class"
+    correct: false
+    score: 0.0
+  - text: "The ability to hide implementation details from other classes"
+    correct: false
+    score: 0.0
+  - text: "The ability to create static methods and variables"
+    correct: false
+    score: 0.0
+  - text: "The ability for objects of different types to be treated as objects of a common base type"
+    correct: true
+    score: 1.0
+  - text: "The ability to create multiple constructors in a class"
+    correct: false
+    score: 0.0
+  - text: "The ability to hide implementation details from other classes"
+    correct: false
+    score: 0.0
+  - text: "The ability to create static methods and variables"
+    correct: false
+    score: 0.0
+  - text: "The ability for objects of different types to be treated as objects of a common base type"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Inheritance and Polymorphism - Question 4
+- question_id: JAVA-INHERIT-004
+  text: "What will be the output of the following code?
+
+
+    ```java
+
+    class Vehicle {
+
+    \    public void start() {
+
+    \        System.out.println(\"Vehicle starting\");
+
+    \    }
+
+    }
+
+
+    class Car extends Vehicle {
+
+    \    @Override
+
+    \    public void start() {
+
+    \        System.out.println(\"Car starting\");
+
+    \    }
+
+    }
+
+
+    public class Test {
+
+    \    public static void main(String[] args) {
+
+    \        Vehicle v = new Car();
+
+    \        v.start();
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: Inheritance and Polymorphism
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "Car starting (This demonstrates polymorphism - even though the reference type is Vehicle, the actual object is a Car, so the overridden method in Car is called at runtime.)"
+  sample_student_answers:
+  - text: "Car starting - because of polymorphism, the overridden method in Car is called even though the reference is of type Vehicle."
+    correct: true
+    score: 1.0
+  - text: "Vehicle starting - because v is declared as Vehicle type."
+    correct: false
+    score: 0.0
+  - text: "Car starting"
+    correct: true
+    score: 0.6
+  - text: "Car starting - the actual object type determines which method is called, not the reference type."
+    correct: true
+    score: 0.9
+  - text: "Both Vehicle starting and Car starting will be printed."
+    correct: false
+    score: 0.0
+  - text: "Compilation error because you can't assign Car to Vehicle."
+    correct: false
+    score: 0.0
+  - text: "Car starting because that's the real object type."
+    correct: true
+    score: 0.7
+  - text: "It won't compile because of the override."
+    correct: false
+    score: 0.0
+  - text: "I think it prints Car starting but I'm not sure why."
+    correct: false
+    score: 0.3
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Inheritance and Polymorphism - Question 5
+- question_id: JAVA-INHERIT-005
+  text: "Fill in the blank: The _______ keyword is used to call a method from the parent class in Java."
+  question_type: fill_blank
+  topic: Inheritance and Polymorphism
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: "super"
+  sample_student_answers:
+  - text: "super"
+    correct: true
+    score: 1.0
+  - text: "super"
+    correct: true
+    score: 1.0
+  - text: "parent"
+    correct: false
+    score: 0.0
+  - text: "this"
+    correct: false
+    score: 0.0
+  - text: "extends"
+    correct: false
+    score: 0.0
+  - text: "override"
+    correct: false
+    score: 0.0
+  - text: "super"
+    correct: true
+    score: 1.0
+  - text: "base"
+    correct: false
+    score: 0.0
+  - text: "inherit"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Interfaces and Abstract Classes - Question 1
+- question_id: JAVA-INTERFACE-001
+  text: "What is the difference between an interface and an abstract class in Java?"
+  question_type: short_answer
+  topic: Interfaces and Abstract Classes
+  difficulty: 4
+  cognitive_level: analysis
+  reference_answer: "Interfaces can only contain abstract methods (until Java 8) and constants, while abstract classes can have both abstract and concrete methods, as well as instance variables. A class can implement multiple interfaces but can only extend one abstract class. Interfaces are used to define contracts that classes must follow, while abstract classes are used when you want to share code among closely related classes. Abstract classes can have constructors, but interfaces cannot."
+  sample_student_answers:
+  - text: "Interfaces define contracts with only abstract methods and constants, while abstract classes can have both abstract and concrete methods. A class can implement multiple interfaces but extend only one abstract class."
+    correct: true
+    score: 1.0
+  - text: "Abstract classes can have regular methods and variables, interfaces can only have abstract methods. You can implement many interfaces but only extend one abstract class."
+    correct: true
+    score: 0.9
+  - text: "Interfaces use 'implements' keyword, abstract classes use 'extends'. Interfaces are more flexible."
+    correct: false
+    score: 0.4
+  - text: "Abstract classes are incomplete classes, interfaces are like contracts that classes must follow."
+    correct: false
+    score: 0.5
+  - text: "Interfaces can't have constructors, abstract classes can. Also multiple inheritance with interfaces."
+    correct: true
+    score: 0.7
+  - text: "They're basically the same thing but with different keywords."
+    correct: false
+    score: 0.1
+  - text: "Interfaces are newer than abstract classes."
+    correct: false
+    score: 0.0
+  - text: "Abstract classes are harder to use than interfaces."
+    correct: false
+    score: 0.1
+  - text: "I know they're different but I can't remember how."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Interfaces and Abstract Classes - Question 2
+- question_id: JAVA-INTERFACE-002
+  text: "Create an interface called 'Drawable' with a method 'draw()', then create a class 'Circle' that implements this interface."
+  question_type: coding
+  topic: Interfaces and Abstract Classes
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    interface Drawable {
+        void draw();
+    }
+
+    class Circle implements Drawable {
+        private double radius;
+        
+        public Circle(double radius) {
+            this.radius = radius;
+        }
+        
+        @Override
+        public void draw() {
+            System.out.println("Drawing a circle with radius " + radius);
+        }
+    }
+  test_cases:
+  - input: "Circle c = new Circle(5.0); c.draw();"
+    expected_output: "Drawing a circle with radius 5.0"
+  sample_student_answers:
+  - text: |
+      interface Drawable {
+          void draw();
+      }
+
+      class Circle implements Drawable {
+          public void draw() {
+              System.out.println("Drawing a circle");
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      interface Drawable {
+          public abstract void draw();
+      }
+
+      class Circle implements Drawable {
+          @Override
+          public void draw() {
+              System.out.println("Drawing a circle");
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      abstract class Drawable {
+          abstract void draw();
+      }
+
+      class Circle extends Drawable {
+          public void draw() {
+              System.out.println("Drawing a circle");
+          }
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      interface Drawable {
+          void draw() {
+              System.out.println("Default drawing");
+          }
+      }
+
+      class Circle implements Drawable {
+          // Uses default implementation
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      interface Drawable {
+          void draw();
+      }
+
+      class Circle extends Drawable {  // Wrong keyword
+          public void draw() {
+              System.out.println("Drawing a circle");
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      interface Drawable {
+          public void draw();
+      }
+
+      class Circle implements Drawable {
+          public void draw() {
+              // TODO: implement drawing
+          }
+      }
+    correct: true
+    score: 0.7
+  - text: |
+      interface Drawable {
+          draw();  // Missing return type
+      }
+
+      class Circle implements Drawable {
+          public void draw() {
+              System.out.println("Drawing");
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: "I know interfaces use 'implements' but I'm not sure about the syntax."
+    correct: false
+    score: 0.1
+  - text: |
+      interface Drawable {
+          void draw();
+      }
+
+      class Circle {
+          // Forgot to implement the interface
+          public void draw() {
+              System.out.println("Drawing");
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Interfaces and Abstract Classes - Question 3
+- question_id: JAVA-INTERFACE-003
+  text: "Which of the following statements about interfaces in Java is correct?"
+  question_type: mcq
+  topic: Interfaces and Abstract Classes
+  difficulty: 3
+  cognitive_level: comprehension
+  options:
+  - text: "Interfaces can have constructors"
+    correct: false
+  - text: "A class can implement multiple interfaces"
+    correct: true
+  - text: "Interface methods must be private"
+    correct: false
+  - text: "Interfaces can extend classes"
+    correct: false
+  reference_answer: "A class can implement multiple interfaces"
+  sample_student_answers:
+  - text: "A class can implement multiple interfaces"
+    correct: true
+    score: 1.0
+  - text: "Interfaces can have constructors"
+    correct: false
+    score: 0.0
+  - text: "Interface methods must be private"
+    correct: false
+    score: 0.0
+  - text: "Interfaces can extend classes"
+    correct: false
+    score: 0.0
+  - text: "A class can implement multiple interfaces"
+    correct: true
+    score: 1.0
+  - text: "Interfaces can have constructors"
+    correct: false
+    score: 0.0
+  - text: "Interface methods must be private"
+    correct: false
+    score: 0.0
+  - text: "Interfaces can extend classes"
+    correct: false
+    score: 0.0
+  - text: "A class can implement multiple interfaces"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Interfaces and Abstract Classes - Question 4
+- question_id: JAVA-INTERFACE-004
+  text: "Create an abstract class 'Shape' with an abstract method 'calculateArea()' and a concrete method 'displayInfo()' that prints 'This is a shape'."
+  question_type: coding
+  topic: Interfaces and Abstract Classes
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    abstract class Shape {
+        public abstract double calculateArea();
+        
+        public void displayInfo() {
+            System.out.println("This is a shape");
+        }
+    }
+  test_cases:
+  - input: "Shape cannot be instantiated directly, but subclasses can use displayInfo()"
+    expected_output: "This is a shape"
+  sample_student_answers:
+  - text: |
+      abstract class Shape {
+          public abstract double calculateArea();
+          
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      abstract class Shape {
+          abstract double calculateArea();
+          
+          void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      abstract class Shape {
+          public double calculateArea();  // Missing abstract keyword
+          
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      class Shape {  // Missing abstract keyword for class
+          public abstract double calculateArea();
+          
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      abstract class Shape {
+          public abstract double calculateArea() {
+              return 0;  // Abstract methods can't have body
+          }
+          
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      abstract class Shape {
+          public abstract double calculateArea();
+          
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+          
+          // Added constructor for no reason
+          public Shape() {
+              
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      abstract class Shape {
+          // I know I need an abstract method but forgot the syntax
+          public void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: "I'm confused about the difference between abstract classes and interfaces."
+    correct: false
+    score: 0.0
+  - text: |
+      interface Shape {  // Used interface instead of abstract class
+          double calculateArea();
+          
+          default void displayInfo() {
+              System.out.println("This is a shape");
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Interfaces and Abstract Classes - Question 5
+- question_id: JAVA-INTERFACE-005
+  text: "Fill in the blank: Methods in an interface are _______ and _______ by default."
+  question_type: fill_blank
+  topic: Interfaces and Abstract Classes
+  difficulty: 3
+  cognitive_level: knowledge
+  reference_answer: "public and abstract"
+  sample_student_answers:
+  - text: "public and abstract"
+    correct: true
+    score: 1.0
+  - text: "abstract and public"
+    correct: true
+    score: 1.0
+  - text: "public and static"
+    correct: false
+    score: 0.0
+  - text: "private and abstract"
+    correct: false
+    score: 0.0
+  - text: "protected and abstract"
+    correct: false
+    score: 0.0
+  - text: "public and final"
+    correct: false
+    score: 0.0
+  - text: "abstract"
+    correct: false
+    score: 0.5
+  - text: "public"
+    correct: false
+    score: 0.5
+  - text: "static and final"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Exception Handling - Question 1
+- question_id: JAVA-EXCEPTION-001
+  text: "What is the purpose of exception handling in Java and name the three main keywords used?"
+  question_type: short_answer
+  topic: Exception Handling
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "Exception handling in Java is used to handle runtime errors gracefully, allowing the program to continue execution or terminate gracefully instead of crashing abruptly. It helps maintain normal program flow when unexpected situations occur. The three main keywords are: 'try' (to wrap code that might throw an exception), 'catch' (to handle specific exceptions), and 'finally' (to execute code regardless of whether an exception occurs)."
+  sample_student_answers:
+  - text: "Exception handling prevents programs from crashing when errors occur. The three keywords are try, catch, and finally. Try contains risky code, catch handles exceptions, finally runs regardless."
+    correct: true
+    score: 1.0
+  - text: "It's used to handle errors that happen while the program runs. The keywords are try, catch, finally."
+    correct: true
+    score: 0.8
+  - text: "Exception handling deals with runtime errors. You use try-catch blocks."
+    correct: false
+    score: 0.6
+  - text: "It prevents the program from stopping when something goes wrong. Keywords: try, catch, throw."
+    correct: false
+    score: 0.7
+  - text: "Exception handling is for managing errors. I know try and catch but forgot the third one."
+    correct: false
+    score: 0.5
+  - text: "It's used to catch errors in your code."
+    correct: false
+    score: 0.3
+  - text: "Try, catch, if - these handle exceptions."
+    correct: false
+    score: 0.2
+  - text: "Exception handling stops errors from happening."
+    correct: false
+    score: 0.1
+  - text: "I know it's about errors but I don't remember the keywords."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Exception Handling - Question 2
+- question_id: JAVA-EXCEPTION-002
+  text: "Write a Java method that safely divides two integers and handles division by zero."
+  question_type: coding
+  topic: Exception Handling
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    public static double safeDivide(int dividend, int divisor) {
+        try {
+            return (double) dividend / divisor;
+        } catch (ArithmeticException e) {
+            System.out.println("Error: Division by zero");
+            return 0.0;
+        }
+    }
+  test_cases:
+  - input: "safeDivide(10, 2)"
+    expected_output: "5.0"
+  - input: "safeDivide(10, 0)"
+    expected_output: "Error: Division by zero, returns 0.0"
+  sample_student_answers:
+  - text: |
+      public static double safeDivide(int a, int b) {
+          try {
+              return (double) a / b;
+          } catch (ArithmeticException e) {
+              System.out.println("Cannot divide by zero");
+              return 0.0;
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public static double safeDivide(int dividend, int divisor) {
+          if (divisor == 0) {
+              System.out.println("Division by zero error");
+              return 0.0;
+          }
+          return (double) dividend / divisor;
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public static double safeDivide(int a, int b) {
+          try {
+              double result = a / b;
+              return result;
+          } catch (Exception e) {
+              System.out.println("Error occurred");
+              return 0;
+          }
+      }
+    correct: true
+    score: 0.7
+  - text: |
+      public static int safeDivide(int a, int b) {
+          try {
+              return a / b;
+          } catch (ArithmeticException e) {
+              return 0;
+          }
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      public static double safeDivide(int a, int b) {
+          try {
+              return a / b;
+          } catch (DivisionByZeroException e) {  // Wrong exception type
+              return 0.0;
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public static double safeDivide(int a, int b) {
+          try {
+              if (b == 0) {
+                  throw new ArithmeticException("Division by zero");
+              }
+              return (double) a / b;
+          } catch (ArithmeticException e) {
+              System.out.println(e.getMessage());
+              return 0.0;
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      public static double safeDivide(int a, int b) {
+          try {
+              return a / b;
+          } catch {  // Missing exception parameter
+              return 0;
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: "I know I need try-catch but I'm not sure about the syntax."
+    correct: false
+    score: 0.1
+  - text: |
+      public static double safeDivide(int a, int b) {
+          // Something with try and catch for division by zero
+      }
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Exception Handling - Question 3
+- question_id: JAVA-EXCEPTION-003
+  text: "Which of the following is true about the 'finally' block in Java?"
+  question_type: mcq
+  topic: Exception Handling
+  difficulty: 3
+  cognitive_level: comprehension
+  options:
+  - text: "It only executes if an exception is thrown"
+    correct: false
+  - text: "It always executes, regardless of whether an exception occurs"
+    correct: true
+  - text: "It can only be used with try blocks, not catch blocks"
+    correct: false
+  - text: "It is used to throw exceptions"
+    correct: false
+  reference_answer: "It always executes, regardless of whether an exception occurs"
+  sample_student_answers:
+  - text: "It always executes, regardless of whether an exception occurs"
+    correct: true
+    score: 1.0
+  - text: "It only executes if an exception is thrown"
+    correct: false
+    score: 0.0
+  - text: "It can only be used with try blocks, not catch blocks"
+    correct: false
+    score: 0.0
+  - text: "It is used to throw exceptions"
+    correct: false
+    score: 0.0
+  - text: "It always executes, regardless of whether an exception occurs"
+    correct: true
+    score: 1.0
+  - text: "It only executes if an exception is thrown"
+    correct: false
+    score: 0.0
+  - text: "It can only be used with try blocks, not catch blocks"
+    correct: false
+    score: 0.0
+  - text: "It is used to throw exceptions"
+    correct: false
+    score: 0.0
+  - text: "It always executes, regardless of whether an exception occurs"
+    correct: true
+    score: 1.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Exception Handling - Question 4
+- question_id: JAVA-EXCEPTION-004
+  text: "What will be the output of the following code?
+
+
+    ```java
+
+    public class TestException {
+
+    \    public static void main(String[] args) {
+
+    \        try {
+
+    \            System.out.println(\"Try block\");
+
+    \            int result = 10 / 0;
+
+    \            System.out.println(\"After division\");
+
+    \        } catch (ArithmeticException e) {
+
+    \            System.out.println(\"Catch block\");
+
+    \        } finally {
+
+    \            System.out.println(\"Finally block\");
+
+    \        }
+
+    \        System.out.println(\"After try-catch-finally\");
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: Exception Handling
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "Try block
+
+    Catch block
+
+    Finally block
+
+    After try-catch-finally"
+  sample_student_answers:
+  - text: "Try block
+
+      Catch block
+
+      Finally block
+
+      After try-catch-finally"
+    correct: true
+    score: 1.0
+  - text: "Try block, Catch block, Finally block, After try-catch-finally"
+    correct: true
+    score: 0.9
+  - text: "Try block\nCatch block\nFinally block"
+    correct: false
+    score: 0.7
+  - text: "Try block
+
+      After division
+
+      Finally block
+
+      After try-catch-finally"
+    correct: false
+    score: 0.2
+  - text: "The program will crash because of division by zero."
+    correct: false
+    score: 0.0
+  - text: "Try block
+
+      Catch block
+
+      Finally block
+
+      After try-catch-finally - the exception is caught so the program continues normally."
+    correct: true
+    score: 1.0
+  - text: "Only the finally block will execute."
+    correct: false
+    score: 0.1
+  - text: "Compilation error."
+    correct: false
+    score: 0.0
+  - text: "I know the finally block always runs but I'm not sure about the rest."
+    correct: false
+    score: 0.2
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Exception Handling - Question 5
+- question_id: JAVA-EXCEPTION-005
+  text: "Write a Java method that reads an integer from user input and handles potential NumberFormatException. The method should keep asking for input until a valid integer is entered."
+  question_type: coding
+  topic: Exception Handling
+  difficulty: 4
+  cognitive_level: application
+  reference_answer: |
+    import java.util.Scanner;
+
+    public static int getValidInteger() {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.print("Enter an integer: ");
+                String input = scanner.nextLine();
+                return Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+            }
+        }
+    }
+  test_cases:
+  - input: "123"
+    expected_output: "123"
+  - input: "abc\n456"
+    expected_output: "Invalid input. Please enter a valid integer.
+
+      456"
+  sample_student_answers:
+  - text: |
+      import java.util.Scanner;
+
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          while (true) {
+              try {
+                  System.out.print("Enter an integer: ");
+                  String input = scanner.nextLine();
+                  return Integer.parseInt(input);
+              } catch (NumberFormatException e) {
+                  System.out.println("Invalid input. Please enter a valid integer.");
+              }
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          boolean valid = false;
+          int result = 0;
+          while (!valid) {
+              try {
+                  System.out.print("Enter an integer: ");
+                  result = Integer.parseInt(scanner.nextLine());
+                  valid = true;
+              } catch (NumberFormatException e) {
+                  System.out.println("Please enter a valid integer.");
+              }
+          }
+          return result;
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          try {
+              System.out.print("Enter an integer: ");
+              return Integer.parseInt(scanner.nextLine());
+          } catch (NumberFormatException e) {
+              System.out.println("Invalid input");
+              return 0; // Just return 0 instead of looping
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          while (true) {
+              System.out.print("Enter an integer: ");
+              String input = scanner.nextLine();
+              if (input.matches("\\d+")) {
+                  return Integer.parseInt(input);
+              } else {
+                  System.out.println("Invalid input");
+              }
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          try {
+              return scanner.nextInt();
+          } catch (Exception e) {
+              System.out.println("Error");
+              return getValidInteger(); // Recursive call without proper handling
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          while (true) {
+              try {
+                  return Integer.parseInt(scanner.nextLine());
+              } catch (NumberFormatException e) {
+                  // Missing user prompt and feedback
+              }
+          }
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      public static void getValidInteger() { // Wrong return type
+          Scanner scanner = new Scanner(System.in);
+          try {
+              int num = Integer.parseInt(scanner.nextLine());
+              System.out.println(num);
+          } catch (NumberFormatException e) {
+              System.out.println("Invalid");
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public static int getValidInteger() {
+          Scanner scanner = new Scanner(System.in);
+          System.out.print("Enter integer: ");
+          return scanner.nextInt(); // No exception handling at all
+      }
+    correct: false
+    score: 0.1
+  - text: "I don't understand how to use try-catch with loops."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Variables and Data Types - Question 2
+- question_id: JAVA-VAR-002
+  text: "Which of the following variable declarations is INVALID in Java?"
+  question_type: mcq
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "int 2numbers = 10;"
+    correct: true
+  - text: "String _name = \"John\";"
+    correct: false
+  - text: "double PI = 3.14159;"
+    correct: false
+  - text: "boolean isValid = true;"
+    correct: false
+  reference_answer: "int 2numbers = 10;"
+  sample_student_answers:
+  - text: "int 2numbers = 10;"
+    correct: true
+    score: 1.0
+  - text: "String _name = \"John\";"
+    correct: false
+    score: 0.0
+  - text: "double PI = 3.14159;"
+    correct: false
+    score: 0.0
+  - text: "boolean isValid = true;"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: "int 2numbers = 10;"
+    correct: true
+    score: 1.0
+  - text: "String _name = \"John\";"
+    correct: false
+    score: 0.0
+  - text: "double PI = 3.14159;"
+    correct: false
+    score: 0.0
+  - text: "boolean isValid = true;"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Variables and Data Types - Question 3
+- question_id: JAVA-VAR-003
+  text: "Write a Java program that declares variables of different primitive types and prints their default values."
+  question_type: coding
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: knowledge
+  reference_answer: |
+    public class DefaultValues {
+        static int intValue;
+        static double doubleValue;
+        static boolean boolValue;
+        static char charValue;
+        
+        public static void main(String[] args) {
+            System.out.println("int default: " + intValue);
+            System.out.println("double default: " + doubleValue);
+            System.out.println("boolean default: " + boolValue);
+            System.out.println("char default: '" + charValue + "'");
+        }
+    }
+  test_cases:
+  - input: "N/A"
+    expected_output: "int default: 0
+
+      double default: 0.0
+
+      boolean default: false
+
+      char default: ''"
+  sample_student_answers:
+  - text: |
+      public class DefaultValues {
+          static int intValue;
+          static double doubleValue;
+          static boolean boolValue;
+          static char charValue;
+          
+          public static void main(String[] args) {
+              System.out.println("int default: " + intValue);
+              System.out.println("double default: " + doubleValue);
+              System.out.println("boolean default: " + boolValue);
+              System.out.println("char default: '" + charValue + "'");
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public class Test {
+          public static void main(String[] args) {
+              int i = 0;
+              double d = 0.0;
+              boolean b = false;
+              char c = '\0';
+              System.out.println(i + " " + d + " " + b + " " + c);
+          }
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      public class DefaultValues {
+          public static void main(String[] args) {
+              int number;
+              System.out.println(number); // Compilation error - local variables not initialized
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      class Test {
+          int x;
+          double y;
+          boolean z;
+          
+          public void printDefaults() {
+              System.out.println(x);
+              System.out.println(y);
+              System.out.println(z);
+          }
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      public class Main {
+          public static void main(String[] args) {
+              System.out.println("int: 0");
+              System.out.println("double: 0.0");
+              System.out.println("boolean: false");
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public class Test {
+          int a, b, c;
+          public static void main(String[] args) {
+              Test t = new Test();
+              System.out.println(t.a + t.b + t.c);
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      public static void main(String[] args) {
+          int i;
+          double d;
+          // These will cause compilation errors
+          System.out.println(i);
+          System.out.println(d);
+      }
+    correct: false
+    score: 0.1
+  - text: "I know default values but I don't know how to print them without initializing."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Variables and Data Types - Question 4
+- question_id: JAVA-VAR-004
+  text: "What is the result of the following expression in Java?
+
+
+    ```java
+
+    int a = 5;
+
+    int b = 2;
+
+    double result = a / b;
+
+    System.out.println(result);
+
+    ```"
+  question_type: code_analysis
+  topic: Variables and Data Types
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: "2.0"
+  sample_student_answers:
+  - text: "2.0"
+    correct: true
+    score: 1.0
+  - text: "2.5"
+    correct: false
+    score: 0.0
+  - text: "2.0 (integer division result is cast to double)"
+    correct: true
+    score: 1.0
+  - text: "2"
+    correct: false
+    score: 0.3
+  - text: "The result is 2.0 because a/b performs integer division first, then converts to double"
+    correct: true
+    score: 1.0
+  - text: "2.5 because result is double"
+    correct: false
+    score: 0.0
+  - text: "It will be 2.5 since we're storing in a double variable"
+    correct: false
+    score: 0.0
+  - text: "Compilation error"
+    correct: false
+    score: 0.0
+  - text: "I think it's 2.0 but I'm not completely sure why"
+    correct: false
+    score: 0.5
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Variables and Data Types - Question 5
+- question_id: JAVA-VAR-005
+  text: "Explain the concept of variable scope in Java. Provide an example showing local and instance variable scope."
+  question_type: short_answer
+  topic: Variables and Data Types
+  difficulty: 3
+  cognitive_level: comprehension
+  reference_answer: "Variable scope determines where a variable can be accessed in a program. Local variables are declared inside methods and can only be accessed within that method. Instance variables are declared in a class but outside methods and can be accessed by all methods in the class. Example: class Test { int instanceVar = 10; void method() { int localVar = 5; // localVar only accessible here } }"
+  sample_student_answers:
+  - text: "Variable scope determines where variables can be accessed. Local variables are declared in methods and only accessible within that method. Instance variables are declared in the class and accessible throughout the class. Example: class Car { int speed; void accelerate() { int increment = 5; speed += increment; } }"
+    correct: true
+    score: 1.0
+  - text: "Scope is where you can use a variable. Local variables are inside methods, instance variables are in the class. Local variables can't be used outside their method."
+    correct: true
+    score: 0.8
+  - text: "Local variables are temporary and only exist in the method. Instance variables belong to the object and exist as long as the object exists."
+    correct: true
+    score: 0.7
+  - text: "Scope means where variables are visible. There are different types like local and global."
+    correct: true
+    score: 0.5
+  - text: "Local variables are declared inside methods, instance variables are declared in classes."
+    correct: true
+    score: 0.4
+  - text: "Scope is about variable visibility but I'm not sure about the exact differences."
+    correct: false
+    score: 0.2
+  - text: "Local and instance variables are the same thing."
+    correct: false
+    score: 0.0
+  - text: "All variables have the same scope in Java."
+    correct: false
+    score: 0.0
+  - text: "I don't understand variable scope."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions - Question 1
+- question_id: JAVA-OP-001
+  text: "What will be the value of x after executing the following code?
+
+
+    ```java
+
+    int x = 10;
+
+    x += 5;
+
+    x *= 2;
+
+    x -= 8;
+
+    ```"
+  question_type: code_analysis
+  topic: Operators and Expressions
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: "22"
+  sample_student_answers:
+  - text: "22"
+    correct: true
+    score: 1.0
+  - text: "22 (10+5=15, 15*2=30, 30-8=22)"
+    correct: true
+    score: 1.0
+  - text: "30"
+    correct: false
+    score: 0.3
+  - text: "15"
+    correct: false
+    score: 0.2
+  - text: "The final value of x is 22 after all the compound assignments"
+    correct: true
+    score: 1.0
+  - text: "7"
+    correct: false
+    score: 0.0
+  - text: "I calculated step by step: x starts at 10, becomes 15, then 30, then 22"
+    correct: true
+    score: 1.0
+  - text: "32"
+    correct: false
+    score: 0.0
+  - text: "I'm not sure how compound operators work"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions - Question 2
+- question_id: JAVA-OP-002
+  text: "Which operator has the highest precedence in Java?"
+  question_type: mcq
+  topic: Operators and Expressions
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "++ (postfix increment)"
+    correct: true
+  - text: "* (multiplication)"
+    correct: false
+  - text: "+ (addition)"
+    correct: false
+  - text: "= (assignment)"
+    correct: false
+  reference_answer: "++ (postfix increment)"
+  sample_student_answers:
+  - text: "++ (postfix increment)"
+    correct: true
+    score: 1.0
+  - text: "* (multiplication)"
+    correct: false
+    score: 0.0
+  - text: "+ (addition)"
+    correct: false
+    score: 0.0
+  - text: "= (assignment)"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: "++ (postfix increment)"
+    correct: true
+    score: 1.0
+  - text: "* (multiplication)"
+    correct: false
+    score: 0.0
+  - text: "+ (addition)"
+    correct: false
+    score: 0.0
+  - text: "= (assignment)"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions - Question 3
+- question_id: JAVA-OP-003
+  text: "Write a Java program that demonstrates the difference between ++i and i++ operators."
+  question_type: coding
+  topic: Operators and Expressions
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: |
+    public class IncrementDemo {
+        public static void main(String[] args) {
+            int i = 5;
+            int j = 5;
+            
+            System.out.println("Pre-increment:");
+            System.out.println("i = " + i);
+            System.out.println("++i = " + (++i));
+            System.out.println("i after ++i = " + i);
+            
+            System.out.println("\nPost-increment:");
+            System.out.println("j = " + j);
+            System.out.println("j++ = " + (j++));
+            System.out.println("j after j++ = " + j);
+        }
+    }
+  test_cases:
+  - input: "N/A"
+    expected_output: "Pre-increment:
+
+      i = 5
+
+      ++i = 6
+
+      i after ++i = 6
+
+
+      Post-increment:
+
+      j = 5
+
+      j++ = 5
+
+      j after j++ = 6"
+  sample_student_answers:
+  - text: |
+      public class IncrementDemo {
+          public static void main(String[] args) {
+              int i = 5;
+              int j = 5;
+              
+              System.out.println("Pre-increment:");
+              System.out.println("i = " + i);
+              System.out.println("++i = " + (++i));
+              System.out.println("i after ++i = " + i);
+              
+              System.out.println("\nPost-increment:");
+              System.out.println("j = " + j);
+              System.out.println("j++ = " + (j++));
+              System.out.println("j after j++ = " + j);
+          }
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      public class Test {
+          public static void main(String[] args) {
+              int x = 10;
+              System.out.println("Before: " + x);
+              System.out.println("++x: " + (++x));
+              System.out.println("After: " + x);
+              
+              int y = 10;
+              System.out.println("Before: " + y);
+              System.out.println("y++: " + (y++));
+              System.out.println("After: " + y);
+          }
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      public class Increment {
+          public static void main(String[] args) {
+              int a = 5;
+              int b = ++a; // b gets 6, a becomes 6
+              int c = a++; // c gets 6, a becomes 7
+              System.out.println("a=" + a + ", b=" + b + ", c=" + c);
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      public class Test {
+          public static void main(String[] args) {
+              int i = 0;
+              System.out.println(++i); // prints 1
+              i = 0;
+              System.out.println(i++); // prints 0
+          }
+      }
+    correct: true
+    score: 0.7
+  - text: |
+      public class Demo {
+          public static void main(String[] args) {
+              int num = 5;
+              ++num; // num becomes 6
+              num++; // num becomes 7
+              System.out.println(num); // prints 7
+          }
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public class Test {
+          public static void main(String[] args) {
+              int x = 10;
+              System.out.println(++x + x++); // This shows the difference but unclear
+          }
+      }
+    correct: false
+    score: 0.3
+  - text: |
+      public class Main {
+          public static void main(String[] args) {
+              int i = 5;
+              i++; // increment after
+              ++i; // increment before
+              System.out.println(i);
+          }
+      }
+    correct: false
+    score: 0.2
+  - text: "I know ++i increments before and i++ increments after but I don't know how to show it."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions - Question 4
+- question_id: JAVA-OP-004
+  text: "What is the result of the following logical expression?
+
+
+    ```java
+
+    boolean result = (5 > 3) && (8 < 10) || (4 == 2);
+
+    ```"
+  question_type: code_analysis
+  topic: Operators and Expressions
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "true"
+  sample_student_answers:
+  - text: "true"
+    correct: true
+    score: 1.0
+  - text: "true (because (5>3) is true AND (8<10) is true, so the first part is true, making the whole OR expression true)"
+    correct: true
+    score: 1.0
+  - text: "false"
+    correct: false
+    score: 0.0
+  - text: "true because 5>3 and 8<10 are both true"
+    correct: true
+    score: 0.9
+  - text: "The result is true since the first two conditions are true and && has higher precedence than ||"
+    correct: true
+    score: 1.0
+  - text: "false because 4 != 2"
+    correct: false
+    score: 0.1
+  - text: "true || false = true"
+    correct: false
+    score: 0.3
+  - text: "I think it's true but I'm not sure about operator precedence"
+    correct: false
+    score: 0.4
+  - text: "Compilation error"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Operators and Expressions - Question 5
+- question_id: JAVA-OP-005
+  text: "Explain the difference between == and .equals() when comparing strings in Java. Provide an example."
+  question_type: short_answer
+  topic: Operators and Expressions
+  difficulty: 3
+  cognitive_level: comprehension
+  reference_answer: "== compares object references (memory addresses), while .equals() compares the actual content of strings. For strings, == returns true only if both variables reference the same object in memory, but .equals() returns true if the strings have the same characters. Example: String s1 = new String(\"hello\"); String s2 = new String(\"hello\"); s1 == s2 is false, but s1.equals(s2) is true."
+  sample_student_answers:
+  - text: "== compares references while .equals() compares content. For strings created with 'new', == returns false even if content is same, but .equals() returns true if content matches. Example: String a = new String(\"test\"); String b = new String(\"test\"); a == b is false, a.equals(b) is true."
+    correct: true
+    score: 1.0
+  - text: "== checks if two string variables point to the same object in memory. .equals() checks if the strings have the same characters. Use .equals() to compare string content."
+    correct: true
+    score: 0.9
+  - text: ".equals() compares the actual text, == compares memory locations. Always use .equals() for strings."
+    correct: true
+    score: 0.8
+  - text: "== is for primitive types, .equals() is for objects like strings."
+    correct: true
+    score: 0.6
+  - text: ".equals() is safer for string comparison than =="
+    correct: true
+    score: 0.4
+  - text: "They do the same thing for strings."
+    correct: false
+    score: 0.0
+  - text: "== is faster than .equals()"
+    correct: false
+    score: 0.1
+  - text: "You should always use == for everything."
+    correct: false
+    score: 0.0
+  - text: "I know they're different but I'm not sure exactly how."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# File I/O - Question 1
+- question_id: JAVA-FILEIO-001
+  text: "Which of the following is the correct way to read a text file in Java using BufferedReader?"
+  question_type: mcq
+  topic: File I/O
+  difficulty: 3
+  cognitive_level: knowledge
+  options:
+  - text: "BufferedReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: true
+  - text: "BufferedReader reader = new BufferedReader(\"file.txt\");"
+    correct: false
+  - text: "FileReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: false
+  - text: "BufferedReader reader = new FileReader(new BufferedReader(\"file.txt\"));"
+    correct: false
+  reference_answer: "BufferedReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+  sample_student_answers:
+  - text: "BufferedReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: true
+    score: 1.0
+  - text: "BufferedReader reader = new BufferedReader(\"file.txt\");"
+    correct: false
+    score: 0.0
+  - text: "FileReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: false
+    score: 0.0
+  - text: "BufferedReader reader = new FileReader(new BufferedReader(\"file.txt\"));"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: "BufferedReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: true
+    score: 1.0
+  - text: "BufferedReader reader = new BufferedReader(\"file.txt\");"
+    correct: false
+    score: 0.0
+  - text: "FileReader reader = new BufferedReader(new FileReader(\"file.txt\"));"
+    correct: false
+    score: 0.0
+  - text: "BufferedReader reader = new FileReader(new BufferedReader(\"file.txt\"));"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# File I/O - Question 2
+- question_id: JAVA-FILEIO-002
+  text: "Write a Java method that counts the number of lines in a text file. Handle FileNotFoundException appropriately."
+  question_type: coding
+  topic: File I/O
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    import java.io.*;
+
+    public static int countLines(String filename) {
+        int lineCount = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            while (reader.readLine() != null) {
+                lineCount++;
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + filename);
+            return -1;
+        } catch (IOException e) {
+            System.out.println("Error reading file: " + e.getMessage());
+            return -1;
+        }
+        return lineCount;
+    }
+  test_cases:
+  - input: "test.txt (3 lines)"
+    expected_output: "3"
+  - input: "nonexistent.txt"
+    expected_output: "-1"
+  sample_student_answers:
+  - text: |
+      import java.io.*;
+
+      public static int countLines(String filename) {
+          int lineCount = 0;
+          try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+              while (reader.readLine() != null) {
+                  lineCount++;
+              }
+          } catch (FileNotFoundException e) {
+              System.out.println("File not found: " + filename);
+              return -1;
+          } catch (IOException e) {
+              System.out.println("Error reading file: " + e.getMessage());
+              return -1;
+          }
+          return lineCount;
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      import java.io.*;
+
+      public static int countLines(String filename) {
+          int count = 0;
+          try {
+              BufferedReader reader = new BufferedReader(new FileReader(filename));
+              while (reader.readLine() != null) {
+                  count++;
+              }
+              reader.close();
+              return count;
+          } catch (FileNotFoundException e) {
+              System.out.println("File not found");
+              return -1;
+          } catch (IOException e) {
+              System.out.println("IO Error");
+              return -1;
+          }
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      import java.io.*;
+
+      public static int countLines(String filename) {
+          int lines = 0;
+          try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+              String line;
+              while ((line = br.readLine()) != null) {
+                  lines++;
+              }
+          } catch (IOException e) {
+              return 0; // Different error handling approach
+          }
+          return lines;
+      }
+    correct: true
+    score: 0.7
+  - text: |
+      public static int countLines(String filename) {
+          try {
+              BufferedReader reader = new BufferedReader(new FileReader(filename));
+              int count = 0;
+              while (reader.readLine() != null) {
+                  count++;
+              }
+              return count;
+          } catch (Exception e) {
+              return 0;
+          }
+      }
+    correct: false
+    score: 0.6
+  - text: |
+      import java.io.*;
+
+      public static int countLines(String filename) throws IOException {
+          BufferedReader reader = new BufferedReader(new FileReader(filename));
+          int count = 0;
+          while (reader.readLine() != null) {
+              count++;
+          }
+          return count; // Doesn't handle FileNotFoundException as requested
+      }
+    correct: false
+    score: 0.4
+  - text: |
+      public static int countLines(String filename) {
+          File file = new File(filename);
+          if (!file.exists()) {
+              return -1;
+          }
+          // Missing actual file reading logic
+          return 0;
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public static int countLines(String filename) {
+          Scanner scanner = new Scanner(filename); // Wrong Scanner usage
+          int count = 0;
+          while (scanner.hasNextLine()) {
+              scanner.nextLine();
+              count++;
+          }
+          return count;
+      }
+    correct: false
+    score: 0.1
+  - text: "I don't know how to read files in Java."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# File I/O - Question 3
+- question_id: JAVA-FILEIO-003
+  text: "What is the difference between FileReader and BufferedReader in Java file I/O?"
+  question_type: short_answer
+  topic: File I/O
+  difficulty: 2
+  cognitive_level: comprehension
+  reference_answer: "FileReader reads characters directly from a file one at a time, which can be slow for large files. BufferedReader wraps around FileReader and reads chunks of data into a buffer, making it more efficient for reading large files. BufferedReader also provides convenient methods like readLine()."
+  sample_student_answers:
+  - text: "FileReader reads characters one by one from a file, while BufferedReader reads data in chunks using a buffer, making it more efficient. BufferedReader also provides methods like readLine() for easier text processing."
+    correct: true
+    score: 1.0
+  - text: "BufferedReader is faster than FileReader because it uses buffering to read multiple characters at once instead of reading one character at a time."
+    correct: true
+    score: 0.8
+  - text: "FileReader is for reading files, BufferedReader is for reading with better performance and has readLine() method."
+    correct: true
+    score: 0.6
+  - text: "BufferedReader is better than FileReader because it's more efficient."
+    correct: true
+    score: 0.4
+  - text: "FileReader reads files and BufferedReader reads buffers."
+    correct: false
+    score: 0.2
+  - text: "They are basically the same thing."
+    correct: false
+    score: 0.0
+  - text: "FileReader is old, BufferedReader is new."
+    correct: false
+    score: 0.0
+  - text: "BufferedReader can read multiple files, FileReader can only read one."
+    correct: false
+    score: 0.0
+  - text: "I'm not sure about the difference."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# File I/O - Question 4
+- question_id: JAVA-FILEIO-004
+  text: "What will be the output of the following code?
+
+
+    ```java
+
+    import java.io.*;
+
+
+    public class FileTest {
+
+    \    public static void main(String[] args) {
+
+    \        try {
+
+    \            FileWriter writer = new FileWriter(\"test.txt\");
+
+    \            writer.write(\"Hello\");
+
+    \            writer.write(\" World\");
+
+    \            writer.close();
+
+    \           \ 
+
+    \            FileReader reader = new FileReader(\"test.txt\");
+
+    \            int ch;
+
+    \            while ((ch = reader.read()) != -1) {
+
+    \                System.out.print((char) ch);
+
+    \            }
+
+    \            reader.close();
+
+    \        } catch (IOException e) {
+
+    \            System.out.println(\"Error\");
+
+    \        }
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: File I/O
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: "Hello World"
+  sample_student_answers:
+  - text: "Hello World"
+    correct: true
+    score: 1.0
+  - text: "Hello World (the program writes to a file then reads it back)"
+    correct: true
+    score: 1.0
+  - text: "HelloWorld"
+    correct: false
+    score: 0.8
+  - text: "Hello\n World"
+    correct: false
+    score: 0.3
+  - text: "The program will create a file and print its contents: Hello World"
+    correct: true
+    score: 0.9
+  - text: "Error"
+    correct: false
+    score: 0.0
+  - text: "Nothing will be printed"
+    correct: false
+    score: 0.0
+  - text: "It will print the file name"
+    correct: false
+    score: 0.0
+  - text: "I think it reads a file but I'm not sure what it prints"
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# File I/O - Question 5
+- question_id: JAVA-FILEIO-005
+  text: "Complete the following code to write an array of strings to a file, with each string on a separate line:
+
+
+    ```java
+
+    import java.io.*;
+
+
+    public static void writeArrayToFile(String[] data, String filename) {
+
+    \    // Your code here
+
+    }
+
+    ```"
+  question_type: fill_blank
+  topic: File I/O
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+        for (String line : data) {
+            writer.println(line);
+        }
+    } catch (IOException e) {
+        System.out.println("Error writing to file: " + e.getMessage());
+    }
+  sample_student_answers:
+  - text: |
+      try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+          for (String line : data) {
+              writer.println(line);
+          }
+      } catch (IOException e) {
+          System.out.println("Error writing to file: " + e.getMessage());
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      try {
+          FileWriter writer = new FileWriter(filename);
+          for (String s : data) {
+              writer.write(s + "\n");
+          }
+          writer.close();
+      } catch (IOException e) {
+          System.out.println("Error: " + e.getMessage());
+      }
+    correct: true
+    score: 0.9
+  - text: |
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
+          for (int i = 0; i < data.length; i++) {
+              writer.write(data[i]);
+              writer.newLine();
+          }
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      try {
+          PrintWriter pw = new PrintWriter(filename);
+          for (String item : data) {
+              pw.println(item);
+          }
+          pw.close();
+      } catch (Exception e) {
+          System.out.println("Error");
+      }
+    correct: true
+    score: 0.7
+  - text: |
+      FileWriter writer = new FileWriter(filename);
+      for (String s : data) {
+          writer.write(s + "\n");
+      }
+      writer.close();
+    correct: false
+    score: 0.4
+  - text: |
+      try {
+          PrintWriter writer = new PrintWriter(filename);
+          for (String line : data) {
+              writer.print(line); // Missing newline
+          }
+          writer.close();
+      } catch (IOException e) {
+          System.out.println("Error");
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      File file = new File(filename);
+      // I know I need to write to the file but I'm not sure how
+    correct: false
+    score: 0.1
+  - text: |
+      System.out.println(data); // Completely wrong approach
+    correct: false
+    score: 0.0
+  - text: "I don't know how to write to files."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Java Collections Framework - Question 1
+- question_id: JAVA-COLLECTIONS-001
+  text: "Which of the following collections allows duplicate elements and maintains insertion order?"
+  question_type: mcq
+  topic: Java Collections Framework
+  difficulty: 2
+  cognitive_level: knowledge
+  options:
+  - text: "ArrayList"
+    correct: true
+  - text: "HashSet"
+    correct: false
+  - text: "TreeSet"
+    correct: false
+  - text: "HashMap"
+    correct: false
+  reference_answer: "ArrayList"
+  sample_student_answers:
+  - text: "ArrayList"
+    correct: true
+    score: 1.0
+  - text: "HashSet"
+    correct: false
+    score: 0.0
+  - text: "TreeSet"
+    correct: false
+    score: 0.0
+  - text: "HashMap"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+  - text: "ArrayList"
+    correct: true
+    score: 1.0
+  - text: "HashSet"
+    correct: false
+    score: 0.0
+  - text: "TreeSet"
+    correct: false
+    score: 0.0
+  - text: "HashMap"
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Java Collections Framework - Question 2
+- question_id: JAVA-COLLECTIONS-002
+  text: "Write a Java method that removes all duplicate elements from an ArrayList of integers and returns the modified list."
+  question_type: coding
+  topic: Java Collections Framework
+  difficulty: 3
+  cognitive_level: application
+  reference_answer: |
+    import java.util.*;
+
+    public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+        LinkedHashSet<Integer> set = new LinkedHashSet<>(list);
+        return new ArrayList<>(set);
+    }
+  test_cases:
+  - input: "[1, 2, 2, 3, 1, 4]"
+    expected_output: "[1, 2, 3, 4]"
+  - input: "[5, 5, 5]"
+    expected_output: "[5]"
+  sample_student_answers:
+  - text: |
+      import java.util.*;
+
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          LinkedHashSet<Integer> set = new LinkedHashSet<>(list);
+          return new ArrayList<>(set);
+      }
+    correct: true
+    score: 1.0
+  - text: |
+      import java.util.*;
+
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          ArrayList<Integer> result = new ArrayList<>();
+          for (Integer num : list) {
+              if (!result.contains(num)) {
+                  result.add(num);
+              }
+          }
+          return result;
+      }
+    correct: true
+    score: 0.8
+  - text: |
+      import java.util.*;
+
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          Set<Integer> set = new HashSet<>(list);
+          return new ArrayList<>(set);
+      }
+    correct: false
+    score: 0.7
+  - text: |
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          ArrayList<Integer> newList = new ArrayList<>();
+          for (int i = 0; i < list.size(); i++) {
+              boolean duplicate = false;
+              for (int j = 0; j < newList.size(); j++) {
+                  if (list.get(i).equals(newList.get(j))) {
+                      duplicate = true;
+                      break;
+                  }
+              }
+              if (!duplicate) {
+                  newList.add(list.get(i));
+              }
+          }
+          return newList;
+      }
+    correct: true
+    score: 0.6
+  - text: |
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          for (int i = 0; i < list.size(); i++) {
+              for (int j = i + 1; j < list.size(); j++) {
+                  if (list.get(i) == list.get(j)) {
+                      list.remove(j);
+                      j--; // Adjust index after removal
+                  }
+              }
+          }
+          return list;
+      }
+    correct: false
+    score: 0.5
+  - text: |
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          Collections.sort(list);
+          // I know I need to remove duplicates after sorting but not sure how
+          return list;
+      }
+    correct: false
+    score: 0.2
+  - text: |
+      public static ArrayList<Integer> removeDuplicates(ArrayList<Integer> list) {
+          list.remove(list); // This doesn't make sense
+          return list;
+      }
+    correct: false
+    score: 0.0
+  - text: |
+      public static void removeDuplicates(ArrayList<Integer> list) {
+          // Wrong return type and no implementation
+      }
+    correct: false
+    score: 0.0
+  - text: "I don't know how to remove duplicates from a list."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Java Collections Framework - Question 3
+- question_id: JAVA-COLLECTIONS-003
+  text: "Explain the difference between ArrayList and LinkedList in terms of performance for insertion and access operations."
+  question_type: short_answer
+  topic: Java Collections Framework
+  difficulty: 3
+  cognitive_level: analysis
+  reference_answer: "ArrayList provides O(1) random access by index but O(n) insertion/deletion in the middle due to array shifting. LinkedList provides O(n) access by index but O(1) insertion/deletion at any position if you have a reference to the node. ArrayList is better for frequent access operations, LinkedList is better for frequent insertion/deletion operations."
+  sample_student_answers:
+  - text: "ArrayList has O(1) access by index and O(n) insertion in middle. LinkedList has O(n) access by index but O(1) insertion/deletion at any position. ArrayList is better for accessing elements, LinkedList is better for frequent insertions/deletions."
+    correct: true
+    score: 1.0
+  - text: "ArrayList is faster for accessing elements because it uses an array. LinkedList is faster for inserting and deleting elements because it just changes pointers."
+    correct: true
+    score: 0.8
+  - text: "ArrayList uses arrays so accessing is fast but inserting is slow because you have to shift elements. LinkedList uses nodes so inserting is fast but accessing is slow because you have to traverse."
+    correct: true
+    score: 0.9
+  - text: "ArrayList is better for reading, LinkedList is better for writing."
+    correct: true
+    score: 0.6
+  - text: "ArrayList stores elements in an array, LinkedList stores them as nodes with pointers."
+    correct: true
+    score: 0.4
+  - text: "LinkedList is always faster than ArrayList."
+    correct: false
+    score: 0.1
+  - text: "ArrayList and LinkedList have the same performance."
+    correct: false
+    score: 0.0
+  - text: "ArrayList is newer so it's better."
+    correct: false
+    score: 0.0
+  - text: "I know they're different but I'm not sure about the performance differences."
+    correct: false
+    score: 0.1
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Java Collections Framework - Question 4
+- question_id: JAVA-COLLECTIONS-004
+  text: "What will be the output of the following code?
+
+
+    ```java
+
+    import java.util.*;
+
+
+    public class CollectionTest {
+
+    \    public static void main(String[] args) {
+
+    \        Map<String, Integer> map = new HashMap<>();
+
+    \        map.put(\"apple\", 5);
+
+    \        map.put(\"banana\", 3);
+
+    \        map.put(\"apple\", 8);
+
+    \       \ 
+
+    \        System.out.println(map.get(\"apple\"));
+
+    \        System.out.println(map.size());
+
+    \    }
+
+    }
+
+    ```"
+  question_type: code_analysis
+  topic: Java Collections Framework
+  difficulty: 2
+  cognitive_level: application
+  reference_answer: "8\n2"
+  sample_student_answers:
+  - text: "8\n2"
+    correct: true
+    score: 1.0
+  - text: "8, 2"
+    correct: true
+    score: 0.9
+  - text: "8
+
+      2 (the second put overwrites the first apple entry)"
+    correct: true
+    score: 1.0
+  - text: "5\n3"
+    correct: false
+    score: 0.0
+  - text: "8\n3"
+    correct: false
+    score: 0.5
+  - text: "5\n2"
+    correct: false
+    score: 0.3
+  - text: "The map will have apple=8 and banana=3, so it prints 8 and size is 2"
+    correct: true
+    score: 1.0
+  - text: "Error because you can't have duplicate keys"
+    correct: false
+    score: 0.0
+  - text: "I think the apple value gets updated but I'm not sure about the size"
+    correct: false
+    score: 0.2
+  - text: ""
+    correct: false
+    score: 0.0
+
+# Java Collections Framework - Question 5
+- question_id: JAVA-COLLECTIONS-005
+  text: "Complete the following method to find the most frequent element in a List:
+
+
+    ```java
+
+    import java.util.*;
+
+
+    public static <T> T findMostFrequent(List<T> list) {
+
+    \    // Your code here
+
+    }
+
+    ```"
+  question_type: fill_blank
+  topic: Java Collections Framework
+  difficulty: 4
+  cognitive_level: application
+  reference_answer: |
+    if (list.isEmpty()) return null;
+
+    Map<T, Integer> frequency = new HashMap<>();
+    for (T item : list) {
+        frequency.put(item, frequency.getOrDefault(item, 0) + 1);
+    }
+
+    T mostFrequent = null;
+    int maxCount = 0;
+    for (Map.Entry<T, Integer> entry : frequency.entrySet()) {
+        if (entry.getValue() > maxCount) {
+            maxCount = entry.getValue();
+            mostFrequent = entry.getKey();
+        }
+    }
+    return mostFrequent;
+  sample_student_answers:
+  - text: |
+      if (list.isEmpty()) return null;
+
+      Map<T, Integer> frequency = new HashMap<>();
+      for (T item : list) {
+          frequency.put(item, frequency.getOrDefault(item, 0) + 1);
+      }
+
+      T mostFrequent = null;
+      int maxCount = 0;
+      for (Map.Entry<T, Integer> entry : frequency.entrySet()) {
+          if (entry.getValue() > maxCount) {
+              maxCount = entry.getValue();
+              mostFrequent = entry.getKey();
+          }
+      }
+      return mostFrequent;
+    correct: true
+    score: 1.0
+  - text: |
+      Map<T, Integer> countMap = new HashMap<>();
+      for (T element : list) {
+          if (countMap.containsKey(element)) {
+              countMap.put(element, countMap.get(element) + 1);
+          } else {
+              countMap.put(element, 1);
+          }
+      }
+
+      T result = null;
+      int max = 0;
+      for (T key : countMap.keySet()) {
+          if (countMap.get(key) > max) {
+              max = countMap.get(key);
+              result = key;
+          }
+      }
+      return result;
+    correct: true
+    score: 0.9
+  - text: |
+      Map<T, Integer> freq = new HashMap<>();
+      for (T item : list) {
+          freq.merge(item, 1, Integer::sum);
+      }
+      return Collections.max(freq.entrySet(), Map.Entry.comparingByValue()).getKey();
+    correct: true
+    score: 1.0
+  - text: |
+      Map<T, Integer> map = new HashMap<>();
+      for (T element : list) {
+          map.put(element, map.getOrDefault(element, 0) + 1);
+      }
+
+      // Find max frequency
+      int maxFreq = 0;
+      for (int freq : map.values()) {
+          if (freq > maxFreq) {
+              maxFreq = freq;
+          }
+      }
+
+      // Find element with max frequency
+      for (Map.Entry<T, Integer> entry : map.entrySet()) {
+          if (entry.getValue() == maxFreq) {
+              return entry.getKey();
+          }
+      }
+      return null;
+    correct: true
+    score: 0.8
+  - text: |
+      Map<T, Integer> counts = new HashMap<>();
+      for (T item : list) {
+          if (counts.containsKey(item)) {
+              counts.put(item, counts.get(item) + 1);
+          } else {
+              counts.put(item, 1);
+          }
+      }
+      // Missing logic to find the most frequent
+      return list.get(0);
+    correct: false
+    score: 0.3
+  - text: |
+      T mostFrequent = list.get(0);
+      int maxCount = 0;
+      for (T item : list) {
+          int count = Collections.frequency(list, item);
+          if (count > maxCount) {
+              maxCount = count;
+              mostFrequent = item;
+          }
+      }
+      return mostFrequent;
+    correct: true
+    score: 0.6
+  - text: |
+      Collections.sort(list);
+      return list.get(list.size() / 2); // This is finding median, not most frequent
+    correct: false
+    score: 0.1
+  - text: |
+      return list.get(0); // Just return first element
+    correct: false
+    score: 0.0
+  - text: "I need to count frequencies but I'm not sure how to implement it."
+    correct: false
+    score: 0.0
+  - text: ""
+    correct: false
+    score: 0.0

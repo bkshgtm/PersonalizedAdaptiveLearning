@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Model Training Results</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Training Summary</h5>
+        </div>
+        <div class="card-body">
+            <p><strong>Model Type:</strong> {{ model_type|upper }}</p>
+            <p><strong>Training Time:</strong> {{ training_time|floatformat:2 }} seconds</p>
+            <p><strong>Epochs:</strong> {{ epochs }}</p>
+            <p><strong>Batch Size:</strong> {{ batch_size }}</p>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Training Metrics</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Final Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for metric, values in metrics.items %}
+                    <tr>
+                        <td>{{ metric|title }}</td>
+                        <td>{{ values|last|floatformat:4 }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <a href="{% url 'ml_models:learning_paths' %}" class="btn btn-primary btn-lg px-5 py-3">
+            Generate Learning Path
+        </a>
+        <div class="mt-4">
+            <a href="{% url 'ml_models:train' %}" class="text-secondary">
+                <small>Train New Model</small>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

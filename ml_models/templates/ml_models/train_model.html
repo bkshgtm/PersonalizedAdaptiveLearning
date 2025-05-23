@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Train Model</h2>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="trainForm">
+                <div class="mb-3">
+                    <label for="modelType" class="form-label">Model Type</label>
+                    <select class="form-select" id="modelType" name="model">
+                        <option value="dkt">DKT (Deep Knowledge Tracing)</option>
+                        <option value="sakt">SAKT (Self-Attentive Knowledge Tracing)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="epochs" class="form-label">Epochs</label>
+                    <input type="number" class="form-control" id="epochs" name="epochs" value="10" min="1">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="batchSize" class="form-label">Batch Size</label>
+                    <input type="number" class="form-control" id="batchSize" name="batch_size" value="32" min="1">
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Start Training</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="trainingProgress" class="card" style="display: none;">
+        <div class="card-header">
+            <h5>Training Progress</h5>
+        </div>
+        <div class="card-body">
+            <div class="progress mb-3">
+                <div id="progressBar" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            </div>
+            <pre id="trainingLog" class="bg-light p-3" style="height: 200px; overflow-y: auto;"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('trainForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const progressDiv = document.getElementById('trainingProgress');
+    const progressBar = document.getElementById('progressBar');
+    const trainingLog = document.getElementById('trainingLog');
+    
+    progressDiv.style.display = 'block';
+    trainingLog.innerHTML = 'Starting training...\n';
+    
+            const eventSource = new EventSource(`/ml-models/train-stream/?${new URLSearchParams(formData)}`);
+    
+    eventSource.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        if (data.progress) {
+            progressBar.style.width = `${data.progress}%`;
+            progressBar.textContent = `${data.progress}%`;
+        }
+        if (data.message) {
+            trainingLog.innerHTML += data.message + '\n';
+            trainingLog.scrollTop = trainingLog.scrollHeight;
+        }
+        if (data.complete) {
+            eventSource.close();
+            trainingLog.innerHTML += 'Training complete!\n';
+            
+            // Redirect to learning paths after training completes
+            window.location.href = "{% url 'ml_models:learning_paths' %}";
+        }
+    };
+    
+    eventSource.onerror = function() {
+        trainingLog.innerHTML += 'Training stream ended\n';
+        eventSource.close();
+    };
+});
+</script>
+
+<style>
+#trainingLog {
+    white-space: pre-wrap;
+    font-family: monospace;
+}
+</style>
+{% endblock %}

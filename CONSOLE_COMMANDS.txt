@@ -12,3 +12,25 @@ docker-compose exec web python manage.py runserver
 
 # REBUILD FROM SCRATCH
 docker-compose down && docker-compose build --no-cache && docker-compose up -d
+
+# SETUP STUDENTS AND INTERACTIONS
+docker-compose exec web python manage.py setup_students_and_interactions CS206 --num_students=10 --interactions_per_student=30 --questions_file=/app/static/data/java_questions.yaml --topics_file=/app/static/data/java_topics.json
+
+# TRAIN BOTH MODELS
+docker-compose exec web python manage.py train_knowledge_tracing_models --model dkt --course CS206
+docker-compose exec web python manage.py train_knowledge_tracing_models --model sakt --course CS206
+
+# TRAIN SINGLE MODEL
+docker-compose exec web python manage.py train_knowledge_tracing_models --model dkt --course CS206
+
+# GENERATE PREDICTIONS WITH TRAINED MODEL
+docker-compose exec web python manage.py generate_mastery_predictions --model dkt --course CS206
+
+# RUN FULL PIPELINE (TRAIN AND GENERATE PATHS)
+docker-compose exec web python run_pipeline.py --course CS206 --model dkt
+
+#CLEAR PATHS
+bkshmax$ docker-compose exec web python clear_paths.py
+
+# LOAD RESOURCES:
+docker-compose exec web python manage.py load_resources --clear

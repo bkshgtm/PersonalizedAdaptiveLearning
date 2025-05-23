@@ -9,9 +9,14 @@ from django.utils import timezone
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pal_project.settings')
 django.setup()
 
-# Configure logging
+# Configure logging - Change to INFO level
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Reduce logging from other modules
+logging.getLogger('torch').setLevel(logging.WARNING)
+logging.getLogger('matplotlib').setLevel(logging.WARNING)
+logging.getLogger('PIL').setLevel(logging.WARNING)
 
 from ml_models.ml.data_preparation import DataPreparation
 from ml_models.ml.dkt import DKTModel, DKTTrainer

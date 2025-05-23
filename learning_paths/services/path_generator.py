@@ -165,9 +165,31 @@ class LearningPathGenerator:
         """
         # Get all topics for the course
         topics = Topic.objects.filter(course=self.course)
+        total_topics = topics.count()
+        logger.info(f"Course has {total_topics} total topics")
+        
+        # Get configuration parameters with sensible defaults
+        include_strong = self.config.get('include_strong_topics', False)
+        max_weak_topics = self.config.get('max_weak_topics', 10)
+        max_developing_topics = self.config.get('max_developing_topics', 10)
+        max_strong_topics = self.config.get('max_strong_topics', 5)
+        
+        # Adaptive sizing based on course size
+        if total_topics > 100:
+            # For very large courses, scale up the limits
+            max_weak_topics = min(20, total_topics // 5)
+            max_developing_topics = min(15, total_topics // 7)
+            max_strong_topics = min(10, total_topics // 10)
+        elif total_topics < 20:
+            # For small courses, include most topics
+            max_weak_topics = total_topics
+            max_developing_topics = total_topics
+            max_strong_topics = total_topics if include_strong else 0
         
         # Process each topic
-        path_items = []
+        weak_items = []
+        developing_items = []
+        strong_items = []
         
         for topic in topics:
             # Get mastery for this topic, or use default values
@@ -191,8 +213,8 @@ class LearningPathGenerator:
             else:
                 status = 'strong'
             
-            # Skip topics that are already strong if configured
-            if status == 'strong' and not self.config.get('include_strong_topics', False):
+            # Skip strong topics if configured to exclude them
+            if status == 'strong' and not include_strong:
                 continue
             
             # Get recommended resources
@@ -207,8 +229,8 @@ class LearningPathGenerator:
             # Calculate priority
             priority = self._calculate_priority(topic, proficiency_score, trend, graph_ops)
             
-            # Add to path items
-            path_items.append({
+            # Create item data
+            item_data = {
                 'topic': topic,
                 'proficiency_score': proficiency_score,
                 'status': status,
@@ -218,10 +240,36 @@ class LearningPathGenerator:
                 'estimated_review_time': estimated_review_time,
                 'priority': priority,
                 'recommended_resources': recommended_resources
-            })
+            }
+            
+            # Add to appropriate category
+            if status == 'weak':
+                weak_items.append(item_data)
+            elif status == 'developing':
+                developing_items.append(item_data)
+            else:  # strong
+                strong_items.append(item_data)
         
-        # Sort by priority (lower number = higher priority)
+        # Sort each category by priority
+        weak_items.sort(key=lambda x: x['priority'])
+        developing_items.sort(key=lambda x: x['priority'])
+        strong_items.sort(key=lambda x: x['priority'])
+        
+        # Take top N from each category
+        weak_items = weak_items[:max_weak_topics]
+        developing_items = developing_items[:max_developing_topics]
+        strong_items = strong_items[:max_strong_topics]
+        
+        # Combine all items
+        path_items = weak_items + developing_items + strong_items
+        
+        # Final sort by priority
         path_items.sort(key=lambda x: x['priority'])
+        
+        # Log summary
+        logger.info(f"Generated path with {len(path_items)} items: "
+                   f"{len(weak_items)} weak, {len(developing_items)} developing, "
+                   f"{len(strong_items)} strong")
         
         return path_items
     
@@ -267,11 +315,19 @@ class LearningPathGenerator:
                 # Topics with unmet prerequisites get lower priority
                 prerequisites = graph_ops.get_prerequisites(topic.id, direct_only=True)
                 if prerequisites:
+                    # Check if prerequisites are integers or dictionaries
+                    if prerequisites and isinstance(prerequisites[0], int):
+                        # If prerequisites are integers (topic IDs), use them directly
+                        prereq_ids = prerequisites
+                    else:
+                        # If prerequisites are dictionaries with 'id' key, extract IDs
+                        prereq_ids = [p['id'] for p in prerequisites]
+                    
                     # Get mastery for prerequisites
                     prereq_masteries = TopicMastery.objects.filter(
                         student=self.student,
                         prediction_batch=self.prediction_batch,
-                        topic_id__in=[p['id'] for p in prerequisites]
+                        topic_id__in=prereq_ids
                     )
                     
                     # Calculate average mastery of prerequisites
@@ -308,50 +364,66 @@ class LearningPathGenerator:
         # Get resources for this topic
         resources = Resource.objects.filter(topics=topic)
         
-        # Process resources
-        recommended = []
+        if not resources:
+            logger.warning(f"No resources found for topic {topic.name} (ID: {topic.id})")
+            return []
         
-        for resource in resources:
-            # Determine if resource difficulty matches student's needs
-            difficulty_match = False
-            
-            if proficiency_score < 0.4 and resource.difficulty == 'beginner':
-                difficulty_match = True
-                match_reason = "Beginner resource for a topic you're still learning"
-            elif 0.4 <= proficiency_score < 0.7 and resource.difficulty == 'intermediate':
-                difficulty_match = True
-                match_reason = "Intermediate resource to help you progress further"
-            elif proficiency_score >= 0.7 and resource.difficulty == 'advanced':
-                difficulty_match = True
-                match_reason = "Advanced resource to master this topic"
-            else:
-                # If no perfect match, still include some resources
-                if proficiency_score < 0.5 and resource.difficulty != 'advanced':
+        logger.info(f"Found {resources.count()} resources for topic {topic.name}")
+        
+        # Use the ResourceSelector service for better resource selection
+        from learning_paths.services.resource_selector import ResourceSelector
+        
+        selector = ResourceSelector(config=self.config)
+        max_resources = self.config.get('max_resources_per_topic', 3)
+        
+        recommended = selector.select_resources(
+            topic=topic,
+            proficiency_score=proficiency_score,
+            max_resources=max_resources
+        )
+        
+        if not recommended:
+            logger.warning(f"No resources selected for topic {topic.name} - falling back to default selection")
+            # Process resources with the old method as fallback
+            for resource in resources:
+                # Determine if resource difficulty matches student's needs
+                difficulty_match = False
+                
+                if proficiency_score < 0.4 and resource.difficulty == 'beginner':
+                    difficulty_match = True
+                    match_reason = "Beginner resource for a topic you're still learning"
+                elif 0.4 <= proficiency_score < 0.7 and resource.difficulty == 'intermediate':
+                    difficulty_match = True
+                    match_reason = "Intermediate resource to help you progress further"
+                elif proficiency_score >= 0.7 and resource.difficulty == 'advanced':
+                    difficulty_match = True
+                    match_reason = "Advanced resource to master this topic"
+                else:
+                    # If no perfect match, still include some resources
                     difficulty_match = True
                     match_reason = "Resource to build your understanding of this topic"
-                elif proficiency_score >= 0.5 and resource.difficulty != 'beginner':
-                    difficulty_match = True
-                    match_reason = "Resource to deepen your knowledge of this topic"
-            
-            if difficulty_match:
-                # Convert duration to minutes
-                if resource.estimated_time:
-                    minutes = resource.estimated_time.total_seconds() // 60
-                else:
-                    minutes = 30  # Default 30 minutes
                 
-                recommended.append({
-                    'resource': resource,
-                    'match_reason': match_reason,
-                    'estimated_time': minutes
-                })
+                if difficulty_match:
+                    # Convert duration to minutes
+                    if resource.estimated_time:
+                        minutes = resource.estimated_time.total_seconds() // 60
+                    else:
+                        minutes = 30  # Default 30 minutes
+                    
+                    recommended.append({
+                        'resource': resource,
+                        'match_reason': match_reason,
+                        'estimated_time': minutes
+                    })
+            
+            # Sort by resource type to get a mix
+            recommended.sort(key=lambda x: x['resource'].resource_type)
+            
+            # Limit to max resources per topic
+            recommended = recommended[:max_resources]
         
-        # Sort by resource type to get a mix
-        recommended.sort(key=lambda x: x['resource'].resource_type)
-        
-        # Limit to max resources per topic
-        max_resources = self.config.get('max_resources_per_topic', 3)
-        return recommended[:max_resources]
+        logger.info(f"Selected {len(recommended)} resources for topic {topic.name}")
+        return recommended
     
     def _generate_recommendation_reason(
         self, 

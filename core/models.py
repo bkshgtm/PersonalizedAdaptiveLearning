@@ -80,6 +80,10 @@ class Resource(models.Model):
         ('quiz', 'Quiz'),
         ('example', 'Example'),
         ('reference', 'Reference'),
+        ('documentation', 'Documentation'),
+        ('course', 'Course'),
+        ('book', 'Book'),
+        ('practice', 'Practice'),
     ]
     
     DIFFICULTY_CHOICES = [
@@ -91,9 +95,9 @@ class Resource(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     url = models.URLField()
-    resource_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
+    resource_type = models.CharField(max_length=50, choices=TYPE_CHOICES)
     difficulty = models.CharField(max_length=20, choices=DIFFICULTY_CHOICES)
-    estimated_time = models.DurationField(help_text="Estimated time to complete resource")
+    estimated_time = models.DurationField(null=True, blank=True, help_text="Estimated time to complete resource")
     topics = models.ManyToManyField(Topic, related_name='resources')
     
     def __str__(self):

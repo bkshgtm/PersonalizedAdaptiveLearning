@@ -210,7 +210,8 @@ class InteractionSequenceDataset(Dataset):
                     'seq_len': b['seq_len']
                 })
                 
-                logger.debug(f"Padded sequence: original_len={b['seq_len']}, padded_len={max_len}")
+                # Remove this debug message that's causing the spam
+                # logger.debug(f"Padded sequence: original_len={b['seq_len']}, padded_len={max_len}")
                 
             except Exception as e:
                 logger.error(f"Failed to pad sequence: {str(e)}")

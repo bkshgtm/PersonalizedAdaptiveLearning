@@ -14,9 +14,6 @@ class DKTModel(nn.Module):
     """
     Implementation of Deep Knowledge Tracing model.
     
-    Reference: 
-    "Deep Knowledge Tracing" - Piech et al., 2015
-    https://papers.nips.cc/paper/5654-deep-knowledge-tracing.pdf
     """
     
     def __init__(

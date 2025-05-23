@@ -1,17 +1,23 @@
 import os
-import django
 import logging
 import argparse
-from django.utils import timezone
 
-# Set up Django environment
+# Set up Django environment FIRST
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pal_project.settings')
+
+# Then import Django and setup
+import django
 django.setup()
+
+# Now import Django models AFTER setup
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# Import your app models AFTER Django setup
 from core.models import Course, Student, Topic
 from ml_models.models import KnowledgeTracingModel, PredictionBatch
 from knowledge_graph.models import KnowledgeGraph
@@ -65,11 +71,19 @@ def run_pipeline(course_id, model_type='dkt'):
     
     # Step 4: Get or create path generator
     logger.info("Step 4: Getting or creating path generator")
+    # Try to get a user from course students first
     admin_user = course.students.first().user if course.students.exists() else None
-    
+
     if not admin_user:
-        logger.error("No user found to create path generator")
-        return
+        logger.info("No user found from course students, using admin user instead")
+        # Use an existing admin user
+        admin_user = User.objects.filter(is_superuser=True).first()
+        
+        if not admin_user:
+            logger.error("No admin user found in the system")
+            return
+        else:
+            logger.info(f"Using admin user: {admin_user.username}")
     
     path_generator, created = PathGenerator.objects.get_or_create(
         name=f"Default Generator for {course.title}",

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Prediction Results</h2>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Student Mastery Levels</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        {% for topic in topics %}
+                        <th>{{ topic.name }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student, predictions in results.items %}
+                    <tr>
+                        <td>{{ student }}</td>
+                        {% for prediction in predictions %}
+                        <td class="{% if prediction >= 0.8 %}bg-success{% elif prediction >= 0.5 %}bg-warning{% else %}bg-danger{% endif %}">
+                            {{ prediction|floatformat:2 }}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{% url 'ml_models:learning_paths' %}" class="btn btn-primary me-2">
+            Generate Learning Paths
+        </a>
+        <a href="{% url 'ml_models:train' %}" class="btn btn-secondary me-2">
+            Train New Model
+        </a>
+        <a href="{% url 'ml_models:predict' %}" class="btn btn-info">
+            Refresh Predictions
+        </a>
+    </div>
+</div>
+{% endblock %}

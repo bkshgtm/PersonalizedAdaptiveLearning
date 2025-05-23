@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<style>
+    .path-card {
+        background: #2a2a2a;
+        border-radius: 8px;
+        margin-bottom: 15px;
+    }
+    .path-header {
+        padding: 12px 15px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .path-content {
+        padding: 0 15px 15px;
+        display: none;
+    }
+    .topic-item {
+        margin-bottom: 10px;
+        background: #333;
+        padding: 8px 12px;
+        border-radius: 5px;
+    }
+    .badge {
+        margin-right: 5px;
+    }
+    .badge.bg-warning {
+        color: black;
+    }
+    .resource-link {
+        display: block;
+        padding: 3px 0;
+        color: #4da6ff;
+    }
+    .compact-info {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+    .info-item {
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="container">
+    <h2 class="mb-4">Learning Paths</h2>
+    
+    {% for student, path_list in paths.items %}
+        {% for path in path_list %}
+        <div class="path-card">
+            <div class="path-header" onclick="togglePath(this)">
+                <div>
+                    <strong>{{ student }}</strong> - {{ path.name }}
+                    <span class="text-muted ml-2">{{ path.created|date:"M d, Y" }}</span>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            
+            <div class="path-content">
+                <div class="compact-info mb-3">
+                    <div class="info-item">
+                        <strong>Topics:</strong> {{ path.items|length }}
+                    </div>
+                    <div class="info-item">
+                        <strong>Avg Proficiency:</strong> 
+                        {{ path.avg_proficiency|floatformat:2 }}%
+                    </div>
+                </div>
+                
+                {% for item in path.items %}
+                <div class="topic-item">
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ item.topic }}</strong>
+                        <div>
+                            <span class="badge bg-{% if item.status == 'completed' %}success{% else %}warning{% endif %}">
+                                {{ item.status|title }}
+                            </span>
+                            <span class="badge bg-info">
+                                {{ item.proficiency|floatformat:2 }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    {% if item.resources %}
+                    <div class="mt-2">
+                        {% for resource in item.resources %}
+                        <a href="{{ resource.url }}" target="_blank" class="resource-link">
+                            <i class="fas fa-link"></i> {{ resource.title }} ({{ resource.type }})
+                        </a>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+
+<script>
+function togglePath(element) {
+    const content = element.nextElementSibling;
+    const icon = element.querySelector('i');
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+    } else {
+        content.style.display = 'block';
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+    }
+}
+</script>
+{% endblock %}
