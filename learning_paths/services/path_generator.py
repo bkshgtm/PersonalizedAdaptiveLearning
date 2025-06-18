@@ -281,7 +281,7 @@ class LearningPathGenerator:
         graph_ops: Optional[GraphOperations] = None
     ) -> int:
         """
-        Calculate priority for a topic in the learning path.
+        Calculate priority for a topic in the learning path using enhanced analysis.
         
         Args:
             topic: Topic instance
@@ -303,46 +303,76 @@ class LearningPathGenerator:
             # Improving topics get lower priority (higher value)
             base_priority += 10
         
-        # If we have graph operations, adjust based on graph structure
-        if graph_ops:
-            # Topics that are prerequisites for many others get higher priority
+        # If we have enhanced graph operations, use detailed analysis
+        if graph_ops and hasattr(graph_ops, 'get_detailed_prerequisites'):
             try:
-                next_topics = graph_ops.get_next_topics(topic.id)
-                if next_topics:
-                    # The more topics this is a prerequisite for, the higher the priority
-                    base_priority -= len(next_topics) * 5
-                
-                # Topics with unmet prerequisites get lower priority
-                prerequisites = graph_ops.get_prerequisites(topic.id, direct_only=True)
-                if prerequisites:
-                    # Check if prerequisites are integers or dictionaries
-                    if prerequisites and isinstance(prerequisites[0], int):
-                        # If prerequisites are integers (topic IDs), use them directly
-                        prereq_ids = prerequisites
-                    else:
-                        # If prerequisites are dictionaries with 'id' key, extract IDs
-                        prereq_ids = [p['id'] for p in prerequisites]
-                    
-                    # Get mastery for prerequisites
-                    prereq_masteries = TopicMastery.objects.filter(
+                # Get current student masteries
+                student_masteries = {}
+                if self.prediction_batch:
+                    masteries = TopicMastery.objects.filter(
                         student=self.student,
-                        prediction_batch=self.prediction_batch,
-                        topic_id__in=prereq_ids
+                        prediction_batch=self.prediction_batch
                     )
-                    
-                    # Calculate average mastery of prerequisites
-                    prereq_mastery = 0
-                    if prereq_masteries:
-                        prereq_mastery = sum(m.mastery_score for m in prereq_masteries) / len(prereq_masteries)
-                    
-                    # If prerequisites are not well mastered, lower priority of this topic
-                    if prereq_mastery < 0.6:
-                        base_priority += 30
+                    student_masteries = {m.topic_id: m.mastery_score for m in masteries}
+                
+                # Get detailed prerequisite analysis
+                prereq_analysis = graph_ops.get_detailed_prerequisites(topic.id, student_masteries)
+                
+                # Adjust priority based on prerequisite strength
+                prereq_strength = prereq_analysis.get('prerequisite_strength', 0.0)
+                missing_count = len(prereq_analysis.get('missing_prereqs', []))
+                
+                # Higher prerequisite strength = higher priority (lower value)
+                base_priority -= int(prereq_strength * 20)
+                
+                # More missing prerequisites = lower priority (higher value)
+                base_priority += missing_count * 15
+                
+                # Boost priority for topics with many fine-grained prerequisites
+                fine_grained_count = len(prereq_analysis.get('fine_grained_prereqs', []))
+                if fine_grained_count > len(prereq_analysis.get('topic_level_prereqs', [])):
+                    # This topic has more detailed prerequisites, boost its priority
+                    base_priority -= 10
+                
             except Exception as e:
-                logger.warning(f"Error calculating graph-based priority: {str(e)}")
+                logger.warning(f"Error in enhanced priority calculation: {str(e)}")
+                # Fall back to basic calculation
+                self._calculate_basic_priority(topic, graph_ops, base_priority)
+        elif graph_ops:
+            # Fall back to basic graph-based priority calculation
+            base_priority = self._calculate_basic_priority(topic, graph_ops, base_priority)
         
         # Ensure priority is within reasonable bounds
         base_priority = max(1, min(base_priority, 999))
+        
+        return base_priority
+    
+    def _calculate_basic_priority(self, topic: Topic, graph_ops: GraphOperations, base_priority: int) -> int:
+        """Basic priority calculation for fallback."""
+        try:
+            next_topics = graph_ops.get_next_topics(topic.id)
+            if next_topics:
+                # The more topics this is a prerequisite for, the higher the priority
+                base_priority -= len(next_topics) * 5
+            
+            # Topics with unmet prerequisites get lower priority
+            prerequisites = graph_ops.get_prerequisites(topic.id, direct_only=True)
+            if prerequisites:
+                # Get mastery for prerequisites
+                prereq_masteries = TopicMastery.objects.filter(
+                    student=self.student,
+                    prediction_batch=self.prediction_batch,
+                    topic_id__in=prerequisites
+                )
+                
+                # Calculate average mastery of prerequisites
+                if prereq_masteries:
+                    prereq_mastery = sum(m.mastery_score for m in prereq_masteries) / len(prereq_masteries)
+                    # If prerequisites are not well mastered, lower priority of this topic
+                    if prereq_mastery < 0.6:
+                        base_priority += 30
+        except Exception as e:
+            logger.warning(f"Error calculating basic graph-based priority: {str(e)}")
         
         return base_priority
     

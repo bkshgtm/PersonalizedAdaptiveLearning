@@ -119,7 +119,7 @@ class PredictStreamView(View):
                 if not os.path.exists(model_dir):
                     os.makedirs(model_dir)
                 
-                # Load model with proper error handling
+                #  error handling
                 try:
                     if os.path.exists(model_path):
                         model.load(model_path)

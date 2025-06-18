@@ -1,0 +1,277 @@
+{
+  "name": "Java Knowledge Structure Graph",
+  "version": "1.0",
+  "description": "Prerequisite and conceptual relationships between foundational Java programming topics for educational sequencing and adaptive learning.",
+  "nodes": [
+    {
+      "id": 1,
+      "name": "Java Program Structure and Compilation",
+      "description": "Understanding Java program anatomy, main method, compilation process, and bytecode execution"
+    },
+    {
+      "id": 2,
+      "name": "Comments and Print Statements",
+      "description": "Writing documentation comments and outputting text to console using System.out methods"
+    },
+    {
+      "id": 3,
+      "name": "Variables and Data Types",
+      "description": "Declaration and initialization of primitive types (int, double, boolean, char) and reference types"
+    },
+    {
+      "id": 4,
+      "name": "Arithmetic and Assignment Operators",
+      "description": "Mathematical operations, compound assignment operators, and operator precedence rules"
+    },
+    {
+      "id": 5,
+      "name": "Relational and Logical Operators",
+      "description": "Comparison operators, boolean logic, and short-circuit evaluation in conditional expressions"
+    },
+    {
+      "id": 6,
+      "name": "Conditional Statements",
+      "description": "Decision-making with if-else statements, switch cases, and nested conditional logic"
+    },
+    {
+      "id": 7,
+      "name": "while and do-while loops",
+      "description": "Repetitive execution with condition-controlled loops and loop design patterns"
+    },
+    {
+      "id": 8,
+      "name": "for and nested loops",
+      "description": "Counter-controlled iteration, enhanced for loops, and multi-level loop structures"
+    },
+    {
+      "id": 9,
+      "name": "Method Definitions and Calls",
+      "description": "Creating reusable code blocks with method signatures, visibility modifiers, and invocation"
+    },
+    {
+      "id": 10,
+      "name": "Parameter Passing and Return Values",
+      "description": "Data flow between methods through parameters and return statements, method overloading"
+    },
+    {
+      "id": 11,
+      "name": "1D and 2D Arrays",
+      "description": "Fixed-size data structures for storing multiple values, array manipulation and traversal"
+    },
+    {
+      "id": 12,
+      "name": "ArrayLists and Collections",
+      "description": "Dynamic data structures, generic types, and common collection operations"
+    },
+    {
+      "id": 13,
+      "name": "Class Definition and Object Creation",
+      "description": "Blueprint creation with classes, object instantiation, and instance vs class members"
+    },
+    {
+      "id": 14,
+      "name": "Constructors and Overloading",
+      "description": "Object initialization through constructors, constructor chaining, and method overloading"
+    },
+    {
+      "id": 15,
+      "name": "Encapsulation and Access Modifiers",
+      "description": "Data hiding principles using private, protected, public, and package visibility"
+    },
+    {
+      "id": 16,
+      "name": "Inheritance and Polymorphism",
+      "description": "Code reuse through inheritance, method overriding, and runtime polymorphism"
+    },
+    {
+      "id": 17,
+      "name": "Interfaces and Abstract Classes",
+      "description": "Contract definition with interfaces, abstract method implementation, and multiple inheritance"
+    },
+    {
+      "id": 18,
+      "name": "Exception Handling and Try-Catch",
+      "description": "Error management using try-catch-finally blocks, checked vs unchecked exceptions"
+    },
+    {
+      "id": 19,
+      "name": "File Reading and Writing",
+      "description": "I/O operations with files using streams, readers, writers, and resource management"
+    },
+    {
+      "id": 20,
+      "name": "JavaFX Basics and GUI Events",
+      "description": "Creating graphical user interfaces with JavaFX controls and event-driven programming"
+    }
+  ],
+  "edges": [
+    {
+      "from": 1,
+      "to": 2,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 1,
+      "to": 3,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 2,
+      "to": 3,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 3,
+      "to": 4,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 3,
+      "to": 5,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 4,
+      "to": 5,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 5,
+      "to": 6,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 6,
+      "to": 7,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 6,
+      "to": 8,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 7,
+      "to": 8,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 3,
+      "to": 9,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 9,
+      "to": 10,
+      "relationship": "part_of",
+      "weight": 0.8
+    },
+    {
+      "from": 3,
+      "to": 11,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 8,
+      "to": 11,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 11,
+      "to": 12,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 9,
+      "to": 13,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 13,
+      "to": 14,
+      "relationship": "part_of",
+      "weight": 0.8
+    },
+    {
+      "from": 10,
+      "to": 14,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 13,
+      "to": 15,
+      "relationship": "part_of",
+      "weight": 0.8
+    },
+    {
+      "from": 15,
+      "to": 16,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 13,
+      "to": 16,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 16,
+      "to": 17,
+      "relationship": "next",
+      "weight": 0.6
+    },
+    {
+      "from": 6,
+      "to": 18,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 9,
+      "to": 18,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 18,
+      "to": 19,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 13,
+      "to": 20,
+      "relationship": "prerequisite",
+      "weight": 1.0
+    },
+    {
+      "from": 18,
+      "to": 20,
+      "relationship": "related",
+      "weight": 0.5
+    },
+    {
+      "from": 12,
+      "to": 20,
+      "relationship": "related",
+      "weight": 0.5
+    }
+  ]
+}

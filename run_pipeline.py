@@ -2,22 +2,17 @@ import os
 import logging
 import argparse
 
-# Set up Django environment FIRST
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pal_project.settings')
 
-# Then import Django and setup
 import django
 django.setup()
 
-# Now import Django models AFTER setup
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Import your app models AFTER Django setup
 from core.models import Course, Student, Topic
 from ml_models.models import KnowledgeTracingModel, PredictionBatch
 from knowledge_graph.models import KnowledgeGraph
@@ -36,11 +31,9 @@ def run_pipeline(course_id, model_type='dkt'):
     """
     logger.info(f"Running pipeline for course {course_id} using {model_type.upper()} model")
     
-    # Step 1: Generate mastery levels
     logger.info("Step 1: Generating mastery levels")
     generate_mastery_levels(course_id, model_type)
     
-    # Step 2: Get the latest prediction batch
     logger.info("Step 2: Getting latest prediction batch")
     try:
         course = Course.objects.get(course_id=course_id)
@@ -59,7 +52,6 @@ def run_pipeline(course_id, model_type='dkt'):
         logger.error(f"Course {course_id} not found")
         return
     
-    # Step 3: Get the active knowledge graph
     logger.info("Step 3: Getting active knowledge graph")
     knowledge_graph = KnowledgeGraph.objects.filter(is_active=True).first()
     
@@ -69,14 +61,11 @@ def run_pipeline(course_id, model_type='dkt'):
     
     logger.info(f"Found knowledge graph: {knowledge_graph.name}")
     
-    # Step 4: Get or create path generator
     logger.info("Step 4: Getting or creating path generator")
-    # Try to get a user from course students first
     admin_user = course.students.first().user if course.students.exists() else None
 
     if not admin_user:
         logger.info("No user found from course students, using admin user instead")
-        # Use an existing admin user
         admin_user = User.objects.filter(is_superuser=True).first()
         
         if not admin_user:
@@ -103,7 +92,6 @@ def run_pipeline(course_id, model_type='dkt'):
     else:
         logger.info(f"Using existing path generator: {path_generator.name}")
     
-    # Step 5: Generate learning paths for all students
     logger.info("Step 5: Generating learning paths for all students")
     students = Student.objects.filter(courses=course)
     
@@ -116,7 +104,6 @@ def run_pipeline(course_id, model_type='dkt'):
     for i, student in enumerate(students):
         logger.info(f"Generating learning path for student {student.student_id} ({i+1}/{students.count()})")
         
-        # Create path generation job
         job = PathGenerationJob.objects.create(
             generator=path_generator,
             student=student,
@@ -126,7 +113,6 @@ def run_pipeline(course_id, model_type='dkt'):
             status='pending'
         )
         
-        # Generate path
         try:
             path_generator_service = LearningPathGenerator(job.id)
             path = path_generator_service.generate_path()

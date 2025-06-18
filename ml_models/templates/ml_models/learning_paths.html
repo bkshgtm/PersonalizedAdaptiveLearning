@@ -28,7 +28,7 @@
     .badge {
         margin-right: 5px;
     }
-    .badge.bg-warning {
+    .badge.bg-warning, .badge.bg-info {
         color: black;
     }
     .resource-link {
@@ -68,6 +68,9 @@
                     <div class="info-item">
                         <strong>Avg Proficiency:</strong> 
                         {{ path.avg_proficiency|floatformat:2 }}%
+                    </div>
+                    <div class="info-item">
+                        <strong>Reason:</strong> {{ path.reason }}
                     </div>
                 </div>
                 

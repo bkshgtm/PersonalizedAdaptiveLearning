@@ -84,6 +84,10 @@ class Resource(models.Model):
         ('course', 'Course'),
         ('book', 'Book'),
         ('practice', 'Practice'),
+        ('video','Video'),
+        ('documentation', 'Documentation'),
+        ('visual', 'Visual'),
+        ('other','Other')
     ]
     
     DIFFICULTY_CHOICES = [
@@ -135,9 +139,11 @@ class Question(models.Model):
     QUESTION_TYPE_CHOICES = [
         ('mcq', 'Multiple Choice'),
         ('coding', 'Coding'),
+        ('code_analysis', 'Code Analysis'),
         ('fill_blank', 'Fill in the Blank'),
         ('short_answer', 'Short Answer'),
         ('essay', 'Essay'),
+        ('true_false', 'True/False'),
     ]
     
     question_id = models.CharField(max_length=50, primary_key=True)

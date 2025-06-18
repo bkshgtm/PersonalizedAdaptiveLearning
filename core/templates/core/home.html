@@ -3,27 +3,147 @@
 {% block title %}Welcome to PAL 2.0{% endblock %}
 
 {% block content %}
-<div class="text-center my-5">
-    <h2 class="mb-3">Welcome to PAL 2.0</h2>
-    <p class="lead mb-5">An intelligent system for personalized learning experiences</p>
+<!-- Hero Section -->
+<div class="text-center mb-5">
+    <h1 class="page-title">Welcome to PAL 2.0</h1>
+    <p class="page-subtitle">Revolutionizing education through AI-powered personalized learning experiences</p>
+    
+    <div class="mt-4">
+        <a href="{% url 'knowledge_graph:graph_detail' graph_id=6 %}" class="btn btn-primary">
+            <i class="bi bi-diagram-3"></i>
+            Explore Knowledge Graph
+        </a>
+        <a href="{% url 'ml_models:model_info' %}" class="btn btn-secondary">
+            <i class="bi bi-arrow-through-heart"></i>
+            View Learning Paths
+        </a>
+    </div>
+</div>
 
-    <div class="row justify-content-center">
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 text-center p-3">
-                <h4>Adaptive Learning</h4>
-                <p>Content adjusts to each student's knowledge level and learning pace</p>
+<!-- Features Grid -->
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; color: var(--primary); margin-bottom: 1rem;">
+                    <i class="bi bi-brain"></i>
+                </div>
+                <h3 class="card-title">Adaptive Learning</h3>
+                <p class="card-text">AI-powered content that dynamically adjusts to each student's knowledge level, learning pace, and preferred learning style for optimal educational outcomes.</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 text-center p-3">
-                <h4>Topic Classification</h4>
-                <p>Automatically categorize questions and learning materials</p>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; color: var(--secondary); margin-bottom: 1rem;">
+                    <i class="bi bi-tags"></i>
+                </div>
+                <h3 class="card-title">Smart Classification</h3>
+                <p class="card-text">Automatically categorize questions, learning materials, and student responses using advanced NLP and machine learning algorithms.</p>
             </div>
         </div>
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 text-center p-3">
-                <h4>Performance Analytics</h4>
-                <p>Track student progress and identify knowledge gaps</p>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <div style="font-size: 3rem; color: var(--accent); margin-bottom: 1rem;">
+                    <i class="bi bi-graph-up"></i>
+                </div>
+                <h3 class="card-title">Performance Analytics</h3>
+                <p class="card-text">Comprehensive tracking of student progress with detailed analytics to identify knowledge gaps and optimize learning strategies.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="row mt-5">
+    <div class="col text-center">
+        <h2 style="color: var(--text-primary); margin-bottom: 2rem;">System Overview</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 style="color: var(--primary); font-size: 2.5rem; margin-bottom: 0.5rem;">1,190+</h2>
+                <h4 class="card-title">Student Interactions</h4>
+                <p class="card-text">Rich dataset of realistic student responses across 20 Java programming topics</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 style="color: var(--secondary); font-size: 2.5rem; margin-bottom: 0.5rem;">120</h2>
+                <h4 class="card-title">Questions</h4>
+                <p class="card-text">Comprehensive question bank covering fundamental to advanced programming concepts</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h2 style="color: var(--accent); font-size: 2.5rem; margin-bottom: 0.5rem;">159</h2>
+                <h4 class="card-title">Learning Resources</h4>
+                <p class="card-text">Curated educational materials including tutorials, examples, and practice exercises</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-5">
+    <div class="col text-center">
+        <h2 style="color: var(--text-primary); margin-bottom: 2rem;">Quick Actions</h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-upload" style="font-size: 2rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <h4 class="card-title">Upload Data</h4>
+                <p class="card-text">Import student data, questions, or educational content</p>
+                <a href="{% url 'data_ingestion:upload_data' %}" class="btn btn-primary">
+                    <i class="bi bi-upload"></i>
+                    Upload CSV
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-diagram-3" style="font-size: 2rem; color: var(--secondary); margin-bottom: 1rem;"></i>
+                <h4 class="card-title">Knowledge Graph</h4>
+                <p class="card-text">Visualize topic relationships and prerequisites</p>
+                <a href="{% url 'knowledge_graph:graph_detail' graph_id=6 %}" class="btn btn-primary">
+                    <i class="bi bi-diagram-3"></i>
+                    View Graph
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <i class="bi bi-arrow-through-heart" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+                <h4 class="card-title">Learning Paths</h4>
+                <p class="card-text">Generate personalized learning recommendations</p>
+                <a href="{% url 'ml_models:model_info' %}" class="btn btn-primary">
+                    <i class="bi bi-arrow-through-heart"></i>
+                    Explore Paths
+                </a>
             </div>
         </div>
     </div>

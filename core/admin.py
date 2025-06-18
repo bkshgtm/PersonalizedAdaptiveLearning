@@ -1,4 +1,5 @@
 from django.contrib import admin
+from knowledge_graph.models import GraphEdge
 from .models import (
     Student, Course, Topic, Resource, Assessment, Question, StudentInteraction
 )
@@ -23,12 +24,40 @@ class SubtopicInline(admin.TabularInline):
     extra = 3
 
 
+class OutgoingEdgeInline(admin.TabularInline):
+    model = GraphEdge
+    fk_name = 'source_topic'
+    extra = 0
+    verbose_name = 'Prerequisite For'
+    verbose_name_plural = 'Prerequisites For Other Topics'
+    readonly_fields = ('relationship_type', 'weight')
+    can_delete = False
+
+class IncomingEdgeInline(admin.TabularInline):
+    model = GraphEdge
+    fk_name = 'target_topic'
+    extra = 0
+    verbose_name = 'Requires These Prerequisites'
+    verbose_name_plural = 'Required Prerequisites'
+    readonly_fields = ('relationship_type', 'weight')
+    can_delete = False
+
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent', 'course')
-    list_filter = ('course',)
+    list_display = ('name', 'parent', 'course', 'has_prerequisites', 'is_prerequisite_for')
+    list_filter = ('course', 'incoming_edges__relationship_type')
     search_fields = ('name',)
-    inlines = [SubtopicInline]
+    inlines = [SubtopicInline, OutgoingEdgeInline, IncomingEdgeInline]
+    
+    def has_prerequisites(self, obj):
+        return obj.incoming_edges.exists()
+    has_prerequisites.boolean = True
+    has_prerequisites.short_description = 'Has Prereqs'
+    
+    def is_prerequisite_for(self, obj):
+        return obj.outgoing_edges.exists()
+    is_prerequisite_for.boolean = True
+    is_prerequisite_for.short_description = 'Is Prereq For'
 
 
 @admin.register(Resource)

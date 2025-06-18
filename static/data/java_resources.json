@@ -1,0 +1,1595 @@
+{
+  "resources": [
+    {
+      "id": 1,
+      "title": "Java Installation and First Program",
+      "description": "Complete guide to installing Java JDK and writing your first Hello World program.",
+      "url": "https://www.youtube.com/watch?v=IJ-PJbvJBGs",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 2,
+      "title": "Java Compilation Process Explained",
+      "description": "Detailed explanation of how Java source code is compiled to bytecode and executed.",
+      "url": "https://www.youtube.com/watch?v=QcJKDQnX0ws",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 3,
+      "title": "Oracle Java Documentation - Getting Started",
+      "description": "Official Oracle documentation covering Java program structure and compilation basics.",
+      "url": "https://docs.oracle.com/javase/tutorial/getStarted/index.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 4,
+      "title": "Java Compilation and Execution Guide",
+      "description": "Comprehensive article explaining javac compiler and java runtime environment.",
+      "url": "https://www.baeldung.com/java-compile-run",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 5,
+      "title": "Java Program Structure Diagram",
+      "description": "Visual representation of Java program components including classes, methods, and packages.",
+      "url": "https://www.programiz.com/java-programming/hello-world",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 6,
+      "title": "Java Compilation Process Flowchart",
+      "description": "Detailed flowchart showing the steps from source code to bytecode execution.",
+      "url": "https://www.geeksforgeeks.org/compilation-execution-java-program/",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 7,
+      "title": "Online Java Compiler - JDoodle",
+      "description": "Browser-based Java compiler to practice writing and running Java programs.",
+      "url": "https://www.jdoodle.com/online-java-compiler/",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "10 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 8,
+      "title": "Java Cheat Sheet - Program Structure",
+      "description": "Quick reference guide covering Java syntax, compilation commands, and basic structure.",
+      "url": "https://www.codecademy.com/learn/learn-java/modules/learn-java-hello-world/cheatsheet",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [1]
+    },
+    {
+      "id": 9,
+      "title": "Java Comments and Documentation",
+      "description": "Tutorial covering single-line, multi-line, and Javadoc comments with best practices.",
+      "url": "https://www.youtube.com/watch?v=Ub3FKU21ubk",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 10,
+      "title": "Java Print Methods - System.out",
+      "description": "Complete guide to print(), println(), and printf() methods in Java.",
+      "url": "https://www.youtube.com/watch?v=7WiPGP_0AUA",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 11,
+      "title": "Oracle Java Comments Documentation",
+      "description": "Official documentation on Java comment syntax and documentation standards.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/comments.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 12,
+      "title": "Java Print Statements Guide",
+      "description": "Comprehensive article explaining different ways to output text in Java programs.",
+      "url": "https://www.geeksforgeeks.org/system-out-println-in-java/",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 13,
+      "title": "Java Comments Types Infographic",
+      "description": "Visual guide showing single-line, multi-line, and Javadoc comment examples.",
+      "url": "https://www.programiz.com/java-programming/comments",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "10 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 14,
+      "title": "Java Output Methods Comparison",
+      "description": "Visual comparison of print(), println(), and printf() with examples and differences.",
+      "url": "https://www.javatpoint.com/java-print-vs-println",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "12 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 15,
+      "title": "Javadoc Generator Tool",
+      "description": "Online tool to generate professional documentation from Java source code comments.",
+      "url": "https://www.oracle.com/java/technologies/javase/javadoc-tool.html",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 16,
+      "title": "Java Printf Format Specifiers Cheat Sheet",
+      "description": "Quick reference for printf format specifiers and escape sequences in Java.",
+      "url": "https://www.cs.colostate.edu/~cs160/.Summer16/resources/Java_printf_method_quick_reference.pdf",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [2]
+    },
+    {
+      "id": 17,
+      "title": "Java Variables and Data Types Complete Guide",
+      "description": "Comprehensive tutorial covering primitive data types, variable declaration, and initialization.",
+      "url": "https://www.youtube.com/watch?v=so1iUWaLmKA",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 18,
+      "title": "Java Type Casting and Conversion",
+      "description": "Detailed explanation of implicit and explicit type casting with practical examples.",
+      "url": "https://www.youtube.com/watch?v=2dWSLaHYQXw",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "28 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 19,
+      "title": "Oracle Java Variables Documentation",
+      "description": "Official documentation covering variable declaration, initialization, and scope in Java.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/variables.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 20,
+      "title": "Java Data Types Deep Dive",
+      "description": "Comprehensive article explaining primitive and reference data types with memory allocation.",
+      "url": "https://www.baeldung.com/java-primitives",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 21,
+      "title": "Java Data Types Memory Map",
+      "description": "Visual representation of how different data types are stored in memory with sizes.",
+      "url": "https://www.geeksforgeeks.org/data-types-in-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 22,
+      "title": "Java Variable Scope Diagram",
+      "description": "Visual guide showing local, instance, and class variable scope with examples.",
+      "url": "https://www.programiz.com/java-programming/variables-literals",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 23,
+      "title": "Java Variables Practice Playground",
+      "description": "Interactive coding environment to practice variable declaration and data type usage.",
+      "url": "https://www.codingbat.com/java",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 24,
+      "title": "Java Data Types Reference Card",
+      "description": "Printable reference card with all primitive data types, ranges, and default values.",
+      "url": "https://www.codecademy.com/learn/learn-java/modules/learn-java-variables/cheatsheet",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "10 minutes",
+      "topics": [3]
+    },
+    {
+      "id": 25,
+      "title": "Java Arithmetic Operators Tutorial",
+      "description": "Complete guide to arithmetic operators including precedence and associativity rules.",
+      "url": "https://www.youtube.com/watch?v=tOoqg7QzNJ4",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "22 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 26,
+      "title": "Java Assignment Operators Explained",
+      "description": "Detailed tutorial on assignment operators including compound assignment operators.",
+      "url": "https://www.youtube.com/watch?v=gKQMHiSd_Ic",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 27,
+      "title": "Oracle Java Operators Documentation",
+      "description": "Official documentation covering all Java operators with detailed examples and explanations.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 28,
+      "title": "Java Operator Precedence Guide",
+      "description": "Comprehensive article explaining operator precedence and evaluation order in Java.",
+      "url": "https://www.baeldung.com/java-operator-precedence",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 29,
+      "title": "Java Operators Precedence Table",
+      "description": "Visual chart showing operator precedence from highest to lowest with examples.",
+      "url": "https://www.geeksforgeeks.org/operators-in-java/",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "15 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 30,
+      "title": "Arithmetic Operations Flowchart",
+      "description": "Visual flowchart demonstrating how arithmetic expressions are evaluated in Java.",
+      "url": "https://www.programiz.com/java-programming/operators",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 31,
+      "title": "Java Operator Calculator",
+      "description": "Interactive tool to practice arithmetic and assignment operations with immediate results.",
+      "url": "https://www.w3schools.com/java/java_operators.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 32,
+      "title": "Java Operators Cheat Sheet",
+      "description": "Quick reference guide for all arithmetic and assignment operators with syntax examples.",
+      "url": "https://www.codecademy.com/learn/learn-java/modules/learn-java-variables/cheatsheet",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "12 minutes",
+      "topics": [4]
+    },
+    {
+      "id": 33,
+      "title": "Java Relational Operators Explained",
+      "description": "Tutorial covering comparison operators and their usage in conditional statements.",
+      "url": "https://www.youtube.com/watch?v=9TLmZGnKqzE",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 34,
+      "title": "Java Logical Operators and Boolean Logic",
+      "description": "Comprehensive guide to logical operators (&&, ||, !) with truth tables and examples.",
+      "url": "https://www.youtube.com/watch?v=xW3BqFyE_NY",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 35,
+      "title": "Java Boolean Expressions Documentation",
+      "description": "Official documentation on boolean expressions and logical operators in Java.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/op2.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 36,
+      "title": "Short-Circuit Evaluation in Java",
+      "description": "Detailed article explaining short-circuit evaluation with logical operators.",
+      "url": "https://www.baeldung.com/java-short-circuit-logic",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 37,
+      "title": "Java Logical Operators Truth Table",
+      "description": "Visual truth table showing all combinations of logical operators with boolean values.",
+      "url": "https://www.geeksforgeeks.org/java-logical-operators-with-examples/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 38,
+      "title": "Relational Operators Comparison Chart",
+      "description": "Visual comparison of all relational operators with examples and use cases.",
+      "url": "https://www.programiz.com/java-programming/operators",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 39,
+      "title": "Boolean Logic Practice Tool",
+      "description": "Interactive tool to practice boolean expressions and logical operator combinations.",
+      "url": "https://www.boolean-algebra.com/",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 40,
+      "title": "Java Comparison Operators Reference",
+      "description": "Quick reference card for relational and logical operators with syntax examples.",
+      "url": "https://www.w3schools.com/java/java_operators.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "10 minutes",
+      "topics": [5]
+    },
+    {
+      "id": 41,
+      "title": "Java If-Else Statements Complete Tutorial",
+      "description": "Comprehensive guide to conditional statements including nested if-else structures.",
+      "url": "https://www.youtube.com/watch?v=qZ2pb6BljLk",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 42,
+      "title": "Java Switch Statement Tutorial",
+      "description": "Detailed explanation of switch statements including enhanced switch expressions in Java 14+.",
+      "url": "https://www.youtube.com/watch?v=wOiZpXJqCxs",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "28 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 43,
+      "title": "Oracle Java Control Flow Documentation",
+      "description": "Official documentation covering if-else statements and switch constructs with examples.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/if.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 44,
+      "title": "Java Switch Expressions Guide",
+      "description": "Modern guide to switch expressions introduced in Java 12 and enhanced in Java 14.",
+      "url": "https://www.baeldung.com/java-switch",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 45,
+      "title": "Java Conditional Statements Flowchart",
+      "description": "Visual flowchart showing decision-making process in if-else and switch statements.",
+      "url": "https://www.geeksforgeeks.org/decision-making-javaif-else-switch-break-continue-jump/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 46,
+      "title": "Switch vs If-Else Performance Comparison",
+      "description": "Visual comparison showing when to use switch statements versus if-else chains.",
+      "url": "https://www.programiz.com/java-programming/switch-statement",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 47,
+      "title": "Java Conditionals Practice Platform",
+      "description": "Interactive coding environment with conditional statement exercises and challenges.",
+      "url": "https://codingbat.com/java/Logic-1",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 48,
+      "title": "Java Control Flow Cheat Sheet",
+      "description": "Quick reference for if-else and switch statement syntax with common patterns.",
+      "url": "https://www.codecademy.com/learn/learn-java/modules/learn-java-conditionals-control-flow/cheatsheet",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [6]
+    },
+    {
+      "id": 49,
+      "title": "Java While and Do-While Loops Tutorial",
+      "description": "Complete guide to while and do-while loops with practical examples and best practices.",
+      "url": "https://www.youtube.com/watch?v=vnATV_ZRJQM",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 50,
+      "title": "Java Loop Control Statements",
+      "description": "Tutorial covering break and continue statements within while and do-while loops.",
+      "url": "https://www.youtube.com/watch?v=Hn9tMJdg12U",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "22 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 51,
+      "title": "Oracle Java While Loop Documentation",
+      "description": "Official documentation on while and do-while loop syntax and usage patterns.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/while.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 52,
+      "title": "Java Loop Performance and Best Practices",
+      "description": "Comprehensive article on loop optimization and common pitfalls in Java loops.",
+      "url": "https://www.baeldung.com/java-loops",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 53,
+      "title": "While vs Do-While Loop Comparison",
+      "description": "Visual comparison showing execution flow differences between while and do-while loops.",
+      "url": "https://www.geeksforgeeks.org/java-while-loop-with-examples/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 54,
+      "title": "Java Loop Control Flow Diagram",
+      "description": "Flowchart demonstrating break and continue statement behavior in loops.",
+      "url": "https://www.programiz.com/java-programming/do-while-loop",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 55,
+      "title": "Java Loops Practice Problems",
+      "description": "Interactive platform with while and do-while loop exercises and solutions.",
+      "url": "https://codingbat.com/java/Warmup-1",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 56,
+      "title": "Java Loop Patterns Cheat Sheet",
+      "description": "Reference guide for common loop patterns and idioms in Java programming.",
+      "url": "https://www.w3schools.com/java/java_while_loop.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "12 minutes",
+      "topics": [7]
+    },
+    {
+      "id": 57,
+      "title": "Java For Loop Complete Guide",
+      "description": "Comprehensive tutorial on for loops including enhanced for loops and iteration patterns.",
+      "url": "https://www.youtube.com/watch?v=rL6-kkn9-14",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 58,
+      "title": "Java Nested Loops and Patterns",
+      "description": "Advanced tutorial on nested loops with practical examples for creating patterns.",
+      "url": "https://www.youtube.com/watch?v=9W2WRbUCJ9I",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 59,
+      "title": "Oracle Java For Loop Documentation",
+      "description": "Official documentation covering traditional and enhanced for loops with examples.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/for.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 60,
+      "title": "Java Enhanced For Loop Guide",
+      "description": "Detailed article on for-each loops and their advantages over traditional for loops.",
+      "url": "https://www.baeldung.com/java-for-loop",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 61,
+      "title": "Java For Loop Types Comparison",
+      "description": "Visual comparison of traditional for loop, enhanced for loop, and their use cases.",
+      "url": "https://www.geeksforgeeks.org/java-for-loop-with-examples/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 62,
+      "title": "Nested Loop Pattern Visualization",
+      "description": "Interactive visualization showing how nested loops create different patterns and shapes.",
+      "url": "https://www.programiz.com/java-programming/for-loop",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 63,
+      "title": "Java For Loop Practice Arena",
+      "description": "Interactive platform with for loop challenges including nested loop problems.",
+      "url": "https://codingbat.com/java/Array-1",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "50 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 64,
+      "title": "Loop Pattern Generator Tool",
+      "description": "Online tool to generate and visualize different patterns using nested loops.",
+      "url": "https://www.w3schools.com/java/java_for_loop.asp",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [8]
+    },
+    {
+      "id": 65,
+      "title": "Java Methods Complete Tutorial",
+      "description": "Comprehensive guide to method definition, calling, and best practices in Java.",
+      "url": "https://www.youtube.com/watch?v=cCgOESMQe44",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 66,
+      "title": "Java Method Overloading Explained",
+      "description": "Detailed tutorial on method overloading with multiple examples and best practices.",
+      "url": "https://www.youtube.com/watch?v=cRFfqCJtFvg",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "28 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 67,
+      "title": "Oracle Java Methods Documentation",
+      "description": "Official documentation covering method declaration, parameters, and return values.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/methods.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 68,
+      "title": "Java Method Design Principles",
+      "description": "Advanced article on method design, naming conventions, and clean code practices.",
+      "url": "https://www.baeldung.com/java-methods",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 69,
+      "title": "Java Method Structure Diagram",
+      "description": "Visual breakdown of method components including modifiers, return type, and parameters.",
+      "url": "https://www.geeksforgeeks.org/methods-in-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 70,
+      "title": "Method Call Stack Visualization",
+      "description": "Interactive diagram showing how method calls are managed in the call stack.",
+      "url": "https://www.programiz.com/java-programming/methods",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 71,
+      "title": "Java Method Practice Workspace",
+      "description": "Interactive coding environment for practicing method creation and calling.",
+      "url": "https://codingbat.com/java/String-1",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 72,
+      "title": "Java Method Signature Builder",
+      "description": "Tool to help construct proper method signatures with different access modifiers and parameters.",
+      "url": "https://www.w3schools.com/java/java_methods.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [9]
+    },
+    {
+      "id": 73,
+      "title": "Java Parameter Passing Tutorial",
+      "description": "Complete guide to parameter passing mechanisms and return values in Java methods.",
+      "url": "https://www.youtube.com/watch?v=fGITlKZQMaI",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "32 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 74,
+      "title": "Java Pass by Value vs Reference",
+      "description": "Detailed explanation of how Java handles parameter passing for primitives and objects.",
+      "url": "https://www.youtube.com/watch?v=MDGhsNNUXnc",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 75,
+      "title": "Oracle Java Return Values Documentation",
+      "description": "Official documentation on method return types and parameter passing in Java.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/returnvalue.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 76,
+      "title": "Java Method Parameters Deep Dive",
+      "description": "Comprehensive article on parameter types, varargs, and method signature rules.",
+      "url": "https://www.baeldung.com/java-method-parameters",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 77,
+      "title": "Java Parameter Passing Visualization",
+      "description": "Visual diagram showing how primitive and object parameters are passed to methods.",
+      "url": "https://www.geeksforgeeks.org/parameter-passing-techniques-in-java-with-examples/",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "22 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 78,
+      "title": "Method Return Type Decision Tree",
+      "description": "Visual guide for choosing appropriate return types based on method functionality.",
+      "url": "https://www.programiz.com/java-programming/methods",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 79,
+      "title": "Java Method Parameter Tester",
+      "description": "Interactive tool to experiment with different parameter passing scenarios.",
+      "url": "https://codingbat.com/java/Logic-2",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 80,
+      "title": "Java Varargs Quick Reference",
+      "description": "Cheat sheet for variable-length argument lists (varargs) with syntax and examples.",
+      "url": "https://www.w3schools.com/java/java_methods.asp",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "15 minutes",
+      "topics": [10]
+    },
+    {
+      "id": 81,
+      "title": "Java Arrays Complete Tutorial",
+      "description": "Comprehensive guide covering 1D and 2D array declaration, initialization, and manipulation.",
+      "url": "https://www.youtube.com/watch?v=L06uGnF4IpY",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 82,
+      "title": "Java 2D Arrays and Matrix Operations",
+      "description": "Advanced tutorial on multidimensional arrays with practical examples and algorithms.",
+      "url": "https://www.youtube.com/watch?v=EdJ1I82wLuE",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "38 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 83,
+      "title": "Oracle Java Arrays Documentation",
+      "description": "Official documentation covering array creation, access, and common operations.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/nutsandbolts/arrays.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 84,
+      "title": "Java Arrays Utility Class Guide",
+      "description": "Comprehensive article on java.util.Arrays class methods and array manipulation techniques.",
+      "url": "https://www.baeldung.com/java-arrays-guide",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 85,
+      "title": "Java Array Memory Layout Diagram",
+      "description": "Visual representation of how 1D and 2D arrays are stored in memory.",
+      "url": "https://www.geeksforgeeks.org/arrays-in-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 86,
+      "title": "2D Array Traversal Patterns",
+      "description": "Visual guide showing different ways to traverse and process 2D arrays.",
+      "url": "https://www.programiz.com/java-programming/arrays",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 87,
+      "title": "Java Array Practice Platform",
+      "description": "Interactive coding environment with array manipulation exercises and challenges.",
+      "url": "https://codingbat.com/java/Array-2",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "60 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 88,
+      "title": "Array Algorithm Visualizer",
+      "description": "Interactive tool to visualize sorting and searching algorithms on arrays.",
+      "url": "https://www.w3schools.com/java/java_arrays.asp",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [11]
+    },
+    {
+      "id": 89,
+      "title": "Java ArrayList Complete Guide",
+      "description": "Comprehensive tutorial on ArrayList class including methods and best practices.",
+      "url": "https://www.youtube.com/watch?v=1nRj4ALuw7A",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 90,
+      "title": "Java Collections Framework Overview",
+      "description": "Detailed explanation of Collection interfaces and implementations in Java.",
+      "url": "https://www.youtube.com/watch?v=GdAon80-0KA",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 91,
+      "title": "Oracle Collections Framework Documentation",
+      "description": "Official documentation covering ArrayList, LinkedList, and other collection classes.",
+      "url": "https://docs.oracle.com/javase/tutorial/collections/index.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "60 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 92,
+      "title": "Java Collections Performance Comparison",
+      "description": "In-depth analysis of performance characteristics of different collection types.",
+      "url": "https://www.baeldung.com/java-collections",
+      "resource_type": "documentation",
+      "difficulty": "advanced",
+      "estimated_time": "45 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 93,
+      "title": "Java Collections Hierarchy Chart",
+      "description": "Visual diagram showing the complete Collections Framework hierarchy and relationships.",
+      "url": "https://www.geeksforgeeks.org/collections-in-java-2/",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "20 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 94,
+      "title": "ArrayList vs Array Comparison",
+      "description": "Visual comparison showing differences between arrays and ArrayLists with use cases.",
+      "url": "https://www.programiz.com/java-programming/arraylist",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 95,
+      "title": "Java Collections Practice Lab",
+      "description": "Interactive environment for practicing ArrayList and other collection operations.",
+      "url": "https://codingbat.com/java/Array-3",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 96,
+      "title": "Collections Methods Reference Card",
+      "description": "Quick reference for common ArrayList and Collections utility methods.",
+      "url": "https://www.w3schools.com/java/java_arraylist.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "15 minutes",
+      "topics": [12]
+    },
+    {
+      "id": 97,
+      "title": "Java Classes and Objects Tutorial",
+      "description": "Fundamental tutorial on class definition, object creation, and instance concepts.",
+      "url": "https://www.youtube.com/watch?v=IUqKuGNasdM",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 98,
+      "title": "Java Object-Oriented Programming Basics",
+      "description": "Comprehensive introduction to OOP concepts with practical class examples.",
+      "url": "https://www.youtube.com/watch?v=Ej_02ICOIgs",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "55 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 99,
+      "title": "Oracle Java Classes and Objects Documentation",
+      "description": "Official documentation on class declaration syntax and object instantiation.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/classes.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 100,
+      "title": "Java Class Design Best Practices",
+      "description": "Advanced guide to designing effective classes with proper encapsulation and structure.",
+      "url": "https://www.baeldung.com/java-classes-objects",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 101,
+      "title": "Java Class Structure Diagram",
+      "description": "Visual breakdown of class components including fields, methods, and constructors.",
+      "url": "https://www.geeksforgeeks.org/classes-objects-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "22 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 102,
+      "title": "Object Creation and Memory Allocation",
+      "description": "Visual explanation of how objects are created and stored in heap memory.",
+      "url": "https://www.programiz.com/java-programming/class-objects",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 103,
+      "title": "Java Class Design Playground",
+      "description": "Interactive environment for creating and testing custom classes and objects.",
+      "url": "https://www.onlinegdb.com/online_java_compiler",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 104,
+      "title": "UML Class Diagram Generator",
+      "description": "Tool to generate UML diagrams from Java class definitions for visualization.",
+      "url": "https://www.w3schools.com/java/java_classes.asp",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "30 minutes",
+      "topics": [13]
+    },
+    {
+      "id": 105,
+      "title": "Java Constructors Complete Tutorial",
+      "description": "Comprehensive guide to constructor types, overloading, and initialization blocks.",
+      "url": "https://www.youtube.com/watch?v=pTAda_UEuhs",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 106,
+      "title": "Java Constructor Overloading Explained",
+      "description": "Detailed tutorial on constructor overloading with this() keyword and best practices.",
+      "url": "https://www.youtube.com/watch?v=jokZqaUb3Ts",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "28 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 107,
+      "title": "Oracle Java Constructors Documentation",
+      "description": "Official documentation covering constructor syntax, overloading, and initialization.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/constructors.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "35 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 108,
+      "title": "Java Object Initialization Guide",
+      "description": "Advanced article on object initialization order and constructor chaining patterns.",
+      "url": "https://www.baeldung.com/java-constructors",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 109,
+      "title": "Java Constructor Types Comparison",
+      "description": "Visual comparison of default, parameterized, and copy constructors with examples.",
+      "url": "https://www.geeksforgeeks.org/constructors-in-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "20 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 110,
+      "title": "Constructor Chaining Flowchart",
+      "description": "Visual representation of constructor chaining with this() and super() calls.",
+      "url": "https://www.programiz.com/java-programming/constructors",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 111,
+      "title": "Java Constructor Practice Workshop",
+      "description": "Interactive coding environment focused on constructor creation and overloading exercises.",
+      "url": "https://codingbat.com/java/String-2",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "40 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 112,
+      "title": "Constructor Design Pattern Guide",
+      "description": "Reference for common constructor patterns including builder and factory patterns.",
+      "url": "https://www.w3schools.com/java/java_constructors.asp",
+      "resource_type": "other",
+      "difficulty": "advanced",
+      "estimated_time": "35 minutes",
+      "topics": [14]
+    },
+    {
+      "id": 113,
+      "title": "Java Encapsulation and Access Modifiers",
+      "description": "Complete tutorial on data hiding, getters, setters, and access control in Java.",
+      "url": "https://www.youtube.com/watch?v=Bj9Mx_Lx3q4",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "32 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 114,
+      "title": "Java Package and Access Control",
+      "description": "Advanced tutorial on package-private access and visibility rules across packages.",
+      "url": "https://www.youtube.com/watch?v=bXGflc_Z4_Y",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 115,
+      "title": "Oracle Java Access Control Documentation",
+      "description": "Official documentation on access modifiers and their scope in Java applications.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/javaOO/accesscontrol.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 116,
+      "title": "Java Encapsulation Best Practices",
+      "description": "Comprehensive guide to implementing proper encapsulation with real-world examples.",
+      "url": "https://www.baeldung.com/java-encapsulation",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "35 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 117,
+      "title": "Java Access Modifiers Scope Table",
+      "description": "Visual table showing visibility scope of private, protected, default, and public modifiers.",
+      "url": "https://www.geeksforgeeks.org/access-modifiers-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "18 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 118,
+      "title": "Encapsulation Implementation Diagram",
+      "description": "Visual guide showing proper getter and setter implementation with validation.",
+      "url": "https://www.programiz.com/java-programming/encapsulation",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "22 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 119,
+      "title": "Java Encapsulation Code Validator",
+      "description": "Interactive tool to practice proper encapsulation techniques and access control.",
+      "url": "https://www.w3schools.com/java/java_encapsulation.asp",
+      "resource_type": "other",
+      "difficulty": "beginner",
+      "estimated_time": "30 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 120,
+      "title": "Access Modifier Decision Tree",
+      "description": "Interactive guide for choosing appropriate access modifiers based on use cases.",
+      "url": "https://codingbat.com/java/String-3",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [15]
+    },
+    {
+      "id": 121,
+      "title": "Java Inheritance Complete Tutorial",
+      "description": "Comprehensive guide to inheritance concepts, super keyword, and method overriding.",
+      "url": "https://www.youtube.com/watch?v=9JpNY-XAseg",
+      "resource_type": "video",
+      "difficulty": "beginner",
+      "estimated_time": "45 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 122,
+      "title": "Java Polymorphism and Dynamic Binding",
+      "description": "Advanced tutorial on runtime polymorphism, method overriding, and virtual method calls.",
+      "url": "https://www.youtube.com/watch?v=jhDUxynEQRI",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "38 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 123,
+      "title": "Oracle Java Inheritance Documentation",
+      "description": "Official documentation covering inheritance syntax, super keyword, and method overriding.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/IandI/subclasses.html",
+      "resource_type": "documentation",
+      "difficulty": "beginner",
+      "estimated_time": "50 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 124,
+      "title": "Java Polymorphism Deep Dive",
+      "description": "Detailed article on compile-time and runtime polymorphism with practical examples.",
+      "url": "https://www.baeldung.com/java-polymorphism",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "42 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 125,
+      "title": "Java Inheritance Hierarchy Diagram",
+      "description": "Visual representation of class inheritance relationships and method resolution.",
+      "url": "https://www.geeksforgeeks.org/inheritance-in-java/",
+      "resource_type": "visual",
+      "difficulty": "beginner",
+      "estimated_time": "25 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 126,
+      "title": "Polymorphism Types Comparison Chart",
+      "description": "Visual comparison of method overloading vs overriding with examples and rules.",
+      "url": "https://www.programiz.com/java-programming/inheritance",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "28 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 127,
+      "title": "Java Inheritance Practice Lab",
+      "description": "Interactive environment for creating inheritance hierarchies and testing polymorphism.",
+      "url": "https://codingbat.com/java/Recursion-1",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "55 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 128,
+      "title": "OOP Design Pattern Templates",
+      "description": "Collection of common inheritance patterns and templates for object-oriented design.",
+      "url": "https://www.w3schools.com/java/java_inheritance.asp",
+      "resource_type": "other",
+      "difficulty": "advanced",
+      "estimated_time": "40 minutes",
+      "topics": [16]
+    },
+    {
+      "id": 129,
+      "title": "Java Interfaces Complete Guide",
+      "description": "Comprehensive tutorial on interface definition, implementation, and default methods.",
+      "url": "https://www.youtube.com/watch?v=kTpp5n_CppQ",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "40 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 130,
+      "title": "Java Abstract Classes Explained",
+      "description": "Detailed tutorial on abstract classes, abstract methods, and when to use them.",
+      "url": "https://www.youtube.com/watch?v=HvPlEJ3LHgE",
+      "resource_type": "video",
+      "difficulty": "intermediate",
+      "estimated_time": "32 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 131,
+      "title": "Oracle Java Interfaces Documentation",
+      "description": "Official documentation on interface syntax, multiple inheritance, and functional interfaces.",
+      "url": "https://docs.oracle.com/javase/tutorial/java/IandI/createinterface.html",
+      "resource_type": "documentation",
+      "difficulty": "intermediate",
+      "estimated_time": "45 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 132,
+      "title": "Abstract Classes vs Interfaces Guide",
+      "description": "Comprehensive comparison of abstract classes and interfaces with design guidelines.",
+      "url": "https://www.baeldung.com/java-interface-vs-abstract-class",
+      "resource_type": "documentation",
+      "difficulty": "advanced",
+      "estimated_time": "35 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 133,
+      "title": "Interface Implementation Diagram",
+      "description": "Visual representation of interface implementation and multiple inheritance in Java.",
+      "url": "https://www.geeksforgeeks.org/interfaces-in-java/",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "22 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 134,
+      "title": "Abstract vs Concrete Class Hierarchy",
+      "description": "Visual comparison showing abstract class usage in inheritance hierarchies.",
+      "url": "https://www.programiz.com/java-programming/abstract-classes-methods",
+      "resource_type": "visual",
+      "difficulty": "intermediate",
+      "estimated_time": "25 minutes",
+      "topics": [17]
+    },
+    {
+      "id": 135,
+      "title": "Java Interface Design Workshop",
+      "description": "Interactive environment for designing and implementing interfaces with multiple classes.",
+      "url": "https://codingbat.com/java/AP-1",
+      "resource_type": "other",
+      "difficulty": "intermediate",
+      "estimated_time": "50 minutes",
+      "topics": [17]
+    },
+
+    {
+ "id": 136,
+ "title": "Exception Handling in Java - Complete Tutorial",
+ "description": "Comprehensive video covering try-catch blocks, finally, and custom exceptions with practical examples.",
+ "url": "https://www.youtube.com/watch?v=1XAfapkBQjk",
+ "resource_type": "video",
+ "difficulty": "beginner",
+ "estimated_time": "45 minutes",
+ "topics": [18]
+},
+{
+ "id": 137,
+ "title": "Java Exception Handling Best Practices",
+ "description": "Advanced video tutorial on exception hierarchy, checked vs unchecked exceptions, and error handling patterns.",
+ "url": "https://www.youtube.com/watch?v=W-N2ltgU-X4",
+ "resource_type": "video",
+ "difficulty": "intermediate",
+ "estimated_time": "35 minutes",
+ "topics": [18]
+},
+{
+ "id": 138,
+ "title": "Oracle Java Exception Handling Guide",
+ "description": "Official Oracle documentation covering exception handling mechanisms and best practices in Java.",
+ "url": "https://docs.oracle.com/javase/tutorial/essential/exceptions/",
+ "resource_type": "documentation",
+ "difficulty": "intermediate",
+ "estimated_time": "1 hour",
+ "topics": [18]
+},
+{
+ "id": 139,
+ "title": "Exception Handling in Java - Baeldung",
+ "description": "Detailed article explaining try-catch-finally blocks, exception propagation, and custom exception creation.",
+ "url": "https://www.baeldung.com/java-exceptions",
+ "resource_type": "documentation",
+ "difficulty": "beginner",
+ "estimated_time": "25 minutes",
+ "topics": [18]
+},
+{
+ "id": 140,
+ "title": "Java Exception Hierarchy Diagram",
+ "description": "Visual representation of Java's exception class hierarchy showing throwable, error, and exception relationships.",
+ "url": "https://www.programiz.com/java-programming/exceptions",
+ "resource_type": "visual",
+ "difficulty": "beginner",
+ "estimated_time": "15 minutes",
+ "topics": [18]
+},
+{
+ "id": 141,
+ "title": "Exception Handling Flow Chart",
+ "description": "Flowchart illustrating the execution flow of try-catch-finally blocks and exception propagation.",
+ "url": "https://www.javatpoint.com/exception-handling-in-java",
+ "resource_type": "visual",
+ "difficulty": "intermediate",
+ "estimated_time": "20 minutes",
+ "topics": [18]
+},
+{
+ "id": 142,
+ "title": "Java Exception Handling Playground",
+ "description": "Interactive online environment to practice writing and testing exception handling code with immediate feedback.",
+ "url": "https://replit.com/languages/java",
+ "resource_type": "other",
+ "difficulty": "beginner",
+ "estimated_time": "40 minutes",
+ "topics": [18]
+},
+{
+ "id": 143,
+ "title": "Exception Handling Cheat Sheet",
+ "description": "Quick reference guide covering try-catch syntax, common exceptions, and handling patterns.",
+ "url": "https://www.codecademy.com/learn/learn-java/modules/learn-java-debugging/cheatsheet",
+ "resource_type": "other",
+ "difficulty": "beginner",
+ "estimated_time": "10 minutes",
+ "topics": [18]
+},
+{
+ "id": 144,
+ "title": "Java File I/O Tutorial - Reading and Writing Files",
+ "description": "Complete video tutorial covering File, FileReader, FileWriter, and BufferedReader classes with examples.",
+ "url": "https://www.youtube.com/watch?v=ScUJx4aWRi0",
+ "resource_type": "video",
+ "difficulty": "beginner",
+ "estimated_time": "50 minutes",
+ "topics": [19]
+},
+{
+ "id": 145,
+ "title": "Advanced Java File Operations",
+ "description": "Video covering NIO.2 package, Path interface, and modern file handling techniques in Java.",
+ "url": "https://www.youtube.com/watch?v=3Gf_6wzkV3g",
+ "resource_type": "video",
+ "difficulty": "advanced",
+ "estimated_time": "40 minutes",
+ "topics": [19]
+},
+{
+ "id": 146,
+ "title": "Oracle Java File I/O Documentation",
+ "description": "Official guide covering file operations, streams, and NIO package for reading and writing files.",
+ "url": "https://docs.oracle.com/javase/tutorial/essential/io/",
+ "resource_type": "documentation",
+ "difficulty": "intermediate",
+ "estimated_time": "1.5 hours",
+ "topics": [19]
+},
+{
+ "id": 147,
+ "title": "Java File Handling - GeeksforGeeks",
+ "description": "Comprehensive article explaining file operations, character and byte streams, and file manipulation techniques.",
+ "url": "https://www.geeksforgeeks.org/file-handling-in-java/",
+ "resource_type": "documentation",
+ "difficulty": "beginner",
+ "estimated_time": "30 minutes",
+ "topics": [19]
+},
+{
+ "id": 148,
+ "title": "Java I/O Stream Hierarchy Diagram",
+ "description": "Visual diagram showing the relationship between InputStream, OutputStream, Reader, and Writer classes.",
+ "url": "https://www.tutorialspoint.com/java/java_files_io.htm",
+ "resource_type": "visual",
+ "difficulty": "intermediate",
+ "estimated_time": "20 minutes",
+ "topics": [19]
+},
+{
+ "id": 149,
+ "title": "File Operations Process Flow",
+ "description": "Infographic illustrating the step-by-step process of reading from and writing to files in Java.",
+ "url": "https://www.programiz.com/java-programming/file",
+ "resource_type": "visual",
+ "difficulty": "beginner",
+ "estimated_time": "15 minutes",
+ "topics": [19]
+},
+{
+ "id": 150,
+ "title": "Java File I/O Practice Environment",
+ "description": "Online coding platform with file handling exercises and sample files for practice.",
+ "url": "https://codingground.tutorialspoint.com/",
+ "resource_type": "other",
+ "difficulty": "beginner",
+ "estimated_time": "45 minutes",
+ "topics": [19]
+},
+{
+ "id": 151,
+ "title": "Java File Operations Cheat Sheet",
+ "description": "Quick reference for common file operations including reading, writing, and file manipulation methods.",
+ "url": "https://www.codecademy.com/resources/cheatsheets/language/java",
+ "resource_type": "other",
+ "difficulty": "intermediate",
+ "estimated_time": "12 minutes",
+ "topics": [19]
+},
+{
+ "id": 152,
+ "title": "JavaFX Tutorial for Beginners",
+ "description": "Complete beginner-friendly video covering JavaFX setup, scene creation, and basic GUI components.",
+ "url": "https://www.youtube.com/watch?v=9XJicRt_FaI",
+ "resource_type": "video",
+ "difficulty": "beginner",
+ "estimated_time": "1 hour",
+ "topics": [20]
+},
+{
+ "id": 153,
+ "title": "JavaFX Event Handling and Controls",
+ "description": "Video tutorial focusing on button clicks, text fields, event listeners, and user interaction in JavaFX.",
+ "url": "https://www.youtube.com/watch?v=FLkOX4Eez6o",
+ "resource_type": "video",
+ "difficulty": "intermediate",
+ "estimated_time": "45 minutes",
+ "topics": [20]
+},
+{
+ "id": 154,
+ "title": "Oracle JavaFX Documentation",
+ "description": "Official JavaFX documentation covering scene graphs, controls, layouts, and event handling.",
+ "url": "https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-overview.htm",
+ "resource_type": "documentation",
+ "difficulty": "intermediate",
+ "estimated_time": "1.5 hours",
+ "topics": [20]
+},
+{
+ "id": 155,
+ "title": "JavaFX Tutorial - Jenkov",
+ "description": "Comprehensive tutorial series covering JavaFX basics, controls, layouts, and styling with CSS.",
+ "url": "https://jenkov.com/tutorials/javafx/index.html",
+ "resource_type": "documentation",
+ "difficulty": "beginner",
+ "estimated_time": "2 hours",
+ "topics": [20]
+},
+{
+ "id": 156,
+ "title": "JavaFX Architecture Diagram",
+ "description": "Visual representation of JavaFX architecture showing scene graph, application thread, and rendering pipeline.",
+ "url": "https://www.tutorialspoint.com/javafx/javafx_architecture.htm",
+ "resource_type": "visual",
+ "difficulty": "intermediate",
+ "estimated_time": "25 minutes",
+ "topics": [20]
+},
+{
+ "id": 157,
+ "title": "JavaFX Layout Containers Visual Guide",
+ "description": "Infographic showing different layout panes like VBox, HBox, GridPane with visual examples.",
+ "url": "https://www.geeksforgeeks.org/javafx-layouts-panes/",
+ "resource_type": "visual",
+ "difficulty": "beginner",
+ "estimated_time": "20 minutes",
+ "topics": [20]
+},
+{
+ "id": 158,
+ "title": "JavaFX Scene Builder Tool",
+ "description": "Official visual design tool for creating JavaFX user interfaces with drag-and-drop functionality.",
+ "url": "https://gluonhq.com/products/scene-builder/",
+ "resource_type": "other",
+ "difficulty": "beginner",
+ "estimated_time": "30 minutes",
+ "topics": [20]
+},
+{
+ "id": 159,
+ "title": "JavaFX Quick Reference Guide",
+ "description": "Cheat sheet covering common JavaFX controls, event handling patterns, and layout managers.",
+ "url": "https://www.oracle.com/technical-resources/articles/java/javafx2.html",
+ "resource_type": "other",
+ "difficulty": "intermediate",
+ "estimated_time": "15 minutes",
+ "topics": [20]
+} ]
+}
+    

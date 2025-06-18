@@ -34,3 +34,6 @@ bkshmax$ docker-compose exec web python clear_paths.py
 
 # LOAD RESOURCES:
 docker-compose exec web python manage.py load_resources --clear
+
+# LOAD KSG TO DATABASE:
+docker-compose exec web python manage.py load_ksg --verbosity=2

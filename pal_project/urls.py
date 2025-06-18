@@ -8,6 +8,9 @@ urlpatterns = [
     # Admin interface
     path('admin/', admin.site.urls),
     
+    # Authentication URLs
+    path('accounts/', include('django.contrib.auth.urls')),
+    
     # Home page (public)
     path('', include('core.urls')),
     

@@ -3,47 +3,68 @@
 {% block title %}Upload CSV Data{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-lg-8">
-        <div class="card p-4" style="background: linear-gradient(145deg, #1a1d2b, #11121b); border-radius: 18px;">
-            <div class="card-header border-0 mb-3" style="background-color: transparent;">
-                <h4 class="text-info fw-bold mb-0">
-                    📊 Upload Student Learning Data (CSV)
-                </h4>
+<div class="page-header text-center">
+    <h1 class="page-title">Upload CSV Data</h1>
+    <p class="page-subtitle">Import student learning data and assessment results</p>
+</div>
+
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card">
+        <div class="card-body">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div style="width: 80px; height: 80px; background: var(--gradient); border-radius: 20px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; box-shadow: var(--shadow);">
+                    <i class="bi bi-file-earmark-spreadsheet" style="font-size: 2rem; color: white;"></i>
+                </div>
+                <h3 class="card-title">CSV File Upload</h3>
+                <p class="card-text">Upload student interaction data in CSV format</p>
             </div>
 
-            <div class="card-body">
-                {% if messages %}
-                <div class="mb-3">
-                    {% for message in messages %}
+            {% if messages %}
+                {% for message in messages %}
                     <div class="alert alert-{{ message.tags }}">
+                        <i class="bi bi-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-triangle{% else %}info-circle{% endif %}"></i>
                         {{ message }}
                     </div>
-                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="file" class="form-label">
+                        <i class="bi bi-file-earmark"></i> Select CSV File
+                    </label>
+                    <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+                    <div style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        <i class="bi bi-info-circle"></i>
+                        Required fields: student_id, course_id, question_id, correct, assessment_id, assessment_type
+                    </div>
                 </div>
-                {% endif %}
 
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="bi bi-upload"></i>
+                    Upload CSV File
+                </button>
+            </form>
 
-                    <div class="mb-4">
-                        <label for="file" class="form-label fw-semibold">📁 CSV File</label>
-                        <input type="file" class="form-control" id="file" name="file" required>
-                        <div class="form-text text-muted">
-                            Only CSV files accepted. Required fields: student_id, course_id, question_id, correct, assessment_id, assessment_type
-                        </div>
-                    </div>
-
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-primary btn-lg fw-bold">🚀 Upload CSV</button>
-                    </div>
-                </form>
-            </div>
-
-            <div class="card-footer bg-transparent border-top-0 text-center">
-                <a href="{% url 'data_ingestion:upload_list' %}" class="btn btn-outline-info">📋 View All Uploads</a>
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center;">
+                <h4 style="color: var(--text-primary); margin-bottom: 1rem;">CSV Format Requirements</h4>
+                <div style="background: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; text-align: left; font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--text-secondary);">
+                    student_id,course_id,question_id,correct,assessment_id,assessment_type<br>
+                    A00000001,CS206,JAVA-001,true,1,quiz<br>
+                    A00000002,CS206,JAVA-001,false,1,quiz<br>
+                    ...
+                </div>
             </div>
         </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{% url 'data_ingestion:upload_list' %}" class="btn btn-secondary">
+            <i class="bi bi-list"></i>
+            View Upload History
+        </a>
     </div>
 </div>
 {% endblock %}
