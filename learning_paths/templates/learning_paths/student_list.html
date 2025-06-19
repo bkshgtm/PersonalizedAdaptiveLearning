@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Paths{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-3">
+    <!-- Header -->
+    <div class="header-section mb-5">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="display-6 fw-light text-dark mb-1">Learning Paths</h1>
+                <p class="text-muted fs-6 mb-0">AI-powered personalized learning recommendations</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-grid mb-5">
+        <div class="stat-card">
+            <div class="stat-number">{{ total_students }}</div>
+            <div class="stat-label">Students</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">{{ total_paths }}</div>
+            <div class="stat-label">Learning Paths</div>
+        </div>
+        <div class="stat-card stat-card-success">
+            <div class="stat-number">{{ students_with_paths|length }}</div>
+            <div class="stat-label">With Paths</div>
+        </div>
+        <div class="stat-card stat-card-warning">
+            <div class="stat-number">{{ students_without_paths|length }}</div>
+            <div class="stat-label">Need Paths</div>
+        </div>
+    </div>
+
+    <!-- Students with Paths -->
+    {% if students_with_paths %}
+    <div class="section mb-5">
+        <div class="section-header">
+            <h2 class="section-title">Students with Learning Paths</h2>
+            <span class="section-count">{{ students_with_paths|length }}</span>
+        </div>
+        
+        <div class="student-grid">
+            {% for student in students_with_paths %}
+            <div class="student-card" data-student-id="{{ student.student_id }}">
+                <div class="student-info">
+                    <div class="student-name">{{ student.first_name }} {{ student.last_name }}</div>
+                    <div class="student-details">
+                        <span class="student-id">{{ student.student_id }}</span>
+                        <span class="student-major">{{ student.major }}</span>
+                    </div>
+                </div>
+                
+                <div class="student-metrics">
+                    <div class="metric">
+                        <div class="metric-value gpa-{{ student.gpa|floatformat:1|cut:'.' }}">{{ student.gpa }}</div>
+                        <div class="metric-label">GPA</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">{{ student.path_count }}</div>
+                        <div class="metric-label">Paths</div>
+                    </div>
+                </div>
+                
+                <div class="student-actions">
+                    <a href="{% url 'learning_paths:student_paths' student.student_id %}" 
+                       class="btn-view">View Paths</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Students without Paths -->
+    {% if students_without_paths %}
+    <div class="section">
+        <div class="section-header">
+            <h2 class="section-title">Students Needing Learning Paths</h2>
+            <span class="section-count section-count-warning">{{ students_without_paths|length }}</span>
+        </div>
+        
+        <div class="student-grid">
+            {% for student in students_without_paths %}
+            <div class="student-card student-card-pending">
+                <div class="student-info">
+                    <div class="student-name">{{ student.first_name }} {{ student.last_name }}</div>
+                    <div class="student-details">
+                        <span class="student-id">{{ student.student_id }}</span>
+                        <span class="student-major">{{ student.major }}</span>
+                    </div>
+                </div>
+                
+                <div class="student-metrics">
+                    <div class="metric">
+                        <div class="metric-value gpa-{{ student.gpa|floatformat:1|cut:'.' }}">{{ student.gpa }}</div>
+                        <div class="metric-label">GPA</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">{{ student.interactions.count }}</div>
+                        <div class="metric-label">Activity</div>
+                    </div>
+                </div>
+                
+                <div class="student-actions">
+                    <span class="text-muted">No learning path available</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Empty State -->
+    {% if not students_with_paths and not students_without_paths %}
+    <div class="empty-state">
+        <div class="empty-icon">📚</div>
+        <h3>No Students Found</h3>
+        <p>Upload student data to get started with learning paths</p>
+        <a href="{% url 'data_ingestion:upload_data' %}" class="btn btn-dark">Upload Data</a>
+    </div>
+    {% endif %}
+</div>
+
+
+<style>
+/* Dashboard Specific Styles - Inherits from base.html theme */
+
+/* Header */
+.header-section {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.stat-card-success::before {
+    background: linear-gradient(135deg, var(--success), #38a169);
+}
+
+.stat-card-warning::before {
+    background: linear-gradient(135deg, var(--warning), #dd6b20);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Section Headers */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.section-count {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+}
+
+.section-count-warning {
+    background: rgba(237, 137, 54, 0.1);
+    color: var(--warning);
+    border-color: rgba(237, 137, 54, 0.2);
+}
+
+/* Student Grid */
+.student-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.student-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+}
+
+.student-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gradient);
+}
+
+.student-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.student-card-pending::before {
+    background: linear-gradient(135deg, var(--warning), #dd6b20);
+}
+
+.student-info {
+    margin-bottom: 1rem;
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.student-details {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.875rem;
+}
+
+.student-id {
+    color: var(--text-muted);
+    font-family: 'Courier New', monospace;
+    background: var(--bg-hover);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+.student-major {
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+/* Student Metrics */
+.student-metrics {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* GPA Colors using theme variables */
+.gpa-40, .gpa-39, .gpa-38, .gpa-37, .gpa-36, .gpa-35 { color: var(--success); }
+.gpa-34, .gpa-33, .gpa-32, .gpa-31, .gpa-30 { color: var(--warning); }
+.gpa-29, .gpa-28, .gpa-27, .gpa-26, .gpa-25, .gpa-24, .gpa-23, .gpa-22, .gpa-21, .gpa-20 { color: var(--error); }
+
+/* Student Actions */
+.student-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-view, .btn-generate {
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-view {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-view:hover {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.btn-generate {
+    background: var(--gradient);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Modal Styling */
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-body {
+    color: var(--text-primary);
+}
+
+.modal-body h6 {
+    color: var(--text-primary);
+}
+
+.modal-body p {
+    color: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-section .d-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .student-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .student-metrics {
+        gap: 1rem;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const studentCards = document.querySelectorAll('.student-card[data-student-id]');
+    studentCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (!e.target.closest('.btn-view')) {
+                const studentId = this.dataset.studentId;
+                window.location.href = `/learning-paths/student/${studentId}/`;
+            }
+        });
+    });
+});
+</script>
+
+{% csrf_token %}
+{% endblock %}

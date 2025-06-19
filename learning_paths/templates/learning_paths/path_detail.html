@@ -1,0 +1,508 @@
+{% extends "base.html" %}
+
+{% block title %}Learning Path - {{ learning_path.student.first_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .path-header {
+        background: var(--gradient);
+        color: white;
+        padding: 2rem;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+    }
+    
+    .path-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .stat-box {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255,255,255,0.1);
+        border-radius: 10px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .learning-journey {
+        background: var(--bg-card);
+        border-radius: 20px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid var(--border);
+    }
+    
+    .path-flow {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+    
+    .topic-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        font-size: 0.8rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        border: 3px solid;
+        color: var(--text-primary);
+    }
+    
+    .topic-circle:hover {
+        transform: scale(1.1);
+    }
+    
+    .topic-circle.start {
+        background: var(--success);
+        border-color: var(--success);
+        color: white;
+    }
+    
+    .topic-circle.finish {
+        background: var(--error);
+        border-color: var(--error);
+        color: white;
+    }
+    
+    .topic-circle.ready {
+        background: rgba(72, 187, 120, 0.2);
+        border-color: var(--success);
+    }
+    
+    .topic-circle.needs-prereq {
+        background: rgba(237, 137, 54, 0.2);
+        border-color: var(--warning);
+    }
+    
+    .arrow {
+        font-size: 1.5rem;
+        color: var(--primary);
+        margin: 0 0.5rem;
+    }
+    
+    .topic-number {
+        position: absolute;
+        top: -8px;
+        left: -8px;
+        background: var(--primary);
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: bold;
+    }
+    
+    .confidence-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background: var(--accent);
+        color: white;
+        padding: 2px 4px;
+        border-radius: 8px;
+        font-size: 9px;
+        font-weight: bold;
+    }
+    
+    .weak-areas {
+        background: var(--bg-card);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid var(--border);
+    }
+    
+    .weak-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .weak-card {
+        background: var(--bg-hover);
+        border: 1px solid var(--warning);
+        border-radius: 10px;
+        padding: 1rem;
+    }
+    
+    .progress {
+        width: 100%;
+        height: 6px;
+        background: var(--border);
+        border-radius: 3px;
+        margin: 0.5rem 0;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-success { background: var(--success); }
+    .progress-warning { background: var(--warning); }
+    .progress-danger { background: var(--error); }
+    
+    .breadcrumb {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .breadcrumb-item {
+        color: var(--text-secondary);
+    }
+    
+    .breadcrumb-item + .breadcrumb-item::before {
+        content: ">";
+        margin: 0 0.5rem;
+        color: var(--text-muted);
+    }
+    
+    .breadcrumb-item a {
+        color: var(--primary);
+        text-decoration: none;
+    }
+    
+    .breadcrumb-item.active {
+        color: var(--text-primary);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+    }
+    
+    .modal.show {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal-content {
+        background: var(--bg-card);
+        border-radius: 20px;
+        padding: 2rem;
+        max-width: 700px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+    
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    .modal-title {
+        color: var(--text-primary);
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .btn-close {
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    .resource-list {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .resource-item {
+        background: var(--bg-hover);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1rem;
+        transition: all 0.3s ease;
+    }
+    
+    .resource-item:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
+    }
+    
+    .resource-title {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .resource-meta {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        margin-bottom: 1rem;
+    }
+    
+    .badge {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.7rem;
+        font-weight: 500;
+        border-radius: 0.3rem;
+        margin: 0.1rem;
+    }
+    
+    .badge-success { background: var(--success); color: white; }
+    .badge-warning { background: var(--warning); color: white; }
+    .badge-danger { background: var(--error); color: white; }
+    .badge-info { background: #17a2b8; color: white; }
+    .badge-secondary { background: #6c757d; color: white; }
+    
+    @media (max-width: 768px) {
+        .path-flow {
+            flex-direction: column;
+        }
+        
+        .arrow {
+            transform: rotate(90deg);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'learning_paths:student_list' %}">Learning Paths</a>
+        </li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'learning_paths:student_paths' learning_path.student.student_id %}">
+                {{ learning_path.student.student_id }}
+            </a>
+        </li>
+        <li class="breadcrumb-item active">Path #{{ learning_path.id }}</li>
+    </ol>
+</nav>
+
+<!-- Header -->
+<div class="path-header">
+    <h1>
+        <i class="bi bi-route"></i> 
+        Learning Path for {{ learning_path.student.first_name }} {{ learning_path.student.last_name }}
+    </h1>
+    <p style="margin: 0.5rem 0;">
+        {{ learning_path.student.student_id }} • {{ learning_path.student.major }} • {{ learning_path.course.name }}
+    </p>
+    
+    <div class="path-stats">
+        <div class="stat-box">
+            <span class="stat-number">{{ learning_path.recommended_topics_count }}</span>
+            <span>Topics</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number">{{ learning_path.total_estimated_time|floatformat:0 }}h</span>
+            <span>Study Time</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number">{{ learning_path.weak_topics_count }}</span>
+            <span>Weak Areas</span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-number">Active</span>
+            <span>Status</span>
+        </div>
+    </div>
+</div>
+
+<!-- Learning Path -->
+<div class="learning-journey">
+    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-map"></i> Your Learning Journey
+    </h3>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+        Click on any topic to see learning resources and details.
+    </p>
+    
+    {% if recommended_topics %}
+        <div class="path-flow">
+            <!-- START -->
+            <div class="topic-circle start">
+                <div>
+                    <i class="bi bi-play-fill"></i><br>
+                    START
+                </div>
+            </div>
+            
+            <!-- TOPICS -->
+            {% for rec_topic in recommended_topics %}
+                <div class="arrow">→</div>
+                
+                <div class="topic-circle {% if rec_topic.should_study_prerequisites_first %}needs-prereq{% else %}ready{% endif %}" 
+                     onclick="showResources({{ rec_topic.id }}, '{{ rec_topic.topic.name|escapejs }}')">
+                    
+                    <div class="topic-number">{{ forloop.counter }}</div>
+                    <div class="confidence-badge">{{ rec_topic.confidence|floatformat:0 }}%</div>
+                    
+                    <div>
+                        {{ rec_topic.topic.name|truncatechars:12 }}<br>
+                        <small>{{ rec_topic.estimated_time_hours|floatformat:1 }}h</small>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            <!-- FINISH -->
+            <div class="arrow">→</div>
+            <div class="topic-circle finish">
+                <div>
+                    <i class="bi bi-trophy-fill"></i><br>
+                    FINISH
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 3rem 0; color: var(--text-secondary);">
+            <i class="bi bi-exclamation-circle" style="font-size: 3rem;"></i>
+            <h4 style="margin-top: 1rem;">No Learning Path Available</h4>
+            <p>This learning path doesn't have any recommended topics yet.</p>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Weak Areas -->
+{% if weak_topics %}
+<div class="weak-areas">
+    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">
+        <i class="bi bi-exclamation-triangle" style="color: var(--warning);"></i> 
+        Areas Needing Attention
+    </h3>
+    
+    <div class="weak-grid">
+        {% for weak_topic in weak_topics %}
+            <div class="weak-card">
+                <h6 style="color: var(--text-primary);">{{ weak_topic.topic.name }}</h6>
+                <div class="progress">
+                    <div class="progress-bar progress-{% if weak_topic.current_mastery >= 0.7 %}success{% elif weak_topic.current_mastery >= 0.5 %}warning{% else %}danger{% endif %}" 
+                         style="width: {{ weak_topic.current_mastery|floatformat:0 }}%"></div>
+                </div>
+                <small style="color: var(--text-muted);">
+                    {{ weak_topic.current_mastery|floatformat:0 }}% mastery (Target: 70%)
+                </small>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Modal -->
+<div class="modal" id="resourceModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Learning Resources</h5>
+            <button class="btn-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div id="modalBody">
+            <p style="color: var(--text-secondary);">Loading...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+function showResources(topicId, topicName) {
+    document.getElementById('modalTitle').textContent = `Resources: ${topicName}`;
+    document.getElementById('resourceModal').classList.add('show');
+    
+    fetch(`/learning-paths/topic-resources/${topicId}/`)
+        .then(response => response.json())
+        .then(data => {
+            let html = '';
+            
+            if (data.resources && data.resources.length > 0) {
+                html = '<div class="resource-list">';
+                data.resources.forEach(resource => {
+                    const typeIcon = {
+                        'video': 'bi-play-circle-fill',
+                        'documentation': 'bi-file-text-fill',
+                        'visual': 'bi-image-fill',
+                        'other': 'bi-link-45deg'
+                    }[resource.resource_type] || 'bi-link-45deg';
+                    
+                    html += `
+                        <div class="resource-item">
+                            <div class="resource-title">
+                                <i class="bi ${typeIcon}" style="color: var(--primary);"></i>
+                                ${resource.title}
+                            </div>
+                            <div class="resource-meta">
+                                <span class="badge badge-${resource.difficulty === 'beginner' ? 'success' : resource.difficulty === 'intermediate' ? 'warning' : 'danger'}">${resource.difficulty}</span>
+                                <span class="badge badge-info">${resource.resource_type}</span>
+                                <span class="badge badge-secondary">${resource.estimated_time}h</span>
+                            </div>
+                            <a href="${resource.url}" target="_blank" class="btn btn-primary">
+                                <i class="bi bi-box-arrow-up-right"></i> Open Resource
+                            </a>
+                        </div>
+                    `;
+                });
+                html += '</div>';
+            } else {
+                html = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <i class="bi bi-inbox" style="font-size: 2rem;"></i>
+                        <p style="margin-top: 1rem;">No resources available for this topic yet.</p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('modalBody').innerHTML = html;
+        })
+        .catch(error => {
+            document.getElementById('modalBody').innerHTML = `
+                <div style="text-align: center; padding: 2rem; color: var(--error);">
+                    <i class="bi bi-exclamation-triangle" style="font-size: 2rem;"></i>
+                    <p style="margin-top: 1rem;">Error loading resources. Please try again.</p>
+                </div>
+            `;
+        });
+}
+
+function closeModal() {
+    document.getElementById('resourceModal').classList.remove('show');
+}
+
+document.getElementById('resourceModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeModal();
+    }
+});
+</script>
+{% endblock %}

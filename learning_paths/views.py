@@ -1,563 +1,283 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
+from django.contrib import messages
+from django.db.models import Count, Avg, Max
+from django.db import models
 from django.utils import timezone
-from django.views.decorators.http import require_POST
+from datetime import timedelta
+import json
 
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
-
-from .models import (
-    PathGenerator, PathGenerationJob, LearningPath, 
-    LearningPathItem, LearningResource, PathCheckpoint
-)
-from .tasks import generate_learning_path, refresh_learning_paths
-from core.models import Student, Course, Topic
+from core.models import Student, Course
+from .models import LearningPath, WeakTopic, RecommendedTopic, TopicResource
+from .ml.adaptive_path_lstm import DjangoIntegratedPathGenerator
 
 
-@login_required
-def generator_list(request):
+def student_list(request):
     """
-    View to show all path generators.
+    Level 1: Display all students with learning paths in a beautiful table.
     """
-    generators = PathGenerator.objects.all().order_by('-updated_at')
-    return render(request, 'learning_paths/generator_list.html', {'generators': generators})
-
-
-@login_required
-def generator_detail(request, generator_id):
-    """
-    View to show details of a path generator.
-    """
-    generator = get_object_or_404(PathGenerator, pk=generator_id)
-    jobs = generator.jobs.all().order_by('-created_at')[:10]
+    # Get students who have learning paths
+    students_with_paths = Student.objects.annotate(
+        path_count=Count('learning_paths'),
+        latest_path_date=Max('learning_paths__generated_at')
+    ).filter(path_count__gt=0).order_by('-latest_path_date')
     
-    return render(request, 'learning_paths/generator_detail.html', {
-        'generator': generator,
-        'jobs': jobs
-    })
-
-
-@login_required
-def create_generator(request):
-    """
-    View to create a new path generator.
-    """
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description', '')
-        is_active = request.POST.get('is_active') == 'on'
-        
-        # Parse configuration from form
-        include_strong_topics = request.POST.get('include_strong_topics') == 'on'
-        max_resources = int(request.POST.get('max_resources_per_topic', 3))
-        
-        config = {
-            'include_strong_topics': include_strong_topics,
-            'max_resources_per_topic': max_resources
-        }
-        
-        if not name:
-            messages.error(request, "Generator name is required.")
-            return redirect('create_generator')
-        
-        # If this generator is set as active, unset other active generators
-        if is_active:
-            PathGenerator.objects.filter(is_active=True).update(is_active=False)
-        
-        # Create the generator
-        generator = PathGenerator.objects.create(
-            name=name,
-            description=description,
-            created_by=request.user,
-            is_active=is_active,
-            config=config
-        )
-        
-        messages.success(request, f"Path generator '{name}' created successfully.")
-        return redirect('generator_detail', generator_id=generator.id)
+    # Also get students without paths for completeness
+    students_without_paths = Student.objects.annotate(
+        path_count=Count('learning_paths')
+    ).filter(path_count=0)
     
-    return render(request, 'learning_paths/create_generator.html')
+    context = {
+        'students_with_paths': students_with_paths,
+        'students_without_paths': students_without_paths,
+        'total_students': Student.objects.count(),
+        'total_paths': LearningPath.objects.count(),
+    }
+    
+    return render(request, 'learning_paths/student_list.html', context)
 
 
-@require_POST
-@login_required
-def set_active_generator(request, generator_id):
-    """
-    View to set a generator as active.
-    """
-    generator = get_object_or_404(PathGenerator, pk=generator_id)
-    
-    # Unset other active generators
-    PathGenerator.objects.filter(is_active=True).update(is_active=False)
-    
-    # Set this generator as active
-    generator.is_active = True
-    generator.save(update_fields=['is_active'])
-    
-    messages.success(request, f"Generator '{generator.name}' is now the active generator.")
-    return redirect('generator_list')
-
-
-@login_required
-def job_list(request):
-    """
-    View to show all path generation jobs.
-    """
-    jobs = PathGenerationJob.objects.all().order_by('-created_at')
-    return render(request, 'learning_paths/job_list.html', {'jobs': jobs})
-
-
-@login_required
-def job_detail(request, job_id):
-    """
-    View to show details of a path generation job.
-    """
-    job = get_object_or_404(PathGenerationJob, pk=job_id)
-    
-    # Check if a path has been generated
-    try:
-        path = job.path
-        return redirect('path_detail', path_id=path.id)
-    except LearningPath.DoesNotExist:
-        # No path generated yet
-        pass
-    
-    return render(request, 'learning_paths/job_detail.html', {'job': job})
-
-
-@require_POST
-@login_required
-def generate_path(request):
-    """
-    View to start a path generation job.
-    """
-    student_id = request.POST.get('student_id')
-    course_id = request.POST.get('course_id')
-    generator_id = request.POST.get('generator_id')
-    
-    if not student_id or not course_id:
-        messages.error(request, "Student and course are required.")
-        return redirect('job_list')
-    
-    try:
-        student = Student.objects.get(student_id=student_id)
-        course = Course.objects.get(course_id=course_id)
-    except (Student.DoesNotExist, Course.DoesNotExist):
-        messages.error(request, "Student or course not found.")
-        return redirect('job_list')
-    
-    # Get generator
-    if generator_id:
-        try:
-            generator = PathGenerator.objects.get(pk=generator_id)
-        except PathGenerator.DoesNotExist:
-            messages.error(request, "Selected generator not found.")
-            return redirect('job_list')
-    else:
-        # Use active generator
-        generator = PathGenerator.objects.filter(is_active=True).first()
-        
-        if not generator:
-            messages.error(request, "No active path generator found.")
-            return redirect('job_list')
-    
-    # Create the job
-    job = PathGenerationJob.objects.create(
-        generator=generator,
-        student=student,
-        course=course,
-        status='pending'
-    )
-    
-    # Start the generation task
-    generate_learning_path.delay(job.id)
-    
-    messages.success(
-        request,
-        f"Started path generation job for student {student.student_id}. "
-        f"The learning path will be ready shortly."
-    )
-    
-    return redirect('job_detail', job_id=job.id)
-
-
-@require_POST
-@login_required
-def refresh_course_paths(request, course_id):
-    """
-    View to refresh learning paths for all students in a course.
-    """
-    try:
-        course = Course.objects.get(course_id=course_id)
-    except Course.DoesNotExist:
-        messages.error(request, "Course not found.")
-        return redirect('job_list')
-    
-    # Start the refresh task
-    refresh_learning_paths.delay(course_id)
-    
-    messages.success(
-        request,
-        f"Started learning path refresh for course {course.title}. "
-        f"This may take some time for courses with many students."
-    )
-    
-    return redirect('job_list')
-
-
-@login_required
-def path_list(request):
-    """
-    View to show all learning paths.
-    """
-    paths = LearningPath.objects.all().order_by('-generated_at')
-    return render(request, 'learning_paths/path_list.html', {'paths': paths})
-
-
-@login_required
-def path_detail(request, path_id):
-    """
-    View to show details of a learning path.
-    """
-    path = get_object_or_404(LearningPath, pk=path_id)
-    items = path.items.all().order_by('priority')
-    checkpoints = path.checkpoints.all().order_by('position')
-    
-    return render(request, 'learning_paths/path_detail.html', {
-        'path': path,
-        'items': items,
-        'checkpoints': checkpoints
-    })
-
-
-@login_required
 def student_paths(request, student_id):
     """
-    View to show all learning paths for a student.
+    Level 2: Display all learning paths for a specific student.
     """
     student = get_object_or_404(Student, student_id=student_id)
-    paths = LearningPath.objects.filter(student=student).order_by('-generated_at')
     
-    return render(request, 'learning_paths/student_paths.html', {
+    # Get all learning paths for this student
+    learning_paths = LearningPath.objects.filter(student=student).order_by('-generated_at')
+    
+    # Calculate some stats
+    total_paths = learning_paths.count()
+    total_time = sum(path.total_estimated_time for path in learning_paths)
+    avg_weak_topics = learning_paths.aggregate(avg=Avg('weak_topics_count'))['avg'] or 0
+    
+    context = {
         'student': student,
-        'paths': paths
+        'learning_paths': learning_paths,
+        'total_paths': total_paths,
+        'total_time': total_time,
+        'avg_weak_topics': round(avg_weak_topics, 1),
+    }
+    
+    return render(request, 'learning_paths/student_paths.html', context)
+
+
+def path_detail(request, path_id):
+    """
+    Level 3: Display detailed learning path with amazing visualization.
+    """
+    learning_path = get_object_or_404(LearningPath, id=path_id)
+    
+    # Get related data
+    weak_topics = WeakTopic.objects.filter(learning_path=learning_path).order_by('order')
+    recommended_topics = RecommendedTopic.objects.filter(learning_path=learning_path).order_by('priority')
+    
+    # Prepare data for visualization
+    path_data = {
+        'nodes': [],
+        'edges': [],
+        'student_profile': learning_path.student_stats,
+        'path_stats': {
+            'total_time': learning_path.total_estimated_time,
+            'weak_topics_count': learning_path.weak_topics_count,
+            'recommended_topics_count': learning_path.recommended_topics_count,
+            'created_at': learning_path.generated_at.isoformat(),
+            'status': 'Active' if learning_path.generated_at > timezone.now() - timedelta(days=7) else 'Old'
+        }
+    }
+    
+    # Build nodes for visualization
+    node_id = 0
+    
+    # Add start node
+    path_data['nodes'].append({
+        'id': node_id,
+        'label': 'START',
+        'type': 'start',
+        'color': '#28a745',
+        'size': 30,
+        'font': {'size': 16, 'color': 'white'}
     })
-
-
-@require_POST
-@login_required
-def mark_resource_viewed(request, resource_id):
-    """
-    View to mark a learning resource as viewed.
-    """
-    resource = get_object_or_404(LearningResource, pk=resource_id)
+    start_node_id = node_id
+    node_id += 1
     
-    # Mark as viewed
-    resource.viewed = True
-    resource.viewed_at = timezone.now()
-    resource.save(update_fields=['viewed', 'viewed_at'])
+    # Add recommended topic nodes
+    prev_node_id = start_node_id
+    topic_nodes = {}
     
-    return JsonResponse({'status': 'success'})
-
-
-@require_POST
-@login_required
-def mark_item_completed(request, item_id):
-    """
-    View to mark a learning path item as completed.
-    """
-    item = get_object_or_404(LearningPathItem, pk=item_id)
+    for rec_topic in recommended_topics[:8]:  # Limit to 8 for better visualization
+        # Determine node color based on prerequisites
+        if rec_topic.should_study_prerequisites_first:
+            color = '#ffc107'  # Yellow for prerequisites needed
+            status = 'Prerequisites Needed'
+        else:
+            color = '#007bff'  # Blue for ready to study
+            status = 'Ready to Study'
+        
+        # Determine size based on confidence
+        size = 20 + (rec_topic.confidence * 20)  # Size between 20-40
+        
+        path_data['nodes'].append({
+            'id': node_id,
+            'label': rec_topic.topic.name[:20] + ('...' if len(rec_topic.topic.name) > 20 else ''),
+            'full_name': rec_topic.topic.name,
+            'type': 'topic',
+            'color': color,
+            'size': size,
+            'confidence': round(rec_topic.confidence * 100, 1),
+            'time_hours': rec_topic.estimated_time_hours,
+            'difficulty': rec_topic.recommended_difficulty,
+            'status': status,
+            'prerequisites': rec_topic.prerequisites,
+            'unmet_prerequisites': rec_topic.unmet_prerequisites,
+            'resources': [
+                {
+                    'title': res.title,
+                    'url': res.url,
+                    'type': res.resource_type,
+                    'difficulty': res.difficulty,
+                    'time': res.estimated_time
+                }
+                for res in TopicResource.objects.filter(recommended_topic=rec_topic).order_by('order')[:5]
+            ],
+            'font': {'size': 12, 'color': 'white'}
+        })
+        
+        # Add edge from previous node
+        path_data['edges'].append({
+            'from': prev_node_id,
+            'to': node_id,
+            'arrows': 'to',
+            'color': {'color': '#666666'},
+            'width': 2
+        })
+        
+        topic_nodes[rec_topic.topic.name] = node_id
+        prev_node_id = node_id
+        node_id += 1
     
-    # Mark as completed
-    item.completed = True
-    item.completed_at = timezone.now()
-    item.save(update_fields=['completed', 'completed_at'])
-    
-    # Update path progress
-    path = item.path
-    completed_count = path.items.filter(completed=True).count()
-    total_count = path.items.count()
-    
-    path.overall_progress.update({
-        'completed_topics': completed_count,
-        'in_progress_topics': 0,
-        'not_started_topics': total_count - completed_count
+    # Add finish node
+    path_data['nodes'].append({
+        'id': node_id,
+        'label': 'FINISH',
+        'type': 'finish',
+        'color': '#dc3545',
+        'size': 30,
+        'font': {'size': 16, 'color': 'white'}
     })
-    path.save(update_fields=['overall_progress'])
     
-    return JsonResponse({'status': 'success'})
-
-
-@require_POST
-@login_required
-def mark_checkpoint_completed(request, checkpoint_id):
-    """
-    View to mark a path checkpoint as completed.
-    """
-    checkpoint = get_object_or_404(PathCheckpoint, pk=checkpoint_id)
-    score = float(request.POST.get('score', 0))
+    # Add edge to finish
+    if prev_node_id != start_node_id:
+        path_data['edges'].append({
+            'from': prev_node_id,
+            'to': node_id,
+            'arrows': 'to',
+            'color': {'color': '#666666'},
+            'width': 2
+        })
     
-    # Mark as completed
-    checkpoint.completed = True
-    checkpoint.completed_at = timezone.now()
-    checkpoint.score = score
-    checkpoint.save(update_fields=['completed', 'completed_at', 'score'])
+    context = {
+        'learning_path': learning_path,
+        'weak_topics': weak_topics,
+        'recommended_topics': recommended_topics,
+        'path_data_json': json.dumps(path_data),
+        'student_profile': learning_path.student_stats,
+    }
     
-    return JsonResponse({'status': 'success'})
+    return render(request, 'learning_paths/path_detail.html', context)
 
 
-@require_POST
-@login_required
-def archive_path(request, path_id):
+def generate_new_path(request, student_id):
     """
-    View to archive a learning path.
+    Generate a new learning path for a student.
     """
-    path = get_object_or_404(LearningPath, pk=path_id)
+    if request.method == 'POST':
+        try:
+            # Generate new learning path
+            path_generator = DjangoIntegratedPathGenerator()
+            learning_path_data = path_generator.generate_comprehensive_learning_path(student_id)
+            
+            if learning_path_data:
+                messages.success(request, f'New learning path generated for student {student_id}!')
+                # Redirect to the student's paths page
+                return redirect('learning_paths:student_paths', student_id=student_id)
+            else:
+                messages.error(request, 'Failed to generate learning path. Please try again.')
+        except Exception as e:
+            messages.error(request, f'Error generating learning path: {str(e)}')
     
-    # Archive the path
-    path.status = 'archived'
-    path.save(update_fields=['status'])
-    
-    messages.success(request, f"Learning path '{path.name}' has been archived.")
-    return redirect('path_list')
+    return redirect('learning_paths:student_paths', student_id=student_id)
 
 
-# API Views
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_student_path_api(request, student_id):
-    """
-    API endpoint to get a student's active learning path.
-    """
+# Keep existing views for backward compatibility
+def learning_path_dashboard(request):
+    """Original dashboard view."""
+    return redirect('learning_paths:student_list')
+
+
+def generate_learning_path(request, student_id):
+    """Original generate view."""
+    return generate_new_path(request, student_id)
+
+
+def topic_resources(request, topic_id):
+    """Get resources for a specific recommended topic."""
     try:
-        student = Student.objects.get(student_id=student_id)
-    except Student.DoesNotExist:
-        return Response(
-            {"error": "Student not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Get course_id parameter
-    course_id = request.query_params.get('course_id')
-    
-    if not course_id:
-        return Response(
-            {"error": "course_id parameter is required."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    try:
-        course = Course.objects.get(course_id=course_id)
-    except Course.DoesNotExist:
-        return Response(
-            {"error": "Course not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Get the latest active path
-    path = LearningPath.objects.filter(
-        student=student,
-        course=course,
-        status='active'
-    ).order_by('-generated_at').first()
-    
-    if not path:
-        return Response(
-            {"error": "No active learning path found for this student and course."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Get path items
-    items = []
-    for item in path.items.all().order_by('priority'):
-        resources = []
-        for resource in item.resources.all():
-            resources.append({
-                "id": resource.id,
-                "title": resource.resource.title,
-                "url": resource.resource.url,
-                "type": resource.resource.resource_type,
-                "difficulty": resource.resource.difficulty,
-                "estimated_time": str(resource.resource.estimated_time),
-                "match_reason": resource.match_reason,
-                "viewed": resource.viewed
+        recommended_topic = get_object_or_404(RecommendedTopic, id=topic_id)
+        resources = TopicResource.objects.filter(recommended_topic=recommended_topic).order_by('order')
+        
+        resources_data = []
+        for resource in resources:
+            resources_data.append({
+                'title': resource.title,
+                'description': resource.description,
+                'url': resource.url,
+                'resource_type': resource.resource_type,
+                'difficulty': resource.difficulty,
+                'estimated_time': resource.estimated_time,
             })
         
-        items.append({
-            "id": item.id,
-            "topic_id": item.topic.id,
-            "topic_name": item.topic.name,
-            "priority": item.priority,
-            "status": item.status,
-            "proficiency_score": item.proficiency_score,
-            "trend": item.trend,
-            "confidence_of_improvement": item.confidence_of_improvement,
-            "reason": item.reason,
-            "estimated_review_time": str(item.estimated_review_time),
-            "completed": item.completed,
-            "resources": resources
+        return JsonResponse({
+            'topic': recommended_topic.topic.name,
+            'resources': resources_data
         })
-    
-    # Get checkpoints
-    checkpoints = []
-    for checkpoint in path.checkpoints.all().order_by('position'):
-        topic_ids = [topic.id for topic in checkpoint.topics.all()]
         
-        checkpoints.append({
-            "id": checkpoint.id,
-            "name": checkpoint.name,
-            "description": checkpoint.description,
-            "checkpoint_type": checkpoint.checkpoint_type,
-            "position": checkpoint.position,
-            "topic_ids": topic_ids,
-            "completed": checkpoint.completed,
-            "score": checkpoint.score
+    except Exception as e:
+        return JsonResponse({
+            'error': f'Error loading resources: {str(e)}'
+        }, status=500)
+
+
+def test_integrated_models(request):
+    """Test the integrated models."""
+    try:
+        path_generator = DjangoIntegratedPathGenerator()
+        
+        # Test with first student
+        first_student = Student.objects.first()
+        if first_student:
+            test_path = path_generator.generate_comprehensive_learning_path(first_student.student_id)
+            
+            if test_path:
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Models are working correctly',
+                    'test_student': first_student.student_id,
+                    'path_topics': len(test_path.get('recommended_path', []))
+                })
+            else:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Failed to generate test path'
+                })
+        else:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'No students found in database'
+            })
+            
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': f'Error testing models: {str(e)}'
         })
-    
-    return Response({
-        "id": path.id,
-        "name": path.name,
-        "description": path.description,
-        "generated_at": path.generated_at,
-        "expires_at": path.expires_at,
-        "status": path.status,
-        "overall_progress": path.overall_progress,
-        "estimated_completion_time": str(path.estimated_completion_time),
-        "items": items,
-        "checkpoints": checkpoints
-    })
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def generate_path_api(request):
-    """
-    API endpoint to generate a learning path for a student.
-    """
-    student_id = request.data.get('student_id')
-    course_id = request.data.get('course_id')
-    
-    if not student_id or not course_id:
-        return Response(
-            {"error": "student_id and course_id are required."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    try:
-        student = Student.objects.get(student_id=student_id)
-        course = Course.objects.get(course_id=course_id)
-    except (Student.DoesNotExist, Course.DoesNotExist):
-        return Response(
-            {"error": "Student or course not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Get active generator
-    generator = PathGenerator.objects.filter(is_active=True).first()
-    
-    if not generator:
-        return Response(
-            {"error": "No active path generator found."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    # Create the job
-    job = PathGenerationJob.objects.create(
-        generator=generator,
-        student=student,
-        course=course,
-        status='pending'
-    )
-    
-    # Start the generation task
-    generate_learning_path.delay(job.id)
-    
-    return Response({
-        "message": f"Started path generation job for student {student_id}.",
-        "job_id": job.id
-    }, status=status.HTTP_202_ACCEPTED)
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def update_resource_status_api(request, resource_id):
-    """
-    API endpoint to update a learning resource status.
-    """
-    try:
-        resource = LearningResource.objects.get(pk=resource_id)
-    except LearningResource.DoesNotExist:
-        return Response(
-            {"error": "Resource not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Mark as viewed
-    resource.viewed = True
-    resource.viewed_at = timezone.now()
-    resource.save(update_fields=['viewed', 'viewed_at'])
-    
-    return Response({"message": "Resource marked as viewed."})
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def update_item_status_api(request, item_id):
-    """
-    API endpoint to update a learning path item status.
-    """
-    try:
-        item = LearningPathItem.objects.get(pk=item_id)
-    except LearningPathItem.DoesNotExist:
-        return Response(
-            {"error": "Learning path item not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    # Mark as completed
-    item.completed = True
-    item.completed_at = timezone.now()
-    item.save(update_fields=['completed', 'completed_at'])
-    
-    # Update path progress
-    path = item.path
-    completed_count = path.items.filter(completed=True).count()
-    total_count = path.items.count()
-    
-    path.overall_progress.update({
-        'completed_topics': completed_count,
-        'in_progress_topics': 0,
-        'not_started_topics': total_count - completed_count
-    })
-    path.save(update_fields=['overall_progress'])
-    
-    return Response({"message": "Item marked as completed."})
-
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def update_checkpoint_status_api(request, checkpoint_id):
-    """
-    API endpoint to update a checkpoint status.
-    """
-    try:
-        checkpoint = PathCheckpoint.objects.get(pk=checkpoint_id)
-    except PathCheckpoint.DoesNotExist:
-        return Response(
-            {"error": "Checkpoint not found."},
-            status=status.HTTP_404_NOT_FOUND
-        )
-    
-    score = float(request.data.get('score', 0))
-    
-    # Mark as completed
-    checkpoint.completed = True
-    checkpoint.completed_at = timezone.now()
-    checkpoint.score = score
-    checkpoint.save(update_fields=['completed', 'completed_at', 'score'])
-    
-    return Response({"message": "Checkpoint marked as completed."})

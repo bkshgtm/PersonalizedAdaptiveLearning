@@ -1,7 +1,7 @@
 from django.contrib import admin
 from knowledge_graph.models import GraphEdge
 from .models import (
-    Student, Course, Topic, Resource, Assessment, Question, StudentInteraction
+    Student, Course, Topic, Resource, Assessment, Question, StudentInteraction, KnowledgeState
 )
 
 @admin.register(Student)
@@ -94,3 +94,14 @@ class StudentInteractionAdmin(admin.ModelAdmin):
     list_display = ('student', 'question', 'correct', 'score', 'attempt_number', 'timestamp')
     list_filter = ('correct', 'question__assessment', 'timestamp')
     search_fields = ('student__student_id', 'question__question_id')
+
+
+@admin.register(KnowledgeState)
+class KnowledgeStateAdmin(admin.ModelAdmin):
+    list_display = ('student', 'topic', 'proficiency_score', 'confidence', 'last_updated')
+    list_filter = ('topic', 'last_updated')
+    search_fields = ('student__student_id', 'topic__name')
+    readonly_fields = ('last_updated',)
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('student', 'topic')

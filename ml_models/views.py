@@ -12,7 +12,8 @@ from ml_models.ml.dkt import DKTModel
 from ml_models.ml.sakt import SAKTModel
 from core.models import Student, Topic, Resource
 from learning_paths.models import LearningPath
-from learning_paths.services.path_generator import LearningPathGenerator as PathGenerator
+# from learning_paths.services.path_generator import LearningPathGenerator as PathGenerator
+from learning_paths.ml.adaptive_path_lstm import DjangoIntegratedPathGenerator as PathGenerator
 import json
 import os
 

@@ -7,10 +7,10 @@ from django.utils import timezone
 from django.db import transaction
 
 from .models import KnowledgeTracingModel, TrainingJob, PredictionBatch, TopicMastery
-from .ml.data_preparation import DataPreparation
+from .ml.django_data_preparation import DjangoDataPreparation as DataPreparation
 from .ml.dkt import DKTModel, DKTTrainer
 from .ml.sakt import SAKTModel, SAKTTrainer
-from .ml.metrics import calculate_student_topic_metrics
+# from .ml.metrics import calculate_student_topic_metrics
 from core.models import Topic, Student
 
 logger = logging.getLogger(__name__)
@@ -223,7 +223,8 @@ def generate_mastery_predictions(prediction_batch_id: int):
         all_interactions = data_prep.get_interactions()
         
         # Calculate student-topic metrics for trend analysis
-        student_topic_metrics = calculate_student_topic_metrics(all_interactions)
+        # student_topic_metrics = calculate_student_topic_metrics(all_interactions)
+        student_topic_metrics = {}  # Placeholder for now
         
         # Process each student
         for i, student in enumerate(students):

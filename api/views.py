@@ -11,7 +11,7 @@ from rest_framework import status
 from core.models import Student, Course, Topic, Question, StudentInteraction
 from ml_models.models import KnowledgeTracingModel, TopicMastery, PredictionBatch
 from knowledge_graph.models import KnowledgeGraph
-from learning_paths.models import LearningPath, PathGenerationJob, PathGenerator, LearningPathItem
+from learning_paths.models import LearningPath, WeakTopic, RecommendedTopic, TopicResource
 
 from ml_models.tasks import generate_mastery_predictions
 from learning_paths.tasks import generate_learning_path
@@ -191,35 +191,13 @@ def generate_recommendations(request, student_id):
     
     # Step 2: Generate learning path
     
-    # Get the active path generator
-    generator = PathGenerator.objects.filter(is_active=True).first()
-    
-    if not generator:
-        return Response(
-            {"error": "No active path generator found."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-    
-    # Get the active knowledge graph
-    knowledge_graph = KnowledgeGraph.objects.filter(is_active=True).first()
-    
-    # Create a path generation job
-    job = PathGenerationJob.objects.create(
-        generator=generator,
-        student=student,
-        course=course,
-        status='pending',
-        prediction_batch=prediction_batch,
-        knowledge_graph=knowledge_graph
-    )
-    
-    # Start the generation task
-    generate_learning_path.delay(job.id)
+    # For now, we'll use the new direct generation approach
+    # TODO: Implement async job system with new models if needed
     
     return Response({
-        "message": "Started generating recommendations for the student.",
+        "message": "Prediction batch created. Use the direct generation endpoint.",
         "prediction_batch_id": prediction_batch.id,
-        "job_id": job.id
+        "note": "Use the generate_learning_paths management command for path generation"
     }, status=status.HTTP_202_ACCEPTED)
 
 
@@ -249,30 +227,18 @@ def check_recommendation_status(request):
     
     try:
         prediction_batch = PredictionBatch.objects.get(pk=prediction_batch_id)
-        job = PathGenerationJob.objects.get(pk=job_id)
-    except (PredictionBatch.DoesNotExist, PathGenerationJob.DoesNotExist):
+    except PredictionBatch.DoesNotExist:
         return Response(
-            {"error": "Prediction batch or job not found."},
+            {"error": "Prediction batch not found."},
             status=status.HTTP_404_NOT_FOUND
         )
     
-    # Check if both are completed
-    prediction_complete = prediction_batch.status == 'completed'
-    job_complete = job.status == 'completed'
-    
-    # Check if there's a learning path
-    path = None
-    try:
-        if job_complete:
-            path = job.path
-    except LearningPath.DoesNotExist:
-        pass
-    
+    # For now, just return prediction batch status
+    # TODO: Implement job tracking with new models if needed
     return Response({
         "prediction_status": prediction_batch.status,
-        "job_status": job.status,
-        "completed": prediction_complete and job_complete,
-        "path_id": path.id if path else None
+        "completed": prediction_batch.status == 'completed',
+        "note": "Job tracking not implemented with new models yet"
     })
 
 
@@ -429,8 +395,8 @@ def recommendation_dashboard(request, course_id):
     
     # Most recommended topics (appear most often in learning paths)
     from django.db.models import Count
-    popular_topics = LearningPathItem.objects.filter(
-        path__course=course
+    popular_topics = RecommendedTopic.objects.filter(
+        learning_path__course=course
     ).values('topic__name').annotate(
         count=Count('topic')
     ).order_by('-count')[:5]

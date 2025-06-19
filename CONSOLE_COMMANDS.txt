@@ -13,27 +13,55 @@ docker-compose exec web python manage.py runserver
 # REBUILD FROM SCRATCH
 docker-compose down && docker-compose build --no-cache && docker-compose up -d
 
-# SETUP STUDENTS AND INTERACTIONS
-docker-compose exec web python manage.py setup_students_and_interactions CS206 --num_students=10 --interactions_per_student=30 --questions_file=/app/static/data/java_questions.yaml --topics_file=/app/static/data/java_topics.json
 
-# TRAIN BOTH MODELS
-docker-compose exec web python manage.py train_knowledge_tracing_models --model dkt --course CS206
-docker-compose exec web python manage.py train_knowledge_tracing_models --model sakt --course CS206
+#---------------------------------
+#Train All Models (DKT + SAKT + Adaptive Path LSTM):
+docker-compose exec web python manage.py train_models --epochs 15
 
-# TRAIN SINGLE MODEL
-docker-compose exec web python manage.py train_knowledge_tracing_models --model dkt --course CS206
+# Train with more epochs for better accuracy
+docker-compose exec web python manage.py train_models --epochs 25
 
-# GENERATE PREDICTIONS WITH TRAINED MODEL
-docker-compose exec web python manage.py generate_mastery_predictions --model dkt --course CS206
+# Train with specific batch size
+docker-compose exec web python manage.py train_models --epochs 15 --batch-size 64
 
-# RUN FULL PIPELINE (TRAIN AND GENERATE PATHS)
-docker-compose exec web python run_pipeline.py --course CS206 --model dkt
 
-#CLEAR PATHS
-bkshmax$ docker-compose exec web python clear_paths.py
+#------------------------------------
+# Generate learning paths for all students (detailed output + auto-save)
+docker-compose exec web python manage.py generate_learning_paths --all-students
 
-# LOAD RESOURCES:
-docker-compose exec web python manage.py load_resources --clear
+# Generate with summary output (faster, still auto-saves)
+docker-compose exec web python manage.py generate_learning_paths --all-students --output-format summary
 
-# LOAD KSG TO DATABASE:
-docker-compose exec web python manage.py load_ksg --verbosity=2
+# Generate with JSON output (for API integration)
+docker-compose exec web python manage.py generate_learning_paths --all-students --output-format json
+
+#--------------------------------------
+# Generate for specific student (detailed output + auto-save)
+docker-compose exec web python manage.py generate_learning_paths --student-id A00000001
+
+# Generate for specific student with summary
+docker-compose exec web python manage.py generate_learning_paths --student-id A00000001 --output-format summary
+
+# Generate for specific student with JSON output
+docker-compose exec web python manage.py generate_learning_paths --student-id A00000001 --output-format json
+
+
+#-----------------------------------------
+# Update mastery predictions using latest trained models, then generate paths
+docker-compose exec web python manage.py generate_learning_paths --all-students --update-predictions
+
+# For specific student with prediction updates
+docker-compose exec web python manage.py generate_learning_paths --student-id A00000001 --update-predictions
+
+
+
+
+#-----------------------------------
+ Step 1: Make AI smarter with new data
+docker-compose exec web python manage.py train_models --epochs 100
+
+# Step 2: Use new smart AI to re-analyze all students
+docker-compose exec web python manage.py generate_learning_paths --all-students --update-predictions
+
+# Quick generation using latest analysis
+docker-compose exec web python manage.py generate_learning_paths --all-students

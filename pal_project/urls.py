@@ -22,7 +22,7 @@ urlpatterns = [
     path('topic-classification/', include(('topic_classification.urls', 'topic_classification'), namespace='topic_classification')),
     path('knowledge-graph/', include(('knowledge_graph.urls', 'knowledge_graph'), namespace='knowledge_graph')),
     path('ml-models/', include('ml_models.urls')),
-    path('learning-paths/', include('learning_paths.urls')),
+    path('learning-paths/', include(('learning_paths.urls', 'learning_paths'), namespace='learning_paths')),
 ]
 
 # Serve static and media files in development

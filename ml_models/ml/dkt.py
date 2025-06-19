@@ -6,6 +6,9 @@ import logging
 from typing import Dict, List, Tuple, Any, Optional
 import os
 import json
+from django.conf import settings
+from core.models import Student, Topic, StudentInteraction, KnowledgeState
+from knowledge_graph.models import KnowledgeGraph
 
 logger = logging.getLogger(__name__)
 
@@ -78,51 +81,64 @@ class DKTModel(nn.Module):
             
         Returns:
             Dictionary containing:
-            - logits: Tensor of logits for each topic, shape [batch_size, seq_len, num_topics]
+            - logits: Tensor of logits for target topics, shape [batch_size, seq_len]
             - loss: Loss tensor if labels are provided, otherwise None
         """
         batch_size, seq_len = input_ids.shape
         
-        # Convert input_ids to one-hot encoding
-        input_combined = input_ids.clone()
+        # Clamp input_ids to valid range
+        input_ids = input_ids.clamp(0, self.num_topics - 1)
+        target_ids = target_ids.clamp(0, self.num_topics - 1)
         
-        # If we have labels for the input sequence, combine topic_id with correctness
+        # For DKT, we need to create input sequence with correctness
+        # We use the previous step's correctness for current step's input
+        input_combined = torch.zeros_like(input_ids)
+        
         if labels is not None:
-            # For each topic ID, we create two new IDs:
-            # - topic_id * 2: incorrect answer
-            # - topic_id * 2 + 1: correct answer
-            input_combined = (input_ids * 2 + labels).long()
+            # Create input sequence: combine topic_id with previous correctness
+            # For first position, assume incorrect (0)
+            prev_labels = torch.zeros_like(labels)
+            prev_labels[:, 1:] = labels[:, :-1]  # Shift labels right
             
+            # Combine: topic_id * 2 + correctness
+            input_combined = (input_ids * 2 + prev_labels).long()
+        else:
+            # If no labels, assume all incorrect
+            input_combined = (input_ids * 2).long()
+        
+        # Clamp combined values to valid embedding range
+        input_combined = input_combined.clamp(0, self.input_size - 1)
+        
         # Embed the input
-        embedded = self.embedding(input_combined.long())
+        embedded = self.embedding(input_combined)
         embedded = self.dropout(embedded)
         
         # Pass through LSTM
         lstm_out, _ = self.lstm(embedded)
         lstm_out = self.dropout(lstm_out)
         
-        # Get output logits
-        logits = self.output_layer(lstm_out)
+        # Get output logits for all topics
+        all_logits = self.output_layer(lstm_out)  # [batch_size, seq_len, num_topics]
+        
+        # Extract logits for target topics
+        target_logits = torch.gather(
+            all_logits, 
+            dim=2, 
+            index=target_ids.unsqueeze(2)
+        ).squeeze(2)  # [batch_size, seq_len]
         
         # Calculate loss if labels are provided
         loss = None
         if labels is not None:
-            # For each position, get the logit for the target topic
-            # We need to gather the logits for the target topics
-            target_logits = torch.gather(
-                logits, 
-                dim=2, 
-                index=target_ids.unsqueeze(2)
-            ).squeeze(2)
-            
-            # Calculate binary cross-entropy loss
+            # Use binary cross-entropy loss
             loss = F.binary_cross_entropy_with_logits(
                 target_logits, 
                 labels.float()
             )
         
         return {
-            'logits': logits,
+            'logits': target_logits,
+            'all_logits': all_logits,
             'loss': loss
         }
     
@@ -143,25 +159,25 @@ class DKTModel(nn.Module):
         Returns:
             Dictionary mapping topic IDs to predicted probabilities
         """
-        # Make sure we're in evaluation mode
         self.eval()
         
-        # Add batch dimension
-        input_ids = input_ids.unsqueeze(0)
-        input_labels = input_labels.unsqueeze(0)
-        
-        # Combine topic IDs with correctness
-        if input_labels is not None:
-            input_combined = (input_ids * 2 + input_labels).long()
-        else:
-            # If no labels provided, assume all incorrect (even indices)
-            input_combined = (input_ids * 2).long()
-        
-        # Embed the input
-        embedded = self.embedding(input_combined)
-        
-        # Pass through LSTM
         with torch.no_grad():
+            # Add batch dimension
+            input_ids = input_ids.unsqueeze(0)
+            input_labels = input_labels.unsqueeze(0)
+            
+            # Clamp to valid range
+            input_ids = input_ids.clamp(0, self.num_topics - 1)
+            input_labels = input_labels.clamp(0, 1)
+            
+            # Combine topic IDs with correctness
+            input_combined = (input_ids * 2 + input_labels).long()
+            input_combined = input_combined.clamp(0, self.input_size - 1)
+            
+            # Embed the input
+            embedded = self.embedding(input_combined)
+            
+            # Pass through LSTM
             lstm_out, _ = self.lstm(embedded)
             
             # Get the last hidden state
@@ -176,20 +192,13 @@ class DKTModel(nn.Module):
         # Create a dictionary mapping topic IDs to probabilities
         result = {}
         for topic_id in topic_ids:
-            # Map the topic_id to its index in the embedding
-            # Add 1 because 0 is reserved for padding
-            topic_idx = 0
-            for i, tid in enumerate(topic_ids):
-                if tid == topic_id:
-                    topic_idx = i + 1
-                    break
-            
-            if topic_idx == 0 or topic_idx >= len(all_probs):
-                # Topic not found in the list or index out of bounds, use default
+            # Direct mapping: topic_id corresponds to index in output
+            # topic_id 1 -> index 1, topic_id 2 -> index 2, etc.
+            if 1 <= topic_id < len(all_probs):
+                result[topic_id] = float(all_probs[topic_id])
+            else:
+                # Out of range, use default
                 result[topic_id] = 0.5
-                continue
-            
-            result[topic_id] = float(all_probs[topic_idx])
         
         return result
     
@@ -238,20 +247,29 @@ class DKTModel(nn.Module):
         """
         # Load metadata
         model_dir = os.path.dirname(model_path)
-        metadata_path = os.path.join(model_dir, 'metadata.json')
+        
+        # Try DKT-specific metadata first, then fall back to general metadata
+        dkt_metadata_path = os.path.join(model_dir, 'dkt_metadata.json')
+        general_metadata_path = os.path.join(model_dir, 'metadata.json')
+        
+        if os.path.exists(dkt_metadata_path):
+            metadata_path = dkt_metadata_path
+        else:
+            metadata_path = general_metadata_path
         
         with open(metadata_path, 'r') as f:
             metadata = json.load(f)
         
-        # Create model
+        # Create model with proper parameters
         model = cls(
             num_topics=metadata['num_topics'],
-            hidden_size=metadata['hidden_size'],
-            num_layers=metadata['num_layers']
+            hidden_size=metadata.get('hidden_size', 128),  # Default if not found
+            num_layers=metadata.get('num_layers', 2),      # Default if not found
+            dropout=metadata.get('dropout', 0.2)           # Default if not found
         )
         
         # Load state dict
-        model.load_state_dict(torch.load(model_path))
+        model.load_state_dict(torch.load(model_path, map_location='cpu'))
         
         return model, metadata['topic_ids'], metadata['hyperparameters']
 
@@ -348,16 +366,8 @@ class DKTTrainer:
                 outputs = self.model(input_ids, target_ids, labels)
                 loss = outputs['loss']
                 
-                # Get predictions
-                logits = outputs['logits']
-                batch_size, seq_len, _ = logits.shape
-                
-                # For each position, get the logit for the target topic
-                target_logits = torch.gather(
-                    logits, 
-                    dim=2, 
-                    index=target_ids.unsqueeze(2)
-                ).squeeze(2)
+                # Get predictions (logits are already for target topics)
+                target_logits = outputs['logits']  # [batch_size, seq_len]
                 
                 # Convert to probabilities
                 probs = torch.sigmoid(target_logits)

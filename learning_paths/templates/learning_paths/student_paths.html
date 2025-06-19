@@ -1,0 +1,483 @@
+{% extends "base.html" %}
+
+{% block title %}{{ student.first_name }}'s Learning Paths{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" style="margin-bottom: 2rem;">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{% url 'learning_paths:student_list' %}">Learning Paths</a>
+        </li>
+        <li class="breadcrumb-item active">{{ student.student_id }}</li>
+    </ol>
+</nav>
+
+<!-- Student Header -->
+<div class="student-header">
+    <div class="student-info">
+        <h1 style="color: var(--text-primary); margin-bottom: 1rem;">
+            <i class="bi bi-person-circle" style="color: var(--primary);"></i>
+            {{ student.first_name }} {{ student.last_name }}
+        </h1>
+        <div class="student-badges">
+            <span class="badge badge-primary">{{ student.student_id }}</span>
+            <span class="badge badge-secondary">{{ student.major }}</span>
+            <span class="badge badge-info">{{ student.academic_level|title }}</span>
+        </div>
+    </div>
+</div>
+
+<!-- Student Profile and Stats -->
+<div class="profile-section">
+    <!-- Student Profile Card -->
+    <div class="profile-card">
+        <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">
+            <i class="bi bi-person-badge"></i> Student Profile
+        </h3>
+        
+        <div class="profile-item">
+            <span class="profile-label">GPA:</span>
+            <span class="profile-value">
+                {% if student.gpa >= 3.5 %}
+                    <span class="badge badge-success">{{ student.gpa }}</span>
+                {% elif student.gpa >= 3.0 %}
+                    <span class="badge badge-warning">{{ student.gpa }}</span>
+                {% else %}
+                    <span class="badge badge-danger">{{ student.gpa }}</span>
+                {% endif %}
+            </span>
+        </div>
+        
+        <div class="profile-item">
+            <span class="profile-label">Study Frequency:</span>
+            <span class="profile-value">
+                <span class="badge badge-info">{{ student.study_frequency|title }}</span>
+            </span>
+        </div>
+        
+        <div class="profile-item">
+            <span class="profile-label">Attendance:</span>
+            <span class="profile-value">
+                {% if student.attendance_rate >= 90 %}
+                    <span class="badge badge-success">{{ student.attendance_rate }}%</span>
+                {% elif student.attendance_rate >= 75 %}
+                    <span class="badge badge-warning">{{ student.attendance_rate }}%</span>
+                {% else %}
+                    <span class="badge badge-danger">{{ student.attendance_rate }}%</span>
+                {% endif %}
+            </span>
+        </div>
+        
+        <div class="profile-item">
+            <span class="profile-label">Interactions:</span>
+            <span class="profile-value">
+                <span class="badge badge-info">{{ student.interactions.count }}</span>
+            </span>
+        </div>
+    </div>
+    
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+        <div class="stat-card stat-primary">
+            <div class="stat-icon">
+                <i class="bi bi-diagram-3-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number">{{ total_paths }}</div>
+                <div class="stat-label">Learning Paths</div>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-success">
+            <div class="stat-icon">
+                <i class="bi bi-clock-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number">{{ total_time|floatformat:1 }}h</div>
+                <div class="stat-label">Total Study Time</div>
+            </div>
+        </div>
+        
+        <div class="stat-card stat-warning">
+            <div class="stat-icon">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-number">{{ avg_weak_topics }}</div>
+                <div class="stat-label">Avg Weak Topics</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Learning Paths Section -->
+{% if learning_paths %}
+<div class="paths-section">
+    <h3 style="color: var(--text-primary); margin-bottom: 1.5rem;">
+        <i class="bi bi-list-ul"></i> Learning Paths ({{ learning_paths|length }})
+    </h3>
+    
+    <div class="paths-grid">
+        {% for path in learning_paths %}
+        <div class="path-card" onclick="viewPath({{ path.id }})">
+            <div class="path-header">
+                <div class="path-id">
+                    <span class="badge badge-primary">#{{ path.id }}</span>
+                </div>
+                <div class="path-status">
+                    {% if path.generated_at|timesince|slice:":1" == "0" or "minute" in path.generated_at|timesince or "hour" in path.generated_at|timesince %}
+                        <span class="badge badge-success">Active</span>
+                    {% elif "day" in path.generated_at|timesince and path.generated_at|timesince|slice:":1" <= "7" %}
+                        <span class="badge badge-warning">Recent</span>
+                    {% else %}
+                        <span class="badge badge-secondary">Old</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="path-course">
+                <h4>{{ path.course.name }}</h4>
+                <small style="color: var(--text-muted);">{{ path.course.course_id }}</small>
+            </div>
+            
+            <div class="path-metrics">
+                <div class="metric">
+                    <span class="metric-value">{{ path.weak_topics_count }}</span>
+                    <span class="metric-label">Weak Topics</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">{{ path.recommended_topics_count }}</span>
+                    <span class="metric-label">Recommended</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-value">{{ path.total_estimated_time|floatformat:1 }}h</span>
+                    <span class="metric-label">Study Time</span>
+                </div>
+            </div>
+            
+            <div class="path-footer">
+                <small style="color: var(--text-muted);">
+                    Created {{ path.generated_at|timesince }} ago
+                </small>
+                <a href="{% url 'learning_paths:path_detail' path.id %}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-eye"></i> View Path
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="empty-state">
+    <div class="empty-icon">
+        <i class="bi bi-diagram-3"></i>
+    </div>
+    <h3>No Learning Paths Yet</h3>
+    <p>This student doesn't have any learning paths generated yet.</p>
+</div>
+{% endif %}
+
+<style>
+/* Breadcrumb */
+.breadcrumb {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.breadcrumb-item {
+    color: var(--text-secondary);
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    content: ">";
+    margin: 0 0.5rem;
+    color: var(--text-muted);
+}
+
+.breadcrumb-item a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.breadcrumb-item.active {
+    color: var(--text-primary);
+}
+
+/* Student Header */
+.student-header {
+    background: var(--gradient);
+    color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.student-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+/* Profile Section */
+.profile-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profile-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-item:last-child {
+    border-bottom: none;
+}
+
+.profile-label {
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.profile-value {
+    color: var(--text-secondary);
+}
+
+/* Stats Cards */
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-primary .stat-icon {
+    background: var(--primary);
+}
+
+.stat-success .stat-icon {
+    background: var(--success);
+}
+
+.stat-warning .stat-icon {
+    background: var(--warning);
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Paths Section */
+.paths-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.paths-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.path-card {
+    background: var(--bg-hover);
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.path-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary);
+}
+
+.path-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.path-course h4 {
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+}
+
+.path-metrics {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.metric {
+    text-align: center;
+}
+
+.metric-value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.metric-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.path-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--text-muted);
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+    color: var(--text-muted);
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border-radius: 0.375rem;
+    margin: 0.125rem;
+}
+
+.badge-primary { background: var(--primary); color: white; }
+.badge-secondary { background: #6c757d; color: white; }
+.badge-success { background: var(--success); color: white; }
+.badge-warning { background: var(--warning); color: white; }
+.badge-danger { background: var(--error); color: white; }
+.badge-info { background: #17a2b8; color: white; }
+
+/* Buttons */
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profile-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .paths-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .path-metrics {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .path-footer {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
+</style>
+
+<script>
+function viewPath(pathId) {
+    window.location.href = `/learning-paths/view/${pathId}/`;
+}
+</script>
+{% endblock %}

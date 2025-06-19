@@ -229,70 +229,48 @@ class SAKTModel(nn.Module):
         Returns:
             Dictionary mapping topic IDs to predicted probabilities
         """
-        # Make sure we're in evaluation mode
         self.eval()
         
-        # Add batch dimension
-        input_ids = input_ids.unsqueeze(0)
-        
-        # Create predictions for all topics
-        result = {}
-        
         with torch.no_grad():
-            # Validate input_ids are within bounds (0 to num_topics-1)
-            valid_mask = (input_ids >= 0) & (input_ids < self.num_topics)
-            if not valid_mask.all():
-                # Clip out-of-bounds values to valid range
-                input_ids = input_ids.clamp(0, self.num_topics - 1)
+            # Add batch dimension
+            input_ids = input_ids.unsqueeze(0)
+            
+            # Clamp input_ids to valid range
+            input_ids = input_ids.clamp(0, self.num_topics - 1)
             
             # Combine input_ids with correctness
-            # (topic_id * 2) for incorrect, (topic_id * 2 + 1) for correct
             if input_labels is not None:
-                input_labels = input_labels.unsqueeze(0)
+                input_labels = input_labels.unsqueeze(0).clamp(0, 1)
                 input_combined = (input_ids * 2 + input_labels.long()).long()
-                # Ensure combined values are within bounds
-                input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
             else:
                 # If no labels provided, assume all incorrect (even indices)
                 input_combined = (input_ids * 2).long()
-                # Ensure combined values are within bounds
-                input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
             
-            # For each topic, create a target tensor and get prediction
+            # Ensure combined values are within bounds
+            input_combined = input_combined.clamp(0, self.num_topics * 2 - 1)
+            
+            # Create predictions for all topics
+            result = {}
+            
             for topic_id in topic_ids:
-                # Map the topic_id to its index in the embedding
-                # Add 1 because 0 is reserved for padding
-                topic_idx = 0
-                for i, tid in enumerate(topic_ids):
-                    if tid == topic_id:
-                        topic_idx = i + 1
-                        break
-                
-                if topic_idx == 0:
-                    # Topic not found in the list, skip
-                    continue
-                
-                # Create target tensor with this topic
-                # Make sure topic_idx is within the valid range
-                if topic_idx >= self.num_topics:
-                    # Skip this topic if it's out of range
-                    result[topic_id] = 0.5
-                    continue
+                # Direct mapping: topic_id corresponds to index in embedding
+                # topic_id 1 -> index 1, topic_id 2 -> index 2, etc.
+                if 1 <= topic_id < self.num_topics:
+                    target_tensor = torch.tensor([[topic_id]], dtype=torch.long)
                     
-                target_tensor = torch.tensor([[topic_idx]], dtype=torch.long)
-                
-                # Forward pass
-                outputs = self.forward(
-                    input_ids=input_combined,
-                    input_labels=None,  # Not needed for prediction
-                    target_ids=target_tensor
-                )
-                
-                # Get probability for this topic
-                prob = torch.sigmoid(outputs['logits']).item()
-                
-                # Add to result
-                result[topic_id] = float(prob)
+                    # Forward pass
+                    outputs = self.forward(
+                        input_ids=input_ids,
+                        input_labels=input_labels,
+                        target_ids=target_tensor
+                    )
+                    
+                    # Get probability for this topic
+                    prob = torch.sigmoid(outputs['logits']).item()
+                    result[topic_id] = float(prob)
+                else:
+                    # Out of range, use default
+                    result[topic_id] = 0.5
         
         return result
     
