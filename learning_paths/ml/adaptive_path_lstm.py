@@ -14,20 +14,20 @@ logger = logging.getLogger(__name__)
 
 class AdaptiveLearningPathLSTM(nn.Module):
     """
-    Enhanced LSTM model for generating adaptive learning paths.
-    Integrates with Django models and knowledge graph.
+    LSTM model for generating adaptive learning paths.
+    integrates with django models and knowledge graph stuff
     """
     
     def __init__(self, num_topics: int, hidden_size: int = 128, num_layers: int = 2, 
                  dropout: float = 0.3):
         """
-        Initialize the Adaptive Learning Path LSTM.
+        init the LSTM model
         
         Args:
-            num_topics: Number of topics in the system
-            hidden_size: Hidden size of the LSTM
-            num_layers: Number of LSTM layers
-            dropout: Dropout probability
+            num_topics: how many topics we got in the system
+            hidden_size: lstm hidden size  
+            num_layers: how many lstm layers to stack
+            dropout: dropout rate to prevent overfitting
         """
         super(AdaptiveLearningPathLSTM, self).__init__()
         
@@ -35,16 +35,16 @@ class AdaptiveLearningPathLSTM(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         
-        # Student profile encoder
-        self.student_encoder = nn.Linear(10, hidden_size)  # 10 student features
+        # encode student profile into vector 
+        self.student_encoder = nn.Linear(10, hidden_size)  # 10 features for now
         
-        # Topic mastery encoder
+        # encode topic mastery scores  
         self.mastery_encoder = nn.Linear(num_topics, hidden_size)
         
-        # Combined input size: mastery + student profile + topic one-hot
+        # input size = mastery + student + topic one-hot
         input_size = hidden_size * 2 + num_topics
         
-        # Multi-layer LSTM for sequence modeling
+        # main LSTM for sequence modeling
         self.lstm = nn.LSTM(
             input_size=input_size,
             hidden_size=hidden_size,
@@ -53,14 +53,14 @@ class AdaptiveLearningPathLSTM(nn.Module):
             batch_first=True
         )
         
-        # Attention mechanism for topic importance
+        # attention mechanism for topic importance weighting  
         self.attention = nn.MultiheadAttention(hidden_size, num_heads=4, dropout=dropout)
         
-        # Memory network for prerequisite relationships
+        # memory network for prerequisite relationships
         self.memory_keys = nn.Parameter(torch.randn(num_topics, hidden_size))
         self.memory_values = nn.Parameter(torch.randn(num_topics, hidden_size))
         
-        # Path generation layers
+        # generate next topic probabilities
         self.path_generator = nn.Sequential(
             nn.Linear(hidden_size, hidden_size * 2),
             nn.ReLU(),
@@ -69,77 +69,76 @@ class AdaptiveLearningPathLSTM(nn.Module):
             nn.Softmax(dim=-1)
         )
         
-        # Difficulty predictor
+        # predict difficulty level
         self.difficulty_predictor = nn.Linear(hidden_size, 3)  # beginner, intermediate, advanced
         
-        # Learning time estimator
+        # estimate learning time
         self.time_estimator = nn.Linear(hidden_size, 1)
         
-        # Dropout
         self.dropout = nn.Dropout(dropout)
     
     def encode_student_profile(self, student_features: torch.Tensor) -> torch.Tensor:
         """
-        Encode student profile features.
+        encode student features into hidden representation
         
         Args:
-            student_features: Tensor of student features [batch_size, 10]
+            student_features: tensor of student features [batch_size, 10]
             
         Returns:
-            Encoded student profile [batch_size, hidden_size]
+            encoded student profile [batch_size, hidden_size]
         """
         return self.student_encoder(student_features)
     
     def encode_mastery_state(self, mastery_scores: torch.Tensor) -> torch.Tensor:
         """
-        Encode current mastery state.
+        encode current mastery state
         
         Args:
-            mastery_scores: Tensor of mastery scores [batch_size, num_topics]
+            mastery_scores: mastery scores for all topics [batch_size, num_topics]
             
         Returns:
-            Encoded mastery state [batch_size, hidden_size]
+            encoded mastery state [batch_size, hidden_size]
         """
         return self.mastery_encoder(mastery_scores)
     
     def forward(self, student_features: torch.Tensor, mastery_scores: torch.Tensor,
                 topic_sequence: torch.Tensor) -> Dict[str, torch.Tensor]:
         """
-        Forward pass for training.
+        forward pass thru the model
         
         Args:
-            student_features: Student profile features [batch_size, 10]
-            mastery_scores: Current mastery scores [batch_size, num_topics]
-            topic_sequence: Sequence of topics [batch_size, seq_len, num_topics]
+            student_features: student profile [batch_size, 10]
+            mastery_scores: current mastery [batch_size, num_topics]
+            topic_sequence: sequence of topics [batch_size, seq_len, num_topics]
             
         Returns:
-            Dictionary containing predictions
+            dict with predictions
         """
         batch_size, seq_len, _ = topic_sequence.shape
         
-        # Encode student profile and mastery state
+        # encode inputs
         student_encoded = self.encode_student_profile(student_features)  # [batch_size, hidden_size]
         mastery_encoded = self.encode_mastery_state(mastery_scores)      # [batch_size, hidden_size]
         
-        # Expand to sequence length
+        # expand to sequence length
         student_seq = student_encoded.unsqueeze(1).expand(-1, seq_len, -1)  # [batch_size, seq_len, hidden_size]
         mastery_seq = mastery_encoded.unsqueeze(1).expand(-1, seq_len, -1)   # [batch_size, seq_len, hidden_size]
         
-        # Combine all inputs
+        # concat all inputs  
         combined_input = torch.cat([student_seq, mastery_seq, topic_sequence], dim=-1)
         
-        # Pass through LSTM
+        # pass thru LSTM
         lstm_out, (hidden, cell) = self.lstm(combined_input)
         lstm_out = self.dropout(lstm_out)
         
-        # Apply attention
+        # apply attention
         lstm_out_transposed = lstm_out.transpose(0, 1)  # [seq_len, batch_size, hidden_size]
         attended_out, attention_weights = self.attention(
             lstm_out_transposed, lstm_out_transposed, lstm_out_transposed
         )
         attended_out = attended_out.transpose(0, 1)  # [batch_size, seq_len, hidden_size]
         
-        # Generate predictions
+        # generate predictions
         next_topic_probs = self.path_generator(attended_out)  # [batch_size, seq_len, num_topics]
         difficulty_preds = self.difficulty_predictor(attended_out)  # [batch_size, seq_len, 3]
         time_estimates = self.time_estimator(attended_out)  # [batch_size, seq_len, 1]
@@ -155,35 +154,35 @@ class AdaptiveLearningPathLSTM(nn.Module):
     def predict_next_topics(self, student_features: torch.Tensor, mastery_scores: torch.Tensor,
                            num_recommendations: int = 5) -> List[Dict[str, Any]]:
         """
-        Predict next topics for a student.
+        predict next topics for student
         
         Args:
-            student_features: Student profile features [10]
-            mastery_scores: Current mastery scores [num_topics]
-            num_recommendations: Number of topics to recommend
+            student_features: student features [10]
+            mastery_scores: current mastery scores [num_topics]
+            num_recommendations: how many topics to recommend
             
         Returns:
-            List of topic recommendations with metadata
+            list of topic recommendations with metadata
         """
         self.eval()
         
         with torch.no_grad():
-            # Add batch dimension
+            # add batch dimension
             student_features = student_features.unsqueeze(0)  # [1, 10]
             mastery_scores = mastery_scores.unsqueeze(0)      # [1, num_topics]
             
-            # Create dummy topic sequence (we only need the final prediction)
+            # create dummy topic sequence (only need final prediction) 
             topic_sequence = torch.zeros(1, 1, self.num_topics)  # [1, 1, num_topics]
             
-            # Forward pass
+            # forward pass
             outputs = self.forward(student_features, mastery_scores, topic_sequence)
             
-            # Get predictions for the last (and only) time step
+            # get predictions for last time step
             topic_probs = outputs['next_topic_probs'][0, -1, :]  # [num_topics]
             difficulty_probs = F.softmax(outputs['difficulty_preds'][0, -1, :], dim=-1)  # [3]
             time_estimate = outputs['time_estimates'][0, -1, 0].item()  # scalar
             
-            # Get top recommendations
+            # get top recommendations
             top_indices = torch.topk(topic_probs, num_recommendations).indices
             
             recommendations = []
@@ -197,7 +196,7 @@ class AdaptiveLearningPathLSTM(nn.Module):
                         'intermediate': difficulty_probs[1].item(),
                         'advanced': difficulty_probs[2].item()
                     },
-                    'estimated_time_hours': max(0.5, time_estimate)  # Minimum 30 minutes
+                    'estimated_time_hours': max(0.5, time_estimate)  # atleast 30 mins
                 })
             
             return recommendations
@@ -205,7 +204,8 @@ class AdaptiveLearningPathLSTM(nn.Module):
 
 class DjangoIntegratedPathGenerator:
     """
-    Django-integrated learning path generator that combines LSTM with knowledge graph.
+    django integrated learning path generator.
+    combines lstm with knowledge graph stuff
     """
     
     def __init__(self):
@@ -213,14 +213,14 @@ class DjangoIntegratedPathGenerator:
         self.num_topics = self.data_prep.get_num_topics()
         self.topic_list = self.data_prep.get_topic_list()
         
-        # Initialize LSTM model
+        # init LSTM model
         self.lstm_model = AdaptiveLearningPathLSTM(self.num_topics)
         
-        # Load pre-trained model if available
+        # load pretrained model if we have one
         self._load_model_if_exists()
     
     def _load_model_if_exists(self):
-        """Load pre-trained model if it exists."""
+        """load pretrained model if it exists"""
         model_path = 'trained_models/adaptive_path_lstm.pth'
         try:
             if os.path.exists(model_path):
@@ -229,69 +229,69 @@ class DjangoIntegratedPathGenerator:
                     self.lstm_model.load_state_dict(checkpoint['model_state_dict'])
                 else:
                     self.lstm_model.load_state_dict(checkpoint)
-                logger.info("Loaded pre-trained adaptive path LSTM model")
+                logger.info("loaded pretrained adaptive path LSTM model")
         except Exception as e:
-            logger.warning(f"Could not load pre-trained model: {e}")
+            logger.warning(f"couldn't load pretrained model: {e}")
     
     def _get_student_features(self, student: Student) -> torch.Tensor:
         """
-        Extract features from student model.
+        extract features from student model.
         
         Args:
             student: Student model instance
             
         Returns:
-            Tensor of student features [10]
+            tensor of student features [10]
         """
-        # Map categorical fields to numerical values
+        # map categorical fields to numbers
         academic_level_map = {'freshman': 1, 'sophomore': 2, 'junior': 3, 'senior': 4, 'graduate': 5}
         study_freq_map = {'rarely': 1, 'monthly': 2, 'biweekly': 3, 'weekly': 4, 'daily': 5}
         
         features = [
-            academic_level_map.get(student.academic_level, 3),  # Default to junior
-            student.gpa / 4.0,  # Normalize GPA to 0-1
-            student.prior_knowledge_score or 0.5,  # Default to 0.5 if None
-            study_freq_map.get(student.study_frequency, 3),  # Default to biweekly
-            student.attendance_rate / 100.0,  # Normalize to 0-1
-            student.participation_score / 100.0,  # Normalize to 0-1
-            min(student.total_time_spent.total_seconds() / 3600, 100) / 100 if student.total_time_spent else 0.1,  # Hours, capped at 100
-            min(student.average_time_per_session.total_seconds() / 3600, 5) / 5 if student.average_time_per_session else 0.2,  # Hours, capped at 5
-            1.0,  # Active student indicator
-            0.5   # Learning style preference (placeholder)
+            academic_level_map.get(student.academic_level, 3),  # default to junior
+            student.gpa / 4.0,  # normalize GPA to 0-1
+            student.prior_knowledge_score or 0.5,  # default to 0.5 if none
+            study_freq_map.get(student.study_frequency, 3),  # default to biweekly
+            student.attendance_rate / 100.0,  # normalize to 0-1
+            student.participation_score / 100.0,  # normalize to 0-1
+            min(student.total_time_spent.total_seconds() / 3600, 100) / 100 if student.total_time_spent else 0.1,  # hours, cap at 100
+            min(student.average_time_per_session.total_seconds() / 3600, 5) / 5 if student.average_time_per_session else 0.2,  # hours, cap at 5
+            1.0,  # active student indicator
+            0.5   # learning style preference (placeholder for now)
         ]
         
         return torch.tensor(features, dtype=torch.float32)
     
     def _get_mastery_scores(self, student: Student) -> torch.Tensor:
         """
-        Get current mastery scores for all topics.
+        get current mastery scores for all topics.
         
         Args:
             student: Student model instance
             
         Returns:
-            Tensor of mastery scores [num_topics]
+            tensor of mastery scores [num_topics]
         """
         mastery_scores = torch.zeros(self.num_topics)
         
-        # First try to get from KnowledgeState records (if they exist)
+        # first try to get from KnowledgeState records (if they exist)
         knowledge_states = KnowledgeState.objects.filter(student=student)
         
         if knowledge_states.exists():
-            # Use ML model predictions if available
+            # use ML model predictions if available
             for ks in knowledge_states:
                 topic_name = ks.topic.name
                 if topic_name in self.data_prep.topic_to_id:
-                    topic_idx = self.data_prep.topic_to_id[topic_name] - 1  # Subtract 1 for 0-indexing
+                    topic_idx = self.data_prep.topic_to_id[topic_name] - 1  # subtract 1 for 0-indexing
                     if 0 <= topic_idx < self.num_topics:
                         mastery_scores[topic_idx] = ks.proficiency_score
         else:
-            # Calculate mastery scores directly from student interactions
+            # calculate mastery scores directly from student interactions
             student_state = self.data_prep.get_student_current_state(student.student_id)
             if student_state and 'mastery_scores' in student_state:
                 for topic_name, mastery_score in student_state['mastery_scores'].items():
                     if topic_name in self.data_prep.topic_to_id:
-                        topic_idx = self.data_prep.topic_to_id[topic_name] - 1  # Subtract 1 for 0-indexing
+                        topic_idx = self.data_prep.topic_to_id[topic_name] - 1  # subtract 1 for 0-indexing
                         if 0 <= topic_idx < self.num_topics:
                             mastery_scores[topic_idx] = mastery_score
         
@@ -299,14 +299,14 @@ class DjangoIntegratedPathGenerator:
     
     def _get_weak_topics(self, mastery_scores: torch.Tensor, threshold: float = 0.6) -> List[int]:
         """
-        Identify weak topics based on mastery scores.
+        identify weak topics based on mastery scores.
         
         Args:
-            mastery_scores: Tensor of mastery scores
-            threshold: Threshold below which topics are considered weak
+            mastery_scores: tensor of mastery scores
+            threshold: threshold below which topics are considered weak
             
         Returns:
-            List of weak topic indices
+            list of weak topic indices
         """
         weak_indices = []
         for i, score in enumerate(mastery_scores):
@@ -316,23 +316,23 @@ class DjangoIntegratedPathGenerator:
     
     def _get_prerequisites(self, topic_name: str) -> List[str]:
         """
-        Get prerequisite topics from knowledge graph.
+        get prerequisite topics from knowledge graph.
         
         Args:
-            topic_name: Name of the topic
+            topic_name: name of the topic
             
         Returns:
-            List of prerequisite topic names
+            list of prerequisite topic names
         """
         prerequisites = []
         
         try:
-            # Get the knowledge graph
+            # get the knowledge graph
             kg = KnowledgeGraph.objects.filter(is_active=True).first()
             if not kg:
                 return prerequisites
             
-            # Get topic relationships
+            # get topic relationships
             relationships = GraphEdge.objects.filter(
                 graph=kg,
                 target_topic__name=topic_name,
@@ -343,29 +343,29 @@ class DjangoIntegratedPathGenerator:
                 prerequisites.append(rel.source_topic.name)
                 
         except Exception as e:
-            logger.warning(f"Could not get prerequisites for {topic_name}: {e}")
+            logger.warning(f"couldn't get prerequisites for {topic_name}: {e}")
         
         return prerequisites
     
     def _get_related_topics(self, topic_name: str) -> List[str]:
         """
-        Get related topics from knowledge graph.
+        get related topics from knowledge graph.
         
         Args:
-            topic_name: Name of the topic
+            topic_name: name of the topic
             
         Returns:
-            List of related topic names
+            list of related topic names
         """
         related = []
         
         try:
-            # Get the knowledge graph
+            # get the knowledge graph
             kg = KnowledgeGraph.objects.filter(is_active=True).first()
             if not kg:
                 return related
             
-            # Get topic relationships
+            # get topic relationships
             relationships = GraphEdge.objects.filter(
                 graph=kg,
                 source_topic__name=topic_name,
@@ -376,34 +376,34 @@ class DjangoIntegratedPathGenerator:
                 related.append(rel.target_topic.name)
                 
         except Exception as e:
-            logger.warning(f"Could not get related topics for {topic_name}: {e}")
+            logger.warning(f"couldn't get related topics for {topic_name}: {e}")
         
         return related
     
     def _get_topic_resources(self, topic_name: str, difficulty: str = None) -> List[Dict[str, Any]]:
         """
-        Get learning resources for a topic.
+        get learning resources for a topic
         
         Args:
-            topic_name: Name of the topic
-            difficulty: Preferred difficulty level
+            topic_name: name of the topic
+            difficulty: preferred difficulty level
             
         Returns:
-            List of resource dictionaries
+            list of resource dictionaries
         """
         try:
             topic = Topic.objects.get(name=topic_name)
             resources_query = Resource.objects.filter(topics=topic)
             
-            # If specific difficulty requested and available, filter by it
+            # if specific difficulty requested and available, filter by it
             if difficulty:
                 difficulty_filtered = resources_query.filter(difficulty=difficulty)
                 if difficulty_filtered.exists():
                     resources_query = difficulty_filtered
-                # If no resources for that difficulty, use all resources for the topic
+                # if no resources for that difficulty, use all resources for the topic
             
             resources = []
-            for resource in resources_query[:5]:  # Limit to 5 resources
+            for resource in resources_query[:5]:  # limit to 5 resources
                 resources.append({
                     'title': resource.title,
                     'description': resource.description,
@@ -421,13 +421,13 @@ class DjangoIntegratedPathGenerator:
     
     def generate_comprehensive_learning_path(self, student_id: str) -> Dict[str, Any]:
         """
-        Generate a comprehensive learning path with all required information.
+        generate a comprehensive learning path with all required information
         
         Args:
             student_id: Student ID
             
         Returns:
-            Dictionary containing complete learning path information
+            dict containing complete learning path information
         """
         try:
             student = Student.objects.get(student_id=student_id)
@@ -435,41 +435,41 @@ class DjangoIntegratedPathGenerator:
             logger.error(f"Student {student_id} not found")
             return {}
         
-        # Get student features and mastery scores
+        # get student features and mastery scores
         student_features = self._get_student_features(student)
         mastery_scores = self._get_mastery_scores(student)
         
-        # Identify weak topics
+        # identify weak topics
         weak_topic_indices = self._get_weak_topics(mastery_scores)
         weak_topics = [self.topic_list[i] for i in weak_topic_indices if i < len(self.topic_list)]
         
-        # Get LSTM recommendations (with fallback for untrained model)
+        # get LSTM recommendations (with fallback for untrained model)
         try:
             lstm_recommendations = self.lstm_model.predict_next_topics(
                 student_features, mastery_scores, num_recommendations=10
             )
             
-            # Check if recommendations are meaningful (confidence > 0.001)
+            # check if recommendations are meaningful (confidence > 0.001)
             meaningful_recs = [r for r in lstm_recommendations if r['confidence'] > 0.001]
             
             if not meaningful_recs:
-                # Use mastery-based fallback recommendations
+                # use mastery-based fallback recommendations
                 logger.warning("LSTM predictions too low, using mastery-based fallback")
                 lstm_recommendations = self._generate_mastery_based_recommendations(
                     mastery_scores, num_recommendations=10
                 )
             else:
-                # Normalize confidence scores to reasonable range (0.1 to 0.9)
+                # normalize confidence scores to reasonable range (0.1 to 0.9)
                 max_conf = max(r['confidence'] for r in meaningful_recs)
                 min_conf = min(r['confidence'] for r in meaningful_recs)
                 
-                if max_conf > min_conf:  # Avoid division by zero
+                if max_conf > min_conf:  # avoid division by zero
                     for rec in lstm_recommendations:
-                        # Normalize to 0.1-0.9 range
+                        # normalize to 0.1-0.9 range
                         normalized = 0.1 + 0.8 * ((rec['confidence'] - min_conf) / (max_conf - min_conf))
                         rec['confidence'] = min(0.9, max(0.1, normalized))
                 else:
-                    # All confidences are the same, use fallback
+                    # all confidences are the same, use fallback
                     logger.warning("All LSTM confidences identical, using mastery-based fallback")
                     lstm_recommendations = self._generate_mastery_based_recommendations(
                         mastery_scores, num_recommendations=10
@@ -480,7 +480,7 @@ class DjangoIntegratedPathGenerator:
                 mastery_scores, num_recommendations=10
             )
         
-        # Build comprehensive learning path
+        # build comprehensive learning path
         learning_path = {
             'student_id': student_id,
             'student_stats': {
@@ -498,7 +498,7 @@ class DjangoIntegratedPathGenerator:
             'total_estimated_time': 0
         }
         
-        # Process weak topics with prerequisites and resources
+        # process weak topics with prerequisites and resources
         for topic_name in weak_topics:
             topic_info = {
                 'name': topic_name,
@@ -509,16 +509,16 @@ class DjangoIntegratedPathGenerator:
             }
             learning_path['weak_topics'].append(topic_info)
         
-        # Process LSTM recommendations
+        # process LSTM recommendations
         for rec in lstm_recommendations:
             if rec['topic_id'] < len(self.topic_list):
                 topic_name = self.topic_list[rec['topic_id']]
                 
-                # Determine recommended difficulty
+                # determine recommended difficulty
                 difficulty_probs = rec['difficulty_probs']
                 recommended_difficulty = max(difficulty_probs, key=difficulty_probs.get)
                 
-                # Check prerequisites
+                # check prerequisites
                 prerequisites = self._get_prerequisites(topic_name)
                 unmet_prerequisites = []
                 for prereq in prerequisites:
@@ -542,7 +542,7 @@ class DjangoIntegratedPathGenerator:
                 learning_path['recommended_path'].append(recommendation)
                 learning_path['total_estimated_time'] += rec['estimated_time_hours']
         
-        # Sort recommendations by confidence and prerequisite requirements
+        # sort recommendations by confidence and prerequisite requirements
         learning_path['recommended_path'].sort(
             key=lambda x: (len(x['unmet_prerequisites']), -x['confidence'])
         )
@@ -552,27 +552,27 @@ class DjangoIntegratedPathGenerator:
     def _generate_mastery_based_recommendations(self, mastery_scores: torch.Tensor, 
                                               num_recommendations: int = 10) -> List[Dict[str, Any]]:
         """
-        Generate recommendations based on mastery scores (fallback method).
+        generate recommendations based on mastery scores (fallback method)
         
         Args:
-            mastery_scores: Tensor of mastery scores [num_topics]
-            num_recommendations: Number of recommendations to generate
+            mastery_scores: tensor of mastery scores [num_topics]
+            num_recommendations: number of recommendations to generate
             
         Returns:
-            List of topic recommendations
+            list of topic recommendations
         """
         recommendations = []
         
-        # Create topic recommendations based on mastery scores
+        # create topic recommendations based on mastery scores
         for i, score in enumerate(mastery_scores):
             if i < len(self.topic_list):
                 topic_name = self.topic_list[i]
                 
-                # Calculate confidence based on inverse mastery (lower mastery = higher priority)
-                # Add some randomness to avoid always recommending the same topics
+                # calculate confidence based on inverse mastery (lower mastery = higher priority)
+                # add some randomness to avoid always recommending the same topics
                 base_confidence = max(0.1, 1.0 - score.item())
                 confidence = base_confidence + np.random.uniform(-0.1, 0.1)
-                confidence = max(0.1, min(0.9, confidence))  # Clamp between 0.1 and 0.9
+                confidence = max(0.1, min(0.9, confidence))  # clamp between 0.1 and 0.9
                 
                 recommendations.append({
                     'topic_id': i,
@@ -585,6 +585,6 @@ class DjangoIntegratedPathGenerator:
                     'estimated_time_hours': 2.0 + (1.0 - score.item()) * 2.0  # 2-4 hours based on mastery
                 })
         
-        # Sort by confidence (highest first) and return top recommendations
+        # sort by confidence (highest first) and return top recommendations
         recommendations.sort(key=lambda x: x['confidence'], reverse=True)
         return recommendations[:num_recommendations]

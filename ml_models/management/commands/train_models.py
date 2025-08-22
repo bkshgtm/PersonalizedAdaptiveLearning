@@ -81,27 +81,27 @@ class Command(BaseCommand):
         
         # Train DKT model
         if 'dkt' in models_to_train:
-            self.stdout.write(self.style.SUCCESS('🧠 Training DKT Model...'))
+            self.stdout.write(self.style.SUCCESS(' Training DKT Model...'))
             dkt_model = self._train_dkt_model(
                 num_topics, train_loader, test_loader, options
             )
-            self.stdout.write(self.style.SUCCESS('✅ DKT model training completed'))
+            self.stdout.write(self.style.SUCCESS(' DKT model training completed'))
         
         # Train SAKT model
         if 'sakt' in models_to_train:
-            self.stdout.write(self.style.SUCCESS('🧠 Training SAKT Model...'))
+            self.stdout.write(self.style.SUCCESS(' Training SAKT Model...'))
             sakt_model = self._train_sakt_model(
                 num_topics, train_loader, test_loader, options
             )
-            self.stdout.write(self.style.SUCCESS('✅ SAKT model training completed'))
+            self.stdout.write(self.style.SUCCESS(' SAKT model training completed'))
         
         # Train Enhanced LSTM model
         if 'lstm' in models_to_train:
-            self.stdout.write(self.style.SUCCESS('🧠 Training Enhanced LSTM Model...'))
+            self.stdout.write(self.style.SUCCESS(' Training Enhanced LSTM Model...'))
             lstm_model = self._train_lstm_model(
                 num_topics, data_prep, options
             )
-            self.stdout.write(self.style.SUCCESS('✅ Enhanced LSTM model training completed'))
+            self.stdout.write(self.style.SUCCESS('Enhanced LSTM model training completed'))
         
         self.stdout.write(self.style.SUCCESS('🎉 All model training completed!'))
         self.stdout.write('')
@@ -156,7 +156,7 @@ class Command(BaseCommand):
             }
         )
         
-        self.stdout.write(f'   📈 Final test accuracy: {history["test_accuracy"][-1]:.4f}')
+        self.stdout.write(f'  Final test accuracy: {history["test_accuracy"][-1]:.4f}')
         return dkt_model
 
     def _train_sakt_model(self, num_topics: int, train_loader: DataLoader, 
@@ -199,7 +199,7 @@ class Command(BaseCommand):
             }
         )
         
-        self.stdout.write(f'   📈 Final test accuracy: {history["test_accuracy"][-1]:.4f}')
+        self.stdout.write(f'   Final test accuracy: {history["test_accuracy"][-1]:.4f}')
         return sakt_model
 
     def _train_lstm_model(self, num_topics: int, data_prep: DjangoDataPreparation, 
@@ -246,7 +246,7 @@ class Command(BaseCommand):
             }, model_path)
             return lstm_model
         
-        self.stdout.write(f'   📊 Training LSTM with {students.count()} students...')
+        self.stdout.write(f'   Training LSTM with {students.count()} students...')
         
         # Training loop
         lstm_model.train()
@@ -330,7 +330,7 @@ class Command(BaseCommand):
             }
         }, model_path)
         
-        self.stdout.write(f'   📈 LSTM model training completed and saved')
+        self.stdout.write(f'    LSTM model training completed and saved')
         return lstm_model
     
     def _get_student_features_for_lstm(self, student, data_prep):
