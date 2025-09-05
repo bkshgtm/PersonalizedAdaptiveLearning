@@ -132,14 +132,17 @@ class Command(BaseCommand):
             model=dkt_model,
             topic_ids=list(range(1, num_topics + 1)),
             device=options['device'],
-            learning_rate=options['learning_rate']
+            learning_rate=options['learning_rate'],
+            enable_comprehensive_eval=True
         )
         
-        # Train model
+        # Train model with comprehensive evaluation
         history = trainer.train(
             train_loader=train_loader,
             test_loader=test_loader,
-            num_epochs=options['epochs']
+            num_epochs=options['epochs'],
+            final_comprehensive_eval=True,
+            include_baselines=True
         )
         
         # Save model
@@ -175,14 +178,17 @@ class Command(BaseCommand):
             model=sakt_model,
             topic_ids=list(range(1, num_topics + 1)),
             device=options['device'],
-            learning_rate=options['learning_rate']
+            learning_rate=options['learning_rate'],
+            enable_comprehensive_eval=True
         )
         
-        # Train model
+        # Train model with comprehensive evaluation
         history = trainer.train(
             train_loader=train_loader,
             test_loader=test_loader,
-            num_epochs=options['epochs']
+            num_epochs=options['epochs'],
+            final_comprehensive_eval=True,
+            include_baselines=True
         )
         
         # Save model

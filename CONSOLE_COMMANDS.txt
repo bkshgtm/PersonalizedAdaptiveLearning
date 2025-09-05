@@ -57,7 +57,7 @@ docker-compose exec web python manage.py generate_learning_paths --student-id A0
 
 
 #-----------------------------------
- Step 1: Make AI smarter with new data
+ Step 1: Make Model smarter with new data
 docker-compose exec web python manage.py train_models --epochs 100
 
 # Step 2: Use new smart AI to re-analyze all students
@@ -65,3 +65,51 @@ docker-compose exec web python manage.py generate_learning_paths --all-students 
 
 # Quick generation using latest analysis
 docker-compose exec web python manage.py generate_learning_paths --all-students
+
+
+#-----------------------------------
+# COMPREHENSIVE MODEL EVALUATION 
+#-----------------------------------
+
+# Evaluate all trained models with comprehensive metrics (precision, recall, F1, AUC, calibration)
+docker-compose exec web python manage.py evaluate_models
+
+# Evaluate with baseline comparisons (random, majority class, topic/student averages)
+docker-compose exec web python manage.py evaluate_models --include-baselines
+
+# Evaluate and save predictions for detailed analysis
+docker-compose exec web python manage.py evaluate_models --include-baselines --save-predictions
+
+# Evaluate specific models only
+docker-compose exec web python manage.py evaluate_models --models dkt sakt --include-baselines
+
+# Evaluate with custom output directory
+docker-compose exec web python manage.py evaluate_models --include-baselines --output-dir custom_evaluation_results
+
+
+#-----------------------------------
+# ENHANCED TRAINING WITH COMPREHENSIVE EVALUATION (UPDATED)
+#-----------------------------------
+# NOTE: The existing train_models command now automatically includes:
+# - Precision, Recall, F1-Score, AUC, Brier Score, Expected Calibration Error
+# - Baseline model comparisons (random, majority class, topic/student averages)
+# - Per-topic performance analysis
+# - Experiment tracking and reproducibility (fixed seeds)
+# - Comprehensive evaluation reports saved to evaluation_results/
+
+# Your existing training commands now provide much more detailed evaluation:
+# docker-compose exec web python manage.py train_models --epochs 25
+
+
+#-----------------------------------
+# COMPLETE WORKFLOW 
+#-----------------------------------
+
+# Step 1: Train models with comprehensive evaluation (now includes all metrics Dr. Fu requested)
+docker-compose exec web python manage.py train_models --epochs 50
+
+# Step 2: Run standalone comprehensive evaluation with all metrics and baseline comparisons
+docker-compose exec web python manage.py evaluate_models --include-baselines --save-predictions
+
+# Step 3: Use improved models for learning path generation
+docker-compose exec web python manage.py generate_learning_paths --all-students --update-predictions

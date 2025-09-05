@@ -1,0 +1,41 @@
+================================================================================
+EVALUATION REPORT: DKT
+================================================================================
+Timestamp: 2025-09-05T00:52:46.529132
+Samples: 200
+Positive class: 81 (40.5%)
+
+CLASSIFICATION METRICS
+----------------------------------------
+Accuracy:     0.5900
+Precision:    0.4865
+Recall:       0.2222
+F1-Score:     0.3051
+AUC:          0.5168
+Log Loss:     0.6862
+Balanced Acc: 0.5313
+
+CALIBRATION METRICS
+----------------------------------------
+Brier Score:  0.2465
+ECE:          0.0735
+
+PER-TOPIC PERFORMANCE SUMMARY
+----------------------------------------
+Mean Accuracy: 0.5667 ± 0.2069
+Range:         0.0000 - 0.8333
+Mean AUC:      0.5358 ± 0.2066
+
+CONFIDENCE ANALYSIS
+----------------------------------------
+Mean Confidence: 0.4785
+Std Confidence:  0.0225
+Range:           0.4281 - 0.5300
+
+ERROR ANALYSIS
+----------------------------------------
+Correct Rate:    0.5900
+False Pos Rate:  0.0950
+False Neg Rate:  0.3150
+
+================================================================================

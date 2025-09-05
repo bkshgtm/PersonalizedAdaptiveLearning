@@ -31,6 +31,7 @@ class AdaptiveLearningPathLSTM(nn.Module):
         """
         super(AdaptiveLearningPathLSTM, self).__init__()
         
+        
         self.num_topics = num_topics
         self.hidden_size = hidden_size
         self.num_layers = num_layers
