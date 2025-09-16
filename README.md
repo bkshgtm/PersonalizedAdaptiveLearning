@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-blue.svg)](https://postgresql.org)
 [![Docker](https://img.shields.io/badge/Docker-Compose-blue.svg)](https://docker.com)
 
-## 🎯 Overview
+##  Overview
 
 **PAL 2.0** is an advanced **Personalized Adaptive Learning System** that leverages machine learning and educational data mining to create customized learning experiences for students. The system uses sophisticated knowledge tracing models to predict student mastery levels and generates personalized learning paths with targeted resource recommendations.
 
@@ -20,7 +20,7 @@
 - 🌐 **RESTful API** - Complete API for system integration and mobile apps
 - 🐳 **Production Ready** - Fully containerized with Docker Compose
 
-## 🏗️ System Architecture
+## 🏗 System Architecture
 
 PAL 2.0 follows a modular Django architecture with specialized applications:
 
@@ -80,7 +80,7 @@ PAL 2.0 System
 - **Gunicorn 21.2.0** - WSGI server for production
 - **Nginx** - Reverse proxy and static file serving (recommended)
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 PAL_2.0/
@@ -166,7 +166,7 @@ PAL_2.0/
 └── README.md                        # This file
 ```
 
-## 🧠 Machine Learning Models
+##  Machine Learning Models
 
 ### Knowledge Tracing Models
 
@@ -200,7 +200,7 @@ python manage.py train_models --model-type dkt --course CS101 --epochs 50
 python manage.py train_integrated_models --course CS101 --batch-size 32
 ```
 
-## 📊 Data Models
+##  Data Models
 
 ### Core Educational Entities
 
@@ -264,7 +264,7 @@ class TopicResource(models.Model):
     rating = models.IntegerField(null=True, blank=True)
 ```
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites
 
@@ -358,7 +358,7 @@ celery -A pal_project worker -l info
 celery -A pal_project beat -l info
 ```
 
-## 🔧 Configuration
+##  Configuration
 
 ### Environment Variables
 
@@ -400,7 +400,7 @@ The `docker-compose.yml` defines these services:
 - **celery**: Background task worker
 - **celery-beat**: Periodic task scheduler
 
-## 📚 Usage Examples
+##  Usage Examples
 
 ### 1. Training Knowledge Tracing Models
 
@@ -478,7 +478,7 @@ curl -X GET http://localhost:8000/api/courses/CS101/recommendations/ \
   -H "Authorization: Token your-token-here"
 ```
 
-## 🔌 API Reference
+##  API Reference
 
 ### Authentication Endpoints
 - `POST /api/auth/token/` - Obtain authentication token
@@ -502,7 +502,7 @@ curl -X GET http://localhost:8000/api/courses/CS101/recommendations/ \
 ### Content Validation
 - `POST /api/validate-answer/` - Validate student answers using AI
 
-## 📈 Sample Data
+##  Sample Data
 
 The system includes comprehensive sample data for Java programming education:
 
@@ -535,7 +535,7 @@ The system includes comprehensive sample data for Java programming education:
 19. **File I/O Operations** (50 min)
 20. **JavaFX and GUI Programming** (1 hour)
 
-## 🧪 Testing
+##  Testing
 
 ### Running Tests
 
@@ -565,7 +565,7 @@ python manage.py test_complete_system --course CS101 --num-students 50
 python manage.py check_ksg_data
 ```
 
-## 🚀 Deployment
+##  Deployment
 
 ### Production Deployment with Docker
 
@@ -607,7 +607,7 @@ server {
 - **Storage**: Use cloud storage for model files and uploads
 - **Monitoring**: Implement logging and monitoring (Sentry, DataDog)
 
-## 🤝 Contributing
+##  Contributing
 
 ### Development Workflow
 
@@ -659,46 +659,21 @@ pip install mypy
 mypy .
 ```
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **Django Community** - For the excellent web framework
-- **PyTorch Team** - For the deep learning framework
-- **Educational Data Mining Community** - For research insights
-- **Open Source Contributors** - For various libraries and tools
+This work is supported by the National Science Foundation (NSF) under Award No. 2236002:  
+*“Improving Programming Skills of Engineering Students at Historically Black Colleges and Universities Using AI-enhanced Personalized Adaptive Learning Tools.”*  
 
-## 📞 Support
-
-- **Documentation**: [Project Wiki](https://github.com/bkshgtm/PersonalizedAdaptiveLearning/wiki)
-- **Issues**: [GitHub Issues](https://github.com/bkshgtm/PersonalizedAdaptiveLearning/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/bkshgtm/PersonalizedAdaptiveLearning/discussions)
-- **Email**: [Contact the maintainers](mailto:support@pal-system.com)
-
-## 🔮 Roadmap
-
-### Version 2.1 (Q2 2025)
-- [ ] Advanced attention mechanisms in SAKT
-- [ ] Multi-modal learning resource support
-- [ ] Real-time collaborative learning features
-- [ ] Mobile application development
-
-### Version 2.2 (Q3 2025)
-- [ ] Federated learning for privacy-preserving training
-- [ ] Advanced natural language processing for content analysis
-- [ ] Gamification and engagement features
-- [ ] Integration with popular LMS platforms
-
-### Version 3.0 (Q4 2025)
-- [ ] Multi-language support
-- [ ] Advanced visualization and learning analytics
-- [ ] AI-powered content generation
-- [ ] Blockchain-based credential verification
+We gratefully acknowledge:  
+- **NSF IUSE Program** – For funding support and guidance.  
+- **Principal Investigator and Co-Investigators** – Dr. Yujian Fu, Dr. Zhigang Xiao, Dr. Nelson Barnes, and Dr. Shujun Yang at Alabama A&M University.  
+- **Collaborators and Student Researchers** – For their contributions to the design, implementation, and evaluation of PAL.  
+- **Open-Source Communities** – Including Django, PyTorch, and related projects that provided the frameworks enabling PAL’s development.  
 
 ---
 
-**PAL 2.0** - Transforming education through personalized, adaptive learning powered by artificial intelligence.
-
-*Built with ❤️ by the PAL Development Team*
+**PAL** – Personalized Adaptive Learning for Computer Science Education.  
